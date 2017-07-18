@@ -516,7 +516,10 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
           channelLivetime[ch] += (double)(stop-start) * (1 - hgDead);
           printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],channelRuntime[ch], hgDead);
         }
-        if (ch%2 == 1) channelLivetime[ch] += (double)(stop-start) * (1 - lgDead);
+        if (ch%2 == 1){
+          channelLivetime[ch] += (double)(stop-start) * (1 - lgDead);
+          printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],channelRuntime[ch], lgDead);
+        }
 
         // Remove some for the pulser deadtime
         if (ch%2 == 0) channelLivetime[ch] -= hgPulserDT;
