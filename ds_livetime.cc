@@ -267,8 +267,15 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
             >> det >> p1 >> p2 >> p3 >> p4 >> p5 >> p6;
         cout << Form("%i %i %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %i %i %i %i %i %i\n" ,id,pos,hgFWHM,hgNeg,hgPos,hgDead,lgFWHM,lgNeg,lgPos,lgDead,orDead,det.c_str(),p1,p2,p3,p4,p5,p6);
 
+        if(hgDead != hgDead) // Test if hgDead is a NaN
+        { /* TODO: handle hgDead is NaN */ }
+        if(lgDead != lgDead) // Test if lgDead is a NaN
+        { /* TODO: handle lgDead is NaN */ }
+        if(orDead != orDead) // Test if orDead is a NaN
+        { /* TODO: handle orDead is NaN */ }
+
         // fill the deadtime map
-        dtMap[det] = {hgDead,lgDead,orDead};
+        dtMap[det] = {hgDead,lgDead,orDead,p1,p2,p3};
       }
 
       // Save the subset number
@@ -484,20 +491,38 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         double hgDead = dtMap[pos][0];
         double lgDead = dtMap[pos][1];
         double orDead = dtMap[pos][2];
+        double hgPulsers = dtMap[pos][3];
+        double lgPulsers = dtMap[pos][4];
+        double orPulsers = dtMap[pos][5];
+
+        // TODO: This converts any "-9.99" into a 0 deadtime, but we should
+        // probably actually use the average value for the subset.
         if (hgDead < -9) hgDead = 0;
         if (lgDead < -9) lgDead = 0;
         if (orDead < -9) orDead = 0;
+
         hgDead = (1. - hgDead);
         lgDead = (1. - lgDead);
         orDead = (1. - orDead);
+
+        // The following assumes only DS2 uses presumming, and may not always be true
+        // Takes out 62 or 100 µs per pulser as deadtime
+        double hgPulserDT = hgPulsers*(dsNum==2?100e-6:62e-6);
+        double lgPulserDT = lgPulsers*(dsNum==2?100e-6:62e-6);
+        double orPulserDT = orPulsers*(dsNum==2?100e-6:62e-6);
 
         // Livetime
         if (ch%2 == 0) channelLivetime[ch] += (double)(stop-start) * hgDead;
         if (ch%2 == 1) channelLivetime[ch] += (double)(stop-start) * lgDead;
 
+        // Remove some for the pulser deadtime
+        if (ch%2 == 0) channelLivetime[ch] -= hgPulserDT;
+        if (ch%2 == 1) channelLivetime[ch] -= lgPulserDT;
+
         // TODO: we need an object with one entry for every DETECTOR, not channel.
         // Maybe the best way to do that is to form it from "channelLivetimeML" AFTER this loop.
         channelLivetimeML[ch] += (double)(stop-start) * orDead;
+        channelLivetimeML[ch] -= orPulserDT;
       }
       else {
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
