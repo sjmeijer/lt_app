@@ -514,6 +514,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         // lgDead = (1. - lgDead);
         // orDead = (1. - orDead);
 
+        // TODO: Make this more general. 
         // The following assumes only DS2 uses presumming, and may not always be true
         // Takes out 62 or 100 µs per pulser as deadtime
         double hgPulserDT = hgPulsers*(dsNum==2?100e-6:62e-6);
