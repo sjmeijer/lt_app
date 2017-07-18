@@ -501,9 +501,9 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         if (lgDead < -9) lgDead = 0;
         if (orDead < -9) orDead = 0;
 
-        hgDead = (1. - hgDead);
-        lgDead = (1. - lgDead);
-        orDead = (1. - orDead);
+        // hgDead = (1. - hgDead);
+        // lgDead = (1. - lgDead);
+        // orDead = (1. - orDead);
 
         // The following assumes only DS2 uses presumming, and may not always be true
         // Takes out 62 or 100 µs per pulser as deadtime
@@ -512,8 +512,8 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         double orPulserDT = orPulsers*(dsNum==2?100e-6:62e-6);
 
         // Livetime
-        if (ch%2 == 0) channelLivetime[ch] += (double)(stop-start) * hgDead;
-        if (ch%2 == 1) channelLivetime[ch] += (double)(stop-start) * lgDead;
+        if (ch%2 == 0) channelLivetime[ch] += channelRuntime[ch] * (1 - hgDead);
+        if (ch%2 == 1) channelLivetime[ch] += channelRuntime[ch] * (1 - lgDead);
 
         // Remove some for the pulser deadtime
         if (ch%2 == 0) channelLivetime[ch] -= hgPulserDT;
@@ -521,7 +521,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
 
         // TODO: we need an object with one entry for every DETECTOR, not channel.
         // Maybe the best way to do that is to form it from "channelLivetimeML" AFTER this loop.
-        channelLivetimeML[ch] += (double)(stop-start) * orDead;
+        channelLivetimeML[ch] += channelRuntime[ch] * (1 - orDead);
         channelLivetimeML[ch] -= orPulserDT;
       }
       else {
@@ -551,6 +551,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
   }
 
   // Calculate channel-by-channel exposure in kg-days
+  // 86400 seconds = 1 day
   rawLive = rawLive/86400;
   vetoLive = vetoLive/86400;
   vetoDead = vetoDead/86400;
@@ -568,11 +569,13 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
   double m1EnrExp=0, m1NatExp=0, m2EnrExp=0, m2NatExp=0;
   double m1EnrActMass=0, m1NatActMass=0, m2EnrActMass=0, m2NatActMass=0;
   map <int,double> channelExposure;
-  // for (auto &live : channelLivetime) // comment this back in for an exact calculation
-  for (auto &raw: channelRuntime) // for now, just use the runtime number in the exposure.
+  for (auto &live : channelLivetime) // comment this back in for an exact calculation
+  // for (auto &raw: channelRuntime) // for now, just use the runtime number in the exposure.
   {
-    int chan = raw.first;
-    double livetime = raw.second;
+    // int chan = raw.first;
+    // double livetime = raw.second;
+    int chan = live.first;
+    double livetime = live.second;
     int detID = detChanToDetIDMap[chan];
     double activeMass = actM4Det_g[detID]/1000;
     channelExposure[chan] = activeMass * livetime;
