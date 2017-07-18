@@ -513,10 +513,10 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
 
         // Livetime
         if (ch%2 == 0) {
-          channelLivetime[ch] += channelRuntime[ch] * (1 - hgDead);
+          channelLivetime[ch] += (double)(stop-start) * (1 - hgDead);
           printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],channelRuntime[ch], hgDead);
         }
-        if (ch%2 == 1) channelLivetime[ch] += channelRuntime[ch] * (1 - lgDead);
+        if (ch%2 == 1) channelLivetime[ch] += (double)(stop-start) * (1 - lgDead);
 
         // Remove some for the pulser deadtime
         if (ch%2 == 0) channelLivetime[ch] -= hgPulserDT;
@@ -524,7 +524,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
 
         // TODO: we need an object with one entry for every DETECTOR, not channel.
         // Maybe the best way to do that is to form it from "channelLivetimeML" AFTER this loop.
-        channelLivetimeML[ch] += channelRuntime[ch] * (1 - orDead);
+        channelLivetimeML[ch] += (double)(stop-start) * (1 - orDead);
         channelLivetimeML[ch] -= orPulserDT;
       }
       else {
