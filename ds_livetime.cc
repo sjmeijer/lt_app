@@ -512,7 +512,10 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         double orPulserDT = orPulsers*(dsNum==2?100e-6:62e-6);
 
         // Livetime
-        if (ch%2 == 0) channelLivetime[ch] += channelRuntime[ch] * (1 - hgDead);
+        if (ch%2 == 0) {
+          channelLivetime[ch] += channelRuntime[ch] * (1 - hgDead);
+          printf("   livetime[%d]: %f",ch,channelLivetime[ch]);
+        }
         if (ch%2 == 1) channelLivetime[ch] += channelRuntime[ch] * (1 - lgDead);
 
         // Remove some for the pulser deadtime
