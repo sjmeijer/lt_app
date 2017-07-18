@@ -514,7 +514,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         // Livetime
         if (ch%2 == 0) {
           channelLivetime[ch] += channelRuntime[ch] * (1 - hgDead);
-          printf("   livetime[%d]: %f",ch,channelLivetime[ch]);
+          printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],channelRuntime[ch], hgDead);
         }
         if (ch%2 == 1) channelLivetime[ch] += channelRuntime[ch] * (1 - lgDead);
 
