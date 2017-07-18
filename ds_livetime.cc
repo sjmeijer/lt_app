@@ -497,9 +497,9 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
 
         // TODO: This converts any "-9.99" into a 0 deadtime, but we should
         // probably actually use the average value for the subset.
-        if (hgDead < -9) hgDead = 0;
-        if (lgDead < -9) lgDead = 0;
-        if (orDead < -9) orDead = 0;
+        if (hgDead < 0) hgDead = 0;
+        if (lgDead < 0) lgDead = 0;
+        if (orDead < 0) orDead = 0;
 
         // hgDead = (1. - hgDead);
         // lgDead = (1. - lgDead);
