@@ -275,7 +275,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         { /* TODO: handle orDead is NaN */ }
 
         // fill the deadtime map
-        dtMap[det] = {hgDead,lgDead,orDead,p1,p2,p3};
+        dtMap[det] = {hgDead,lgDead,orDead,(double)p1,(double)p2,(double)p3};
       }
 
       // Save the subset number
