@@ -62,6 +62,8 @@ int mergeIntervals(vector<pair<int,int>> vals, int start, int stop);
 void getDBRunList(int &dsNum, double &ElapsedTime, string options, vector<int> &runList, vector<pair<int,double>> &times);
 void locateRunRange(int run, map<int,vector<int>> ranges, int& runInSet, int& firstRunInSet);
 map<int, vector<int>> getDeadtimeRanges(int dsNum) ;
+double getLivetimeUncertainty(map<int, double> livetimes);
+double getLivetimeAverage(map<int, double> livetimes);
 
 int main(int argc, char** argv)
 {
@@ -273,9 +275,9 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         cout << Form("%i %i %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %i %i %i %i %i %i\n" ,id,pos,hgFWHM,hgNeg,hgPos,hgDead,lgFWHM,lgNeg,lgPos,lgDead,orDead,det.c_str(),p1,p2,p3,p4,p5,p6);
 
         // Check if anything is nan.  We'll take it to mean 100% dead.
-        if(hgDead != hgDead) hgDead = 1.0;
-        if(lgDead != lgDead) lgDead = 1.0;
-        if(orDead != orDead) orDead = 1.0;
+        if(hgDead != hgDead) hgDead = 100.;
+        if(lgDead != lgDead) lgDead = 100.;
+        if(orDead != orDead) orDead = 100.;
 
         // fill the deadtime map
         dtMap[det] = {hgDead,lgDead,orDead,(double)p1,(double)p2,(double)p3};
@@ -632,6 +634,9 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
          << "\tRaw Livetime : " << rawLive << "\n"
          << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/rawLive << ")\n"
          << "\tLN Deadtime : " << m2LNDead << " (" << m2LNDead/rawLive << ")\n"
+
+         << "\tAverage Channel Livetime" << getLivetimeAverage(channelLivetime) << "\n"
+         << "\tTotal uncertainty" << getLivetimeUncertainty(channelLivetime) << "\n"
         //  << "\tFinal Livetime : " << rawLive-m2LNDead-vetoDead << "\n"
          << "\tActive Enr Mass : " << m2EnrActMass  << "\n"
          << "\tActive Nat Mass : " << m2NatActMass << "\n"
@@ -902,4 +907,33 @@ map<int, vector<int>> getDeadtimeRanges(int dsNum)
     rangeCount++;
   }
   return ranges;
+}
+
+double getLivetimeUncertainty(map<int, double> livetimes)
+{
+  double sum_x = 0;
+  double sum_x2 = 0;
+  int n = 0;
+  for (auto &values : livetimes)
+  {
+    sum_x += values.second;
+    sum_x2 += values.second*values.second;
+    n++;
+  }
+  double mean = sum_x / n;
+  return sqrt((sum_x2 / n) - (mean * mean));
+
+}
+
+double getLivetimeAverage(map<int, double> livetimes)
+{
+  double sum_x = 0;
+  int n = 0;
+
+  for (auto &values : livetimes)
+  {
+    sum_x += values.second;
+    n++;
+  }
+  return mean = sum_x / n;
 }
