@@ -1,6 +1,6 @@
 // MJD Data Set livetime & exposure calculator.
 // C. Wiseman, USC
-// A. Reine, UNC
+// S. Meijer and A. Reine, UNC
 
 #include <iostream>
 #include <map>
@@ -61,6 +61,7 @@ bool compareInterval(pair<int,int> i1, pair<int,int> i2) { return (i1.first < i2
 int mergeIntervals(vector<pair<int,int>> vals, int start, int stop);
 void getDBRunList(int &dsNum, double &ElapsedTime, string options, vector<int> &runList, vector<pair<int,double>> &times);
 void locateRunRange(int run, map<int,vector<int>> ranges, int& runInSet, int& firstRunInSet);
+map<int, vector<int>> getDeadtimeRanges(int dsNum) ;
 
 int main(int argc, char** argv)
 {
@@ -121,12 +122,13 @@ int main(int argc, char** argv)
     GATDataSet ds;
     cout << "Scanning DS-" << dsNum << endl;
 
-    // load the first range to get the run range map, then load the rest
-    map<int, vector<int>> ranges = LoadDataSet(ds, dsNum, 0);
-    for (int rs = 1; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
+    // Method 1: get ranges from DataSetInfo
+    // map<int, vector<int>> ranges = LoadDataSet(ds, dsNum, 0);
+    // for (int rs = 1; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
 
-    vector<int> runList;
-    for (int i = 0; i < (int)ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
+    // Method 2: get ranges from deadtime '.lis' files.
+    for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
+    map<int, vector<int>> ranges = getDeadtimeRanges(dsNum);
 
     // DEBUG: Print the run ranges from DataSetInfo
     for (auto& r : ranges) {
@@ -134,6 +136,9 @@ int main(int argc, char** argv)
       for (auto run : r.second) cout << run << " ";
       cout << endl;
     }
+
+    vector<int> runList;
+    for (int i = 0; i < (int)ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
 
     vector<pair<int,double>> times;
     calculateLiveTime(runList,times,dsNum,raw,rdb,burst,ranges);
@@ -240,7 +245,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
       cout << "Subset " << runInSet << ", loading DT file.\n";
 
       string dtFilePath = Form("./deadtime/ds%i_%i.DT",dsNum,runInSet);
-      if (dsNum==5) dtFilePath = Form("./deadtime/DS%i_%i.DT",dsNum,firstRunInSet);
+      if (dsNum==5) dtFilePath = Form("./deadtime/DS%i.DT",firstRunInSet);
       ifstream dtFile(dtFilePath.c_str());
       if (!dtFile) {
         cout << "Couldn't find file: " << dtFilePath << endl;
@@ -267,21 +272,10 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
             >> det >> p1 >> p2 >> p3 >> p4 >> p5 >> p6;
         cout << Form("%i %i %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %i %i %i %i %i %i\n" ,id,pos,hgFWHM,hgNeg,hgPos,hgDead,lgFWHM,lgNeg,lgPos,lgDead,orDead,det.c_str(),p1,p2,p3,p4,p5,p6);
 
-        if(hgDead != hgDead) // Test if hgDead is a NaN
-        {
-          // TODO: handle hgDead is NaN. Currently just assume it is completely dead.
-          hgDead = 1;
-         }
-        if(lgDead != lgDead) // Test if lgDead is a NaN
-        {
-          //  TODO: handle lgDead is NaN. Currently just assume it is completely dead.
-          lgDead = 1;
-        }
-        if(orDead != orDead) // Test if orDead is a NaN
-        {
-          // TODO: handle orDead is NaN. Currently just assume it is completely dead.
-          orDead = 1;
-        }
+        // Check if anything is nan.  We'll take it to mean 100% dead.
+        if(hgDead != hgDead) hgDead = 1.0;
+        if(lgDead != lgDead) lgDead = 1.0;
+        if(orDead != orDead) orDead = 1.0;
 
         // fill the deadtime map
         dtMap[det] = {hgDead,lgDead,orDead,(double)p1,(double)p2,(double)p3};
@@ -514,7 +508,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         // lgDead = (1. - lgDead);
         // orDead = (1. - orDead);
 
-        // TODO: Make this more general. 
+        // TODO: Make this more general.
         // The following assumes only DS2 uses presumming, and may not always be true
         // Takes out 62 or 100 µs per pulser as deadtime
         double hgPulserDT = hgPulsers*(dsNum==2?100e-6:62e-6);
@@ -835,7 +829,7 @@ inline void TimeSortMerge(vector<pair<double,double> >& pulseTimes)
 }
 
 
-// used to look up which sub-range a particular run is in, given a map from DataSetInfo.hh
+// Looks up which sub-range a particular run is in, given a range map.
 void locateRunRange(int run, map<int,vector<int>> ranges, int& runInSet, int& firstRunInSet)
 {
   bool foundRun = false;
@@ -857,4 +851,55 @@ void locateRunRange(int run, map<int,vector<int>> ranges, int& runInSet, int& fi
     runInSet = -1;
     firstRunInSet = -1;
   }
+}
+
+// Parses the 'lis' files in ./deadtime/ to make a range map
+map<int, vector<int>> getDeadtimeRanges(int dsNum)
+{
+  map<int, vector<int>> ranges;
+
+  // Find runlist files for this dataset
+  string command = Form("ls ./deadtime/ds%i_*.lis",dsNum);
+  if (dsNum==5) command = Form("ls ./deadtime/DS*.lis");
+  cout << "command is " << command << endl;
+  array<char, 128> buffer;
+  vector<string> files;
+  string str;
+  shared_ptr<FILE> pipe(popen(command.c_str(), "r"), pclose);
+  if (!pipe) throw runtime_error("popen() failed!");
+  while (!feof(pipe.get())) {
+    if (fgets(buffer.data(), 128, pipe.get()) != NULL) {
+      str = buffer.data();
+      str.erase(remove(str.begin(), str.end(), '\n'), str.end());  // strip newline
+      files.push_back(str);
+    }
+  }
+
+  // Build the ranges.  Quit at the first sign of trouble.
+  int rangeCount = 0;
+  for (auto file : files)
+  {
+    // cout << file << endl;
+    ifstream lisFile(file.c_str());
+    if (!lisFile) {
+      cout << "Couldn't find file: " << file << endl;
+      return ranges;
+    }
+    string buffer;
+    int firstRun = -1, lastRun = -1;
+    while (getline(lisFile, buffer))
+    {
+      size_t found = buffer.find("Run");
+      if (found == string::npos) {
+        cout << "Couldn't find a run expression in " << buffer << endl;
+        return ranges;
+      }
+      int run = stoi( buffer.substr(found+3) );
+      if (firstRun == -1) firstRun = run;
+      lastRun = run;
+    }
+    ranges[rangeCount] = {firstRun,lastRun};
+    rangeCount++;
+  }
+  return ranges;
 }
