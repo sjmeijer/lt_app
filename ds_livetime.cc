@@ -268,11 +268,20 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         cout << Form("%i %i %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %i %i %i %i %i %i\n" ,id,pos,hgFWHM,hgNeg,hgPos,hgDead,lgFWHM,lgNeg,lgPos,lgDead,orDead,det.c_str(),p1,p2,p3,p4,p5,p6);
 
         if(hgDead != hgDead) // Test if hgDead is a NaN
-        { /* TODO: handle hgDead is NaN */ }
+        {
+          // TODO: handle hgDead is NaN. Currently just assume it is completely dead.
+          hgDead = 1;
+         }
         if(lgDead != lgDead) // Test if lgDead is a NaN
-        { /* TODO: handle lgDead is NaN */ }
+        {
+          //  TODO: handle lgDead is NaN. Currently just assume it is completely dead.
+          lgDead = 1;
+        }
         if(orDead != orDead) // Test if orDead is a NaN
-        { /* TODO: handle orDead is NaN */ }
+        {
+          // TODO: handle orDead is NaN. Currently just assume it is completely dead.
+          orDead = 1;
+        }
 
         // fill the deadtime map
         dtMap[det] = {hgDead,lgDead,orDead,(double)p1,(double)p2,(double)p3};
@@ -514,11 +523,11 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         // Livetime
         if (ch%2 == 0) {
           channelLivetime[ch] += (double)(stop-start) * (1 - hgDead);
-          printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],(double)(stop-start), hgDead);
+          // printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],(double)(stop-start), hgDead);
         }
         if (ch%2 == 1){
           channelLivetime[ch] += (double)(stop-start) * (1 - lgDead);
-          printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],(double)(stop-start), lgDead);
+          // printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],(double)(stop-start), lgDead);
         }
 
         // Remove some for the pulser deadtime
@@ -531,6 +540,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         channelLivetimeML[ch] -= orPulserDT;
       }
       else {
+        // This means that a detector was in the channel map, but not David's file?
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
         return;
       }
