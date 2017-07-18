@@ -624,7 +624,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
          << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/rawLive << ")\n"
          << "\tLN Deadtime : " << m1LNDead << " (" << m1LNDead/rawLive << ")\n"
          << "\tAverage Channel Livetime: " << getLivetimeAverage(channelLivetime) << "\n"
-         << "\tTotal uncertainty: " << getLivetimeUncertainty(channelLivetime) << "\n"
+         << "\tTotal livetime uncertainty: " << getTotalLivetimeUncertainty(channelLivetime) << "\n"
                  //  << "\tFinal Livetime : " << rawLive-m1LNDead-vetoDead << "\n"
          << "\tActive Enr Mass : " << m1EnrActMass  << "\n"
          << "\tActive Nat Mass : " << m1NatActMass << "\n"
