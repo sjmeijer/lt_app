@@ -623,7 +623,9 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
          << "\tRaw Livetime : " << rawLive << "\n"
          << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/rawLive << ")\n"
          << "\tLN Deadtime : " << m1LNDead << " (" << m1LNDead/rawLive << ")\n"
-        //  << "\tFinal Livetime : " << rawLive-m1LNDead-vetoDead << "\n"
+         << "\tAverage Channel Livetime" << getLivetimeAverage(channelLivetime) << "\n"
+         << "\tTotal uncertainty" << getLivetimeUncertainty(channelLivetime) << "\n"
+                 //  << "\tFinal Livetime : " << rawLive-m1LNDead-vetoDead << "\n"
          << "\tActive Enr Mass : " << m1EnrActMass  << "\n"
          << "\tActive Nat Mass : " << m1NatActMass << "\n"
          << "\tFinal Enr Exposure : " << m1EnrExp << "\n"
@@ -634,7 +636,6 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
          << "\tRaw Livetime : " << rawLive << "\n"
          << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/rawLive << ")\n"
          << "\tLN Deadtime : " << m2LNDead << " (" << m2LNDead/rawLive << ")\n"
-
          << "\tAverage Channel Livetime" << getLivetimeAverage(channelLivetime) << "\n"
          << "\tTotal uncertainty" << getLivetimeUncertainty(channelLivetime) << "\n"
         //  << "\tFinal Livetime : " << rawLive-m2LNDead-vetoDead << "\n"
@@ -935,5 +936,5 @@ double getLivetimeAverage(map<int, double> livetimes)
     sum_x += values.second;
     n++;
   }
-  return mean = sum_x / n;
+  return sum_x / n;
 }
