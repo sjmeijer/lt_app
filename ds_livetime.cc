@@ -638,8 +638,8 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
     int detID = detChanToDetIDMap[chan];
     if (detID==-1) continue; // don't print pulser monitor chans
     double activeMass = actM4Det_g[detID]/1000;
-    // cout << Form("%i  %-8i  %.2f kg  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelLivetime[chan], channelExposure[chan]);
-    cout << Form("%i  %-7i  %.2fkg  Livetime: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelExposure[chan]);
+    cout << Form("%i  %-8i  %.2f kg  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelLivetime[chan], channelExposure[chan]);
+    // cout << Form("%i  %-7i  %.2fkg  Livetime: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelExposure[chan]);
   }
 }
 
