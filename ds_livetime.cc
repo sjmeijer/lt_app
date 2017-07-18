@@ -488,9 +488,9 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
       string pos = chMap->GetDetectorPos(ch);
       if (dtMap.find(pos) != dtMap.end())
       {
-        double hgDead = dtMap[pos][0];
-        double lgDead = dtMap[pos][1];
-        double orDead = dtMap[pos][2];
+        double hgDead = dtMap[pos][0]/100.0; // value is in percent, divide by 100
+        double lgDead = dtMap[pos][1]/100.0;
+        double orDead = dtMap[pos][2]/100.0;
         double hgPulsers = dtMap[pos][3];
         double lgPulsers = dtMap[pos][4];
         double orPulsers = dtMap[pos][5];
