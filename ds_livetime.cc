@@ -62,7 +62,7 @@ int mergeIntervals(vector<pair<int,int>> vals, int start, int stop);
 void getDBRunList(int &dsNum, double &ElapsedTime, string options, vector<int> &runList, vector<pair<int,double>> &times);
 void locateRunRange(int run, map<int,vector<int>> ranges, int& runInSet, int& firstRunInSet);
 map<int, vector<int>> getDeadtimeRanges(int dsNum) ;
-double getLivetimeUncertainty(map<int, double> livetimes);
+double getTotalLivetimeUncertainty(map<int, double> livetimes);
 double getLivetimeAverage(map<int, double> livetimes);
 
 int main(int argc, char** argv)
@@ -623,8 +623,8 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
          << "\tRaw Livetime : " << rawLive << "\n"
          << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/rawLive << ")\n"
          << "\tLN Deadtime : " << m1LNDead << " (" << m1LNDead/rawLive << ")\n"
-         << "\tAverage Channel Livetime" << getLivetimeAverage(channelLivetime) << "\n"
-         << "\tTotal uncertainty" << getLivetimeUncertainty(channelLivetime) << "\n"
+         << "\tAverage Channel Livetime: " << getLivetimeAverage(channelLivetime) << "\n"
+         << "\tTotal uncertainty: " << getLivetimeUncertainty(channelLivetime) << "\n"
                  //  << "\tFinal Livetime : " << rawLive-m1LNDead-vetoDead << "\n"
          << "\tActive Enr Mass : " << m1EnrActMass  << "\n"
          << "\tActive Nat Mass : " << m1NatActMass << "\n"
@@ -636,8 +636,8 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
          << "\tRaw Livetime : " << rawLive << "\n"
          << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/rawLive << ")\n"
          << "\tLN Deadtime : " << m2LNDead << " (" << m2LNDead/rawLive << ")\n"
-         << "\tAverage Channel Livetime" << getLivetimeAverage(channelLivetime) << "\n"
-         << "\tTotal uncertainty" << getLivetimeUncertainty(channelLivetime) << "\n"
+         << "\tAverage Channel Livetime: " << getLivetimeAverage(channelLivetime) << "\n"
+         << "\tTotal Livetime uncertainty: " << getTotalLivetimeUncertainty(channelLivetime) << "\n"
         //  << "\tFinal Livetime : " << rawLive-m2LNDead-vetoDead << "\n"
          << "\tActive Enr Mass : " << m2EnrActMass  << "\n"
          << "\tActive Nat Mass : " << m2NatActMass << "\n"
@@ -910,7 +910,7 @@ map<int, vector<int>> getDeadtimeRanges(int dsNum)
   return ranges;
 }
 
-double getLivetimeUncertainty(map<int, double> livetimes)
+double getTotalLivetimeUncertainty(map<int, double> livetimes)
 {
   double sum_x = 0;
   double sum_x2 = 0;
@@ -922,7 +922,8 @@ double getLivetimeUncertainty(map<int, double> livetimes)
     n++;
   }
   double mean = sum_x / n;
-  return sqrt((sum_x2 / n) - (mean * mean));
+  double stdev = sqrt((sum_x2 / n) - (mean * mean));
+  return stdev / sqrt(n) ;
 
 }
 
