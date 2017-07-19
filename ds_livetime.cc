@@ -240,24 +240,17 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
     TFile *bltFile = new TFile(bltPath.c_str());
 
     // Get start/stop time, and add to raw live time
-    time_t start=0, stop=0;
+    double start=0, stop=0;
     if (runDB) {
       rawLive += times[r].second;
-      stop = times[r].first;
-      start = times[r].first - (int)times[r].second;
+      stop = (double)times[r].first;
+      start = (double)times[r].first - (double)times[r].second;
     }
     else {
       MJTRun *runInfo = (MJTRun*)bltFile->Get("run");
       start = runInfo->GetStartClockTime();
       stop = runInfo->GetStopClockTime();
-      struct tm *tmStart, *tmStop;  // I dunno if this is the best way to check for bad start/stop vals
-      tmStart = gmtime(&start), tmStop = gmtime(&stop);
-      int yrStart = 1900+tmStart->tm_year, yrStop = 1900+tmStop->tm_year;
-      if (yrStart < 2005 || yrStart > 2025 || yrStop < 2005 || yrStart > 2025) {
-        cout << Form("Run %i has corrupted start/stop packets.  Start (yr%i) %li  Stop (yr %i) %li.  Continuing...\n", run,yrStart,start,yrStop,stop);
-        continue;
-      }
-      rawLive += (double)(stop - start);
+      rawLive += (double)(stop - start)/1e9;
     }
     if (raw) {
       delete bltFile;
