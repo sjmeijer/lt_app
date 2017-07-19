@@ -551,7 +551,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   m2LNDead = m2LNDead/86400;
   for (auto &raw : channelRuntime) raw.second = raw.second/86400;
   for (auto &live : channelLivetime) live.second = live.second/86400;
-
+  for (auto &live : channelLivetimeHL) live.second = live.second/86400;
 
   // TODO: implement 3 livetimes: HG, LG, and "either".  How you wanna do this??
   // Reminder:  you're working with the maps "channelLivetime" (should contain HG and LG),
@@ -908,7 +908,7 @@ map<int, vector<string>> getDeadtimeMap(int dsNum, bool& noDT, int dsNum_hi)
       noDT=1;
       return ranges;
     }
-    
+
     // Build the ranges.  Quit at the first sign of trouble.
     for (auto file : files)
     {
