@@ -999,12 +999,12 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
   //    If only a LG channel exists, we add that in instead.
   // This should make sure that we're using as many detectors as we can
 
-  vector<int> goodIDs;
+  vector<uint32_t> goodIDs;
   int n = input.size();
 
   for(int i=0; i<n; i++)
   {
-    int aChannel = input[i];
+    uint32_t aChannel = input[i];
 
     if(aChannel%2==1) // if it is LG
     {
