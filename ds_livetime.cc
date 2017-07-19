@@ -558,8 +558,8 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
     // now do a loop for just the "best" channels
     for (auto ch : bestIDs)
     {
-      // Runtime
-      channelRuntimeHL[ch] += (double)(stop-start); // creates new entry if one doesn't exist
+      // Runtime is the same for all channels in the same run
+      // channelRuntime[ch] += (double)(stop-start); // creates new entry if one doesn't exist
 
       // Bookkeeping for getting averages and uncertainty
       double ORthisLT = 0; // gives the livetime for the OR of HL channels for this run.
