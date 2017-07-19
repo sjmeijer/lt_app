@@ -546,7 +546,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
       thisLT -= vetoDeadRun;
       ORthisLT -= vetoDeadRun;
 
-      livetimeMap[ch].push_back(thisLT);
+      livetimeMap[ch].push_back(thisLT/(double)(stop-start));
       // TODO: Use the ORthisLT, maybe instead of ^
     }
 
@@ -647,7 +647,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
     double activeMass = actM4Det_g[detID]/1000;
     double ltAvg = getVectorAverage(livetimeMap[chan]);
     double ltUnc = getVectorUncertainty(livetimeMap[chan]);
-    cout << Form("%i  %-8i  %.2f kg  LT Avg: %.5f  LT Unc.: %.5f  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, ltAvg, ltUnc, raw.second, channelLivetime[chan], channelExposure[chan]);
+    cout << Form("%i  %-8i  %.2f kg  LT Frac Avg: %.5f  LT Frac Unc.: %.5f  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, ltAvg, ltUnc, raw.second, channelLivetime[chan], channelExposure[chan]);
     // cout << Form("%i  %-7i  %.2fkg  Livetime: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelExposure[chan]);
   }
 }
