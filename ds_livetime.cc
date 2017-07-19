@@ -218,9 +218,9 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
 
   // Start loop over runs.
   double rawLive=0, vetoLive=0, vetoDead=0, m1LNDead=0, m2LNDead=0;
-  map <int,double> channelRuntime, channelLivetime, channelLivetimeML;
+  map <int,double> channelRuntime, channelLivetime, channelLivetimeHL;
   map <int,int> detChanToDetIDMap;
-  map <int,vector<double>> livetimeMap;
+  map <int,vector<double>> livetimeMap, livetimeMapHL;
   map<string, vector<double>> dtMap;
   time_t prevStop=0;
   int prevSubSet=-1;
@@ -481,7 +481,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
       // Runtime
       channelRuntime[ch] += (double)(stop-start); // creates new entry if one doesn't exist
 
-      // Bookkeeping
+      // Bookkeeping for getting averages and uncertainty
       double thisLT = 0; // gives the livetime for this channel for this run.
       double ORthisLT = 0; // gives the livetime for the OR of HL channels for this run.
 
@@ -521,8 +521,8 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         }
 
         // TODO: we need an object with one entry for every DETECTOR, not channel.
-        // Maybe the best way to do that is to form it from "channelLivetimeML" AFTER this loop.
-        channelLivetimeML[ch] += (double)(stop-start) * (1 - orDead) - orPulserDT;
+        // Maybe the best way to do that is to form it from "channelLivetimeHL" AFTER this loop.
+        channelLivetimeHL[ch] += (double)(stop-start) * (1 - orDead) - orPulserDT;
         ORthisLT += (double)(stop-start) * (1 - orDead) - orPulserDT;
       }
       else {
@@ -535,27 +535,75 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
       int detID = gp.GetDetIDFromName( chMap->GetString(ch, "kDetectorName") );
       if (CheckModule(detID)==1) {
         channelLivetime[ch] -= m1LNDeadRun;
-        channelLivetimeML[ch] -= m1LNDeadRun;
+        channelLivetimeHL[ch] -= m1LNDeadRun;
         thisLT -= m1LNDeadRun;
         ORthisLT -= m1LNDeadRun;
       }
       if (CheckModule(detID)==2) {
         channelLivetime[ch] -= m2LNDeadRun;
-        channelLivetimeML[ch] -= m2LNDeadRun;
+        channelLivetimeHL[ch] -= m2LNDeadRun;
         thisLT -= m2LNDeadRun;
         ORthisLT -= m2LNDeadRun;
       }
 
       // Veto reduction - applies to all channels in BOTH modules.
       channelLivetime[ch] -= vetoDeadRun;
-      channelLivetimeML[ch] -= vetoDeadRun;
+      channelLivetimeHL[ch] -= vetoDeadRun;
       thisLT -= vetoDeadRun;
       ORthisLT -= vetoDeadRun;
 
       livetimeMap[ch].push_back(thisLT/(double)(stop-start));
-      // TODO: Use the ORthisLT, maybe instead of ^
     }
 
+    // now do a loop for just the "best" channels
+    for (auto ch : bestIDs)
+    {
+      // Runtime
+      channelRuntimeHL[ch] += (double)(stop-start); // creates new entry if one doesn't exist
+
+      // Bookkeeping for getting averages and uncertainty
+      double ORthisLT = 0; // gives the livetime for the OR of HL channels for this run.
+
+      // Livetime (contains deadtime correction)
+      string pos = chMap->GetDetectorPos(ch);
+      if (dtMap.find(pos) != dtMap.end())
+      {
+        double orDead = dtMap[pos][2]/100.0;
+        double orPulsers = dtMap[pos][5];
+
+        if (orDead < 0) orDead = 0;
+
+        // The following assumes only DS2 uses presumming, and may not always be true
+        // Takes out 62 or 100 us per pulser as deadtime
+        double orPulserDT = orPulsers*(dsNum==2?100e-6:62e-6);
+
+        // Calculate livetime for this channel
+        channelLivetimeHL[ch] += (double)(stop-start) * (1 - orDead) - orPulserDT;
+        ORthisLT += (double)(stop-start) * (1 - orDead) - orPulserDT;
+      }
+      else {
+        cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
+        return;
+      }
+
+      // LN reduction - depends on if channel is M1 or M2
+      GATDetInfoProcessor gp;
+      int detID = gp.GetDetIDFromName( chMap->GetString(ch, "kDetectorName") );
+      if (CheckModule(detID)==1) {
+        channelLivetimeHL[ch] -= m1LNDeadRun;
+        ORthisLT -= m1LNDeadRun;
+      }
+      if (CheckModule(detID)==2) {
+        channelLivetimeHL[ch] -= m2LNDeadRun;
+        ORthisLT -= m2LNDeadRun;
+      }
+
+      // Veto reduction - applies to all channels in BOTH modules.
+      channelLivetimeHL[ch] -= vetoDeadRun;
+      ORthisLT -= vetoDeadRun;
+
+      livetimeMapHL[ch].push_back(ORthisLT/(double)(stop-start));
+    }
 
 
     // Done with this run.
@@ -575,7 +623,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
 
   // TODO: implement 3 livetimes: HG, LG, and "either".  How you wanna do this??
   // Reminder:  you're working with the maps "channelLivetime" (should contain HG and LG),
-  // and "channelLivetimeML", which should contain "either"
+  // and "channelLivetimeHL", which should contain "either"
 
 
   double m1EnrExp=0, m1NatExp=0, m2EnrExp=0, m2NatExp=0;
