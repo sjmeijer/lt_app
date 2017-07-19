@@ -994,7 +994,7 @@ double getVectorAverage(vector<double> aVector)
 
 vector<uint32_t> getBestIDs(vector<uint32_t> input)
 {
-  // This looks inside the input array (probably enabledIDs) and finds:
+  // This looks inside the input vector (probably enabledIDs) and finds:
   //    If a HG channel exists for a detector, it will add that in
   //    If only a LG channel exists, we add that in instead.
   // This should make sure that we're using as many detectors as we can
@@ -1010,7 +1010,7 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
     {
       // check if HG is in input
       // if yes, it gets added later, if no, add LG here
-      if(std::find(input.begin(), input.end(), input) == input.end())
+      if(std::find(input.begin(), input.end(), aChannel-1) == input.end())
       { // enter here if aChannel is nowhere in the input
         goodIDs.push_back(aChannel);
       }
