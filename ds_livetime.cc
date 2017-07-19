@@ -425,6 +425,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
     }
 
     vector<uint32_t> bestIDs;
+    bestIDs = getBestIDs(enabledIDs);
 
     // Finally, add to the raw and reduced livetime of ONLY GOOD detectors.
     for (auto ch : enabledIDs)
@@ -432,14 +433,12 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
       // don't include pulser monitors.
       if (detChanToDetIDMap[ch] == -1) continue;
 
-      bestIDs = getBestIDs(enabledIDs);
-
       // Runtime
       channelRuntime[ch] += (double)(stop-start); // creates new entry if one doesn't exist
 
       // Bookkeeping for getting averages and uncertainty
       double thisLT = 0; // gives the livetime for this channel for this run.
-      double ORthisLT = 0; // gives the livetime for the OR of HL channels for this run.
+      // double ORthisLT = 0; // gives the livetime for the OR of HL channels for this run.
 
       // Livetime (contains deadtime correction)
       string pos = chMap->GetDetectorPos(ch);
@@ -447,39 +446,31 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
       {
         double hgDead = dtMap[pos][0]/100.0; // value is in percent, divide by 100
         double lgDead = dtMap[pos][1]/100.0;
-        double orDead = dtMap[pos][2]/100.0;
+        // double orDead = dtMap[pos][2]/100.0;
         double hgPulsers = dtMap[pos][3];
         double lgPulsers = dtMap[pos][4];
-        double orPulsers = dtMap[pos][5];
+        // double orPulsers = dtMap[pos][5];
 
         // TODO: This converts any "-9.99" into a 0 deadtime, but we should
         // probably actually use the average value for the subset.
         if (hgDead < 0) hgDead = 0;
         if (lgDead < 0) lgDead = 0;
-        if (orDead < 0) orDead = 0;
 
         // The following assumes only DS2 uses presumming, and may not always be true
         // Takes out 62 or 100 us per pulser as deadtime
         double hgPulserDT = hgPulsers*(dsNum==2?100e-6:62e-6);
         double lgPulserDT = lgPulsers*(dsNum==2?100e-6:62e-6);
-        double orPulserDT = orPulsers*(dsNum==2?100e-6:62e-6);
 
         // Calculate livetime for this channel
         if (ch%2 == 0) {
           channelLivetime[ch] += (double)(stop-start) * (1 - hgDead) - hgPulserDT;
           thisLT += (double)(stop-start) * (1 - hgDead) - hgPulserDT;
-          // printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],(double)(stop-start), hgDead);
         }
         if (ch%2 == 1){
           channelLivetime[ch] += (double)(stop-start) * (1 - lgDead) - lgPulserDT;
           thisLT += (double)(stop-start) * (1 - lgDead) - lgPulserDT;
-          // printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],(double)(stop-start), lgDead);
         }
 
-        // TODO: we need an object with one entry for every DETECTOR, not channel.
-        // Maybe the best way to do that is to form it from "channelLivetimeHL" AFTER this loop.
-        channelLivetimeHL[ch] += (double)(stop-start) * (1 - orDead) - orPulserDT;
-        ORthisLT += (double)(stop-start) * (1 - orDead) - orPulserDT;
       }
       else {
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
@@ -491,22 +482,16 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
       int detID = gp.GetDetIDFromName( chMap->GetString(ch, "kDetectorName") );
       if (CheckModule(detID)==1) {
         channelLivetime[ch] -= m1LNDeadRun;
-        channelLivetimeHL[ch] -= m1LNDeadRun;
         thisLT -= m1LNDeadRun;
-        ORthisLT -= m1LNDeadRun;
       }
       if (CheckModule(detID)==2) {
         channelLivetime[ch] -= m2LNDeadRun;
-        channelLivetimeHL[ch] -= m2LNDeadRun;
         thisLT -= m2LNDeadRun;
-        ORthisLT -= m2LNDeadRun;
       }
 
       // Veto reduction - applies to all channels in BOTH modules.
       channelLivetime[ch] -= vetoDeadRun;
-      channelLivetimeHL[ch] -= vetoDeadRun;
       thisLT -= vetoDeadRun;
-      ORthisLT -= vetoDeadRun;
 
       livetimeMap[ch].push_back(thisLT/(double)(stop-start));
     }
@@ -1051,4 +1036,4 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
     else{ goodIDs.push_back(aChannel); }
   }
   return goodIDs;
-} 
+}
