@@ -648,8 +648,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
     cout << Form("%i  %-8i  %.2f kg  LT Frac Avg: %.5f  LT Frac Unc.: %.5f  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, ltAvg, ltUnc, raw.second, channelLivetime[chan], channelExposure[chan]);
     // cout << Form("%i  %-7i  %.2fkg  Livetime: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelExposure[chan]);
   }
-  printf("Channel livetime average: %f", getLivetimeAverage(channelLivetime));
-  printf("Channel livetime avg unc: %f", getTotalLivetimeUncertainty(channelLivetime) );
+  printf("Channel livetime average: %f\n", getLivetimeAverage(channelLivetime));
+  printf("Channel livetime avg unc: %f\n", getTotalLivetimeUncertainty(channelLivetime) );
   printf("Total average livetime: %f\n",getVectorAverage(allAvg));
   printf("Total average uncertainty: %f\n",getVectorUncertainty(allAvg));
   printf("Average channel uncertainty: %f\n",getVectorAverage(allUnc));
