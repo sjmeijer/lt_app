@@ -18,9 +18,6 @@
 #include "GATDetInfoProcessor.hh"
 #include "DataSetInfo.hh"
 
-// TODO / FIXME: For the db2 method, where we don't have a subrange number,
-//               how to add/lookup the correct deadtime information?
-
 // NOTE:  Right now this will double-count an overlapping veto+LN fill.
 //        If we add more effects it will double count them too.
 //        If we want an exact, non-overlapping calculation of dead time,
@@ -56,12 +53,12 @@ using namespace std;
 using namespace MJDB;
 
 void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int dsNum, bool raw, bool runDB,
-  map<int,vector<int>> burst, map<int,vector<int>> ranges = map<int,vector<int>>());
+map<int,vector<int>> burst, map<int,vector<string>> ranges = map<int,vector<string>>());
 bool compareInterval(pair<int,int> i1, pair<int,int> i2) { return (i1.first < i2.first); }
 int mergeIntervals(vector<pair<int,int>> vals, int start, int stop);
 void getDBRunList(int &dsNum, double &ElapsedTime, string options, vector<int> &runList, vector<pair<int,double>> &times);
-void locateRunRange(int run, map<int,vector<int>> ranges, int& runInSet, int& firstRunInSet);
-map<int, vector<int>> getDeadtimeRanges(int dsNum) ;
+void locateRunRange(int run, map<int,vector<string>> ranges, int& runInSet, string& dtFilePath);
+map<int, vector<string>> getDeadtimeRanges(int dsNum, int dsNum_hi=-1) ;
 double getTotalLivetimeUncertainty(map<int, double> livetimes);
 double getLivetimeAverage(map<int, double> livetimes);
 
@@ -124,35 +121,29 @@ int main(int argc, char** argv)
     GATDataSet ds;
     cout << "Scanning DS-" << dsNum << endl;
 
-    // Method 1: get ranges from DataSetInfo
-    // map<int, vector<int>> ranges = LoadDataSet(ds, dsNum, 0);
-    // for (int rs = 1; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
-
-    // Method 2: get ranges from deadtime '.lis' files.
+    // Get ranges from deadtime '.lis' files.
     for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
-    map<int, vector<int>> ranges = getDeadtimeRanges(dsNum);
+    map<int, vector<string>> ranges = getDeadtimeRanges(dsNum);
 
-    // DEBUG: Print the run ranges from DataSetInfo
-    for (auto& r : ranges) {
-      cout << r.first << " ";
-      for (auto run : r.second) cout << run << " ";
-      cout << endl;
-    }
-
+    // Load list of runs
     vector<int> runList;
     for (int i = 0; i < (int)ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
 
-    vector<pair<int,double>> times;
+    // Main routine -- Calculate live time.
+    vector<pair<int,double>> times; // dummy
     calculateLiveTime(runList,times,dsNum,raw,rdb,burst,ranges);
   }
 
   // Do primary livetime routine using a run list from the RunDB (-db2)
-  // TODO / FIXME: How to add the deadtime information?
   if (lt && rdb) {
     double ElapsedTime=0;
     vector<int> runList;
     vector<pair<int,double>> times;
     getDBRunList(dsNum, ElapsedTime, runDBOpt, runList, times); // uses "times", auto-detects dsNum
+
+    // Load ranges for deadtime - we don't know what DS we're in, so load them all.
+    map<int, vector<string>> ranges = getDeadtimeRanges(0,5);
+
     calculateLiveTime(runList,times,dsNum,raw,rdb,burst);
   }
 
@@ -195,7 +186,7 @@ int main(int argc, char** argv)
 
 
 void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int dsNum, bool raw, bool runDB,
-  map<int,vector<int>> burst, map<int,vector<int>> ranges)
+  map<int,vector<int>> burst, map<int,vector<string>> ranges)
 {
   // Do we have M1 and M2 enabled?
   bool mod1=0, mod2=0;
@@ -238,16 +229,14 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
     cout << "Scanning run " << run << endl;
 
     // locate subset and first run in set numbers.
-    int runInSet, firstRunInSet;
-    locateRunRange(run,ranges,runInSet,firstRunInSet);
+    int runInSet;
+    string dtFilePath;
+    locateRunRange(run,ranges,runInSet,dtFilePath);
 
     // Load the deadtime file ONLY when the subset changes and repopulate the deadtime map 'dtMap'.
     if (runInSet != prevSubSet)
     {
-      cout << "Subset " << runInSet << ", loading DT file.\n";
-
-      string dtFilePath = Form("./deadtime/ds%i_%i.DT",dsNum,runInSet);
-      if (dsNum==5) dtFilePath = Form("./deadtime/DS%i.DT",firstRunInSet);
+      cout << "Subset " << runInSet << ", loading DT file:" << dtFilePath << endl;
       ifstream dtFile(dtFilePath.c_str());
       if (!dtFile) {
         cout << "Couldn't find file: " << dtFilePath << endl;
@@ -264,10 +253,6 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         double lgFWHM, lgNeg, lgPos, lgDead;
         double orDead;
         string det;
-
-        // TODO: if david's code gives "nan" values, they'll be read as strings.
-        // fix it like here: https://stackoverflow.com/questions/24504582/how-to-test-whether-stringstream-operator-has-parsed-a-bad-type-and-skip-it
-
         istringstream iss(buffer);
         iss >> id >> pos >> hgFWHM >> hgNeg >> hgPos >> hgDead
             >> lgFWHM >> lgNeg >> lgPos >> lgDead >> orDead
@@ -275,9 +260,9 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         cout << Form("%i %i %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %i %i %i %i %i %i\n" ,id,pos,hgFWHM,hgNeg,hgPos,hgDead,lgFWHM,lgNeg,lgPos,lgDead,orDead,det.c_str(),p1,p2,p3,p4,p5,p6);
 
         // Check if anything is nan.  We'll take it to mean 100% dead.
-        if(hgDead != hgDead) hgDead = 100.;
-        if(lgDead != lgDead) lgDead = 100.;
-        if(orDead != orDead) orDead = 100.;
+        if(hgDead != hgDead) hgDead = 100.0;
+        if(lgDead != lgDead) lgDead = 100.0;
+        if(orDead != orDead) orDead = 100.0;
 
         // fill the deadtime map
         dtMap[det] = {hgDead,lgDead,orDead,(double)p1,(double)p2,(double)p3};
@@ -404,7 +389,6 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
     MJTChannelMap *chMap = (MJTChannelMap*)bltFile->Get("ChannelMap");
     MJTChannelSettings *chSet = (MJTChannelSettings*)bltFile->Get("ChannelSettings");
     vector<uint32_t> enabledIDs = chSet->GetEnabledIDList();
-    vector<uint32_t> pulserMons = chMap->GetPulserChanList();
 
     // Apply the DataSetInfo veto-only and bad lists regardless of having a channel selection object.
     // Don't count the livetime from detectors that are on these lists.
@@ -483,7 +467,6 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
     for (auto ch : enabledIDs)
     {
       // don't include pulser monitors.
-      // if ( find(pulserMons.begin(), pulserMons.end(), ch) != pulserMons.end() ) continue;
       if (detChanToDetIDMap[ch] == -1) continue;
 
       // Runtime
@@ -506,18 +489,13 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         if (lgDead < 0) lgDead = 0;
         if (orDead < 0) orDead = 0;
 
-        // hgDead = (1. - hgDead);
-        // lgDead = (1. - lgDead);
-        // orDead = (1. - orDead);
-
-        // TODO: Make this more general.
         // The following assumes only DS2 uses presumming, and may not always be true
-        // Takes out 62 or 100 µs per pulser as deadtime
+        // Takes out 62 or 100 us per pulser as deadtime
         double hgPulserDT = hgPulsers*(dsNum==2?100e-6:62e-6);
         double lgPulserDT = lgPulsers*(dsNum==2?100e-6:62e-6);
         double orPulserDT = orPulsers*(dsNum==2?100e-6:62e-6);
 
-        // Livetime
+        // Calculate livetime for this channel
         if (ch%2 == 0) {
           channelLivetime[ch] += (double)(stop-start) * (1 - hgDead);
           // printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],(double)(stop-start), hgDead);
@@ -537,7 +515,6 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         channelLivetimeML[ch] -= orPulserDT;
       }
       else {
-        // This means that a detector was in the channel map, but not David's file?
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
         return;
       }
@@ -564,8 +541,8 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
   }
 
   // Calculate channel-by-channel exposure in kg-days
-  // 86400 seconds = 1 day
-  rawLive = rawLive/86400;
+
+  rawLive = rawLive/86400;  // 86400 seconds = 1 day
   vetoLive = vetoLive/86400;
   vetoDead = vetoDead/86400;
   m1LNDead = m1LNDead/86400;
@@ -836,17 +813,18 @@ inline void TimeSortMerge(vector<pair<double,double> >& pulseTimes)
 
 
 // Looks up which sub-range a particular run is in, given a range map.
-void locateRunRange(int run, map<int,vector<int>> ranges, int& runInSet, int& firstRunInSet)
+void locateRunRange(int run, map<int,vector<string>> ranges, int& runInSet, string& dtFilePath)
 {
   bool foundRun = false;
   for (auto& r : ranges) {
-    vector<int> thisRange = r.second;
-    for (size_t i = 0; i < thisRange.size(); i+=2) {
-      if (run >= thisRange[i] && run <= thisRange[i+1]) {
-        // cout << Form("Found run %i between runs %i and %i\n",run,thisRange[i],thisRange[i+1]);
+    vector<string> thisRange = r.second; // c++ map trick: the first string is the file path, the rest are the run ranges.
+    dtFilePath = thisRange[0];
+
+    for (size_t i = 1; i < thisRange.size(); i+=2) {
+      if (run >= stoi(thisRange[i]) && run <= stoi(thisRange[i+1])) {
+        // cout << Form("Found run %i between runs %i and %i\n",run,stoi(thisRange[i]),stoi(thisRange[i+1]));
         foundRun = true;
         runInSet = r.first;
-        firstRunInSet = thisRange[0];
         break;
       }
     }
@@ -855,57 +833,71 @@ void locateRunRange(int run, map<int,vector<int>> ranges, int& runInSet, int& fi
   if (!foundRun) {
     cout << "HMMM, couldn't find run " << run << endl;
     runInSet = -1;
-    firstRunInSet = -1;
   }
 }
 
-// Parses the 'lis' files in ./deadtime/ to make a range map
-map<int, vector<int>> getDeadtimeRanges(int dsNum)
+// Parses the 'lis' files in ./deadtime/ to make a range map.
+// c++ map trick: the first string is the file path, the rest are the run ranges.
+map<int, vector<string>> getDeadtimeRanges(int dsNum, int dsNum_hi)
 {
-  map<int, vector<int>> ranges;
+  map<int, vector<string>> ranges;
 
-  // Find runlist files for this dataset
-  string command = Form("ls ./deadtime/ds%i_*.lis",dsNum);
-  if (dsNum==5) command = Form("ls ./deadtime/DS*.lis");
-  cout << "command is " << command << endl;
-  array<char, 128> buffer;
-  vector<string> files;
-  string str;
-  shared_ptr<FILE> pipe(popen(command.c_str(), "r"), pclose);
-  if (!pipe) throw runtime_error("popen() failed!");
-  while (!feof(pipe.get())) {
-    if (fgets(buffer.data(), 128, pipe.get()) != NULL) {
-      str = buffer.data();
-      str.erase(remove(str.begin(), str.end(), '\n'), str.end());  // strip newline
-      files.push_back(str);
-    }
-  }
+  // Load ranges for one ds or a range of DS's.
+  vector<int> dsList;
+  if (dsNum_hi == -1) dsList = {dsNum};
+  else
+    for (int i = dsNum; i <= dsNum_hi; i++)
+      dsList.push_back(i);
 
-  // Build the ranges.  Quit at the first sign of trouble.
   int rangeCount = 0;
-  for (auto file : files)
+  for (auto ds : dsList)
   {
-    // cout << file << endl;
-    ifstream lisFile(file.c_str());
-    if (!lisFile) {
-      cout << "Couldn't find file: " << file << endl;
-      return ranges;
+    // Find runlist files for this dataset
+    string command = Form("ls ./deadtime/ds%i_*.lis",ds);
+    if (ds==5) command = Form("ls ./deadtime/DS*.lis");
+    cout << "command is " << command << endl;
+    array<char, 128> buffer;
+    vector<string> files;
+    string str;
+    shared_ptr<FILE> pipe(popen(command.c_str(), "r"), pclose);
+    if (!pipe) throw runtime_error("popen() failed!");
+    while (!feof(pipe.get())) {
+      if (fgets(buffer.data(), 128, pipe.get()) != NULL) {
+        str = buffer.data();
+        str.erase(remove(str.begin(), str.end(), '\n'), str.end());  // strip newline
+        files.push_back(str);
+      }
     }
-    string buffer;
-    int firstRun = -1, lastRun = -1;
-    while (getline(lisFile, buffer))
+    // Build the ranges.  Quit at the first sign of trouble.
+    for (auto file : files)
     {
-      size_t found = buffer.find("Run");
-      if (found == string::npos) {
-        cout << "Couldn't find a run expression in " << buffer << endl;
+      // cout << file << endl;
+      ifstream lisFile(file.c_str());
+      if (!lisFile) {
+        cout << "Couldn't find file: " << file << endl;
         return ranges;
       }
-      int run = stoi( buffer.substr(found+3) );
-      if (firstRun == -1) firstRun = run;
-      lastRun = run;
+      string buffer;
+      int firstRun = -1, lastRun = -1;
+      while (getline(lisFile, buffer))
+      {
+        size_t found = buffer.find("Run");
+        if (found == string::npos) {
+          cout << "Couldn't find a run expression in " << buffer << endl;
+          return ranges;
+        }
+        int run = stoi( buffer.substr(found+3) );
+        if (firstRun == -1) firstRun = run;
+        lastRun = run;
+      }
+
+      // grab the corresponding DT file
+      string dtFile = file.substr(0, file.find_last_of(".")) + ".DT";
+
+      // Fill the range map
+      ranges[rangeCount] = {dtFile,to_string(firstRun),to_string(lastRun)};
+      rangeCount++;
     }
-    ranges[rangeCount] = {firstRun,lastRun};
-    rangeCount++;
   }
   return ranges;
 }
