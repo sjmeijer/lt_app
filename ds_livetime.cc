@@ -536,6 +536,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       thisLivetime -= vetoDeadRun;
 
       livetimeMapHL[ch].push_back(thisLivetime/thisRunTime);
+      printf("   %.5f / %.5f = %.5f\n",thisLivetime,thisRunTime,thisLivetime/thisRunTime);
     }
 
     // Done with this run.
