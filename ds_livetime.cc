@@ -504,7 +504,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     {
       if (detChanToDetIDMap[ch] == -1) continue;
 
-      double thisORLivetime = 0;
+      double thisLivetime = 0;
       string pos = chMap->GetDetectorPos(ch);
       if (dtMap.find(pos) != dtMap.end())
       {
@@ -516,7 +516,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         double orPulserDT = orPulsers*(dsNum==2?100e-6:62e-6);
 
         channelLivetimeHL[ch] += thisRunTime * (1 - orDead) - orPulserDT;
-        thisORLivetime += thisRunTime * (1 - orDead) - orPulserDT;
+        thisLivetime += thisRunTime * (1 - orDead) - orPulserDT;
       }
       else {
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
@@ -527,16 +527,16 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       int detID = gp.GetDetIDFromName( chMap->GetString(ch, "kDetectorName") );
       if (CheckModule(detID)==1) {
         channelLivetimeHL[ch] -= m1LNDeadRun;
-        thisORLivetime -= m1LNDeadRun;
+        thisLivetime -= m1LNDeadRun;
       }
       if (CheckModule(detID)==2) {
         channelLivetimeHL[ch] -= m2LNDeadRun;
-        thisORLivetime -= m2LNDeadRun;
+        thisLivetime -= m2LNDeadRun;
       }
       channelLivetimeHL[ch] -= vetoDeadRun;
-      thisORLivetime -= vetoDeadRun;
+      thisLivetime -= vetoDeadRun;
 
-      livetimeMapHL[ch].push_back(thisORLivetime/thisRunTime);
+      livetimeMapHL[ch].push_back(thisLivetime/thisRunTime);
     }
 
     // Done with this run.
@@ -640,8 +640,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     cout << Form("%i  %-8i  %.2f kg  LT Frac Avg: %.5f  LT Frac Unc.: %.5f  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, ltAvg, ltUnc, raw.second, channelLivetime[chan], channelExposure[chan]);
     // cout << Form("%i  %-7i  %.2fkg  Livetime: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelExposure[chan]);
   }
-  printf("Channel livetime average: %f", getLivetimeAverage(channelLivetime));
-  printf("Channel livetime avg unc: %f", getTotalLivetimeUncertainty(channelLivetime) );
+  printf("Channel livetime average: %f\n", getLivetimeAverage(channelLivetime));
+  printf("Channel livetime avg unc: %f\n", getTotalLivetimeUncertainty(channelLivetime) );
   printf("Total average livetime: %f\n",getVectorAverage(allAvg));
   printf("Total average uncertainty: %f\n",getVectorUncertainty(allAvg));
   printf("Average channel uncertainty: %f\n",getVectorAverage(allUnc));
