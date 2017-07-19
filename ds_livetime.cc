@@ -630,8 +630,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         m2NatExpHL += detectorExposure[detID];
         // m2NatActMass += activeMass;
       }
+    }
   }
-
 
   // Print results by module.
   time_t t = time(0);   // get time now
