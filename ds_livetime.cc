@@ -944,7 +944,7 @@ double getVectorUncertainty(vector<double> aVector)
   for (int i=0; i<n; i++)
   {
     sum_x += aVector[i];
-    sum_x2 += aVector[i]*vaVector[i];
+    sum_x2 += aVector[i]*aVector[i];
   }
   double mean = sum_x / n;
   double stdev = sqrt((sum_x2 / n) - (mean * mean));
