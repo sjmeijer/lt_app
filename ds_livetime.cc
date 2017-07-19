@@ -63,6 +63,7 @@ double getTotalLivetimeUncertainty(map<int, double> livetimes);
 double getLivetimeAverage(map<int, double> livetimes);
 double getVectorUncertainty(vector<double> aVector);
 double getVectorAverage(vector<double> aVector);
+vector<uint32_t> getBestIDs(vector<uint32_t> input);
 
 int main(int argc, char** argv)
 {
@@ -263,6 +264,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
         cout << Form("%i %i %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %i %i %i %i %i %i\n" ,id,pos,hgFWHM,hgNeg,hgPos,hgDead,lgFWHM,lgNeg,lgPos,lgDead,orDead,det.c_str(),p1,p2,p3,p4,p5,p6);
 
         // Check if anything is nan.  We'll take it to mean 100% dead.
+        // This is maximally conservative, as it could be 100% live.
         if(hgDead != hgDead) hgDead = 100.0;
         if(lgDead != lgDead) lgDead = 100.0;
         if(orDead != orDead) orDead = 100.0;
@@ -466,11 +468,15 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
       cout << endl;
     }
 
+    vector<uint32_t> bestIDs;
+
     // Finally, add to the raw and reduced livetime of ONLY GOOD detectors.
     for (auto ch : enabledIDs)
     {
       // don't include pulser monitors.
       if (detChanToDetIDMap[ch] == -1) continue;
+
+      bestIDs = getBestIDs(enabledIDs);
 
       // Runtime
       channelRuntime[ch] += (double)(stop-start); // creates new entry if one doesn't exist
@@ -656,7 +662,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
   }
   printf("Total average livetime: %f\n",getVectorAverage(allAvg));
   printf("Total average uncertainty: %f\n",getVectorUncertainty(allAvg));
-  printf("Average total uncertainty: %f\n",getVectorAverage(allUnc));
+  printf("Average channel uncertainty: %f\n",getVectorAverage(allUnc));
 }
 
 
@@ -984,4 +990,32 @@ double getVectorAverage(vector<double> aVector)
     sum_x += aVector[i];
   }
   return sum_x / n;
+}
+
+vector<uint32_t> getBestIDs(vector<uint32_t> input)
+{
+  // This looks inside the input array (probably enabledIDs) and finds:
+  //    If a HG channel exists for a detector, it will add that in
+  //    If only a LG channel exists, we add that in instead.
+  // This should make sure that we're using as many detectors as we can
+
+  vector<int> goodIDs;
+  int n = input.size();
+
+  for(int i=0; i<n; i++)
+  {
+    int aChannel = input[i];
+
+    if(aChannel%2==1) // if it is LG
+    {
+      // check if HG is in input
+      // if yes, it gets added later, if no, add LG here
+      if(std::find(input.begin(), input.end(), input) == input.end())
+      { // enter here if aChannel is nowhere in the input
+        goodIDs.push_back(aChannel);
+      }
+    }
+    else{ goodIDs.push_back(aChannel); }
+  }
+  return goodIDs;
 }
