@@ -33,7 +33,7 @@
 using namespace std;
 using namespace MJDB;
 
-void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
+void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, bool noDT,
   map<int,vector<string>> ranges = map<int,vector<string>>(),
   vector<pair<int,double>> times = vector<pair<int,double>>(),
   map<int,vector<int>> burst = map<int,vector<int>>());
@@ -71,7 +71,7 @@ int main(int argc, char** argv)
 	}
   int dsNum = stoi(argv[1]);
   string runDBOpt = "";
-  bool raw=0, gds=0, lt=1, rdb=0, low=0;
+  bool raw=0, gds=0, lt=1, rdb=0, low=0, noDT=0;
   vector<string> opt(argv+1, argv+argc);
   for (size_t i = 0; i < opt.size(); i++) {
     if (opt[i] == "-raw") { raw=1; }
@@ -107,10 +107,10 @@ int main(int argc, char** argv)
     cout << "Scanning DS-" << dsNum << endl;
     for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
     for (size_t i = 0; i < ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
-    map<int, vector<string>> ranges = getDeadtimeMap(dsNum);
+    map<int, vector<string>> ranges = getDeadtimeMap(dsNum,noDT);
 
     // -- Main routine --
-    calculateLiveTime(runList,dsNum,raw,rdb,ranges);
+    calculateLiveTime(runList,dsNum,raw,rdb,noDT,ranges);
   }
 
   // -- Do primary livetime routine using a run list from the RunDB (-db2) --
@@ -122,7 +122,7 @@ int main(int argc, char** argv)
     map<int, vector<string>> ranges = getDeadtimeMap(0,5); // we don't know what DS we're in, so load them all.
 
     // -- Main routine --
-    calculateLiveTime(runList,dsNum,raw,rdb,ranges,times);
+    calculateLiveTime(runList,dsNum,raw,rdb,noDT,ranges,times);
   }
 
   // -- Do primary livetime with a low-energy run+channels 'burst' cut applied. --
@@ -137,12 +137,12 @@ int main(int argc, char** argv)
 
     // -- Main routine --
     vector<pair<int,double>> times; // dummy (empty)
-    calculateLiveTime(runList,dsNum,raw,rdb,ranges,times,burst);
+    calculateLiveTime(runList,dsNum,raw,rdb,noDT,ranges,times,burst);
   }
 }
 
 
-void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
+void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, bool noDT,
   map<int,vector<string>> ranges,
   vector<pair<int,double>> times,
   map<int,vector<int>> burst)
@@ -434,7 +434,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
     }
 
 
-    // Finally, add to the runtime and deadtime of ONLY GOOD detectors.
+    // Finally, add to the runtime and livetime of ONLY GOOD detectors.
+    // Allows "HG" and "LG" livetime to be calculated.  "Either" livetime is done in the next loop.
     vector<uint32_t> bestIDs = getBestIDs(enabledIDs);
     for (auto ch : enabledIDs)
     {
@@ -494,16 +495,16 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
       channelLivetime[ch] -= vetoDeadRun;
       thisLiveTime -= vetoDeadRun;
 
+      // Used for averages and uncertainty
       livetimeMap[ch].push_back(thisLiveTime/thisRunTime);
     }
 
-    // Reporting "Either" Livetime:  One entry per detector (loops over 'best' channel list)
+    // Calculate "Either" Livetime:  One entry per detector (loops over 'best' channel list)
     for (auto ch : bestIDs)
     {
       if (detChanToDetIDMap[ch] == -1) continue;
 
-      // Livetime (contains deadtime correction)
-      double thisORLivetime = 0; // gives the livetime for the OR of HL channels for this run.
+      double thisORLivetime = 0;
       string pos = chMap->GetDetectorPos(ch);
       if (dtMap.find(pos) != dtMap.end())
       {
@@ -512,11 +513,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
 
         if (orDead < 0) orDead = 0;
 
-        // The following assumes only DS2 uses presumming, and may not always be true
-        // Takes out 62 or 100 us per pulser as deadtime
         double orPulserDT = orPulsers*(dsNum==2?100e-6:62e-6);
 
-        // Calculate livetime for this channel
         channelLivetimeHL[ch] += thisRunTime * (1 - orDead) - orPulserDT;
         thisORLivetime += thisRunTime * (1 - orDead) - orPulserDT;
       }
@@ -525,7 +523,6 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
         return;
       }
 
-      // LN reduction - depends on if channel is M1 or M2
       GATDetInfoProcessor gp;
       int detID = gp.GetDetIDFromName( chMap->GetString(ch, "kDetectorName") );
       if (CheckModule(detID)==1) {
@@ -536,14 +533,11 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
         channelLivetimeHL[ch] -= m2LNDeadRun;
         thisORLivetime -= m2LNDeadRun;
       }
-
-      // Veto reduction - applies to all channels in BOTH modules.
       channelLivetimeHL[ch] -= vetoDeadRun;
       thisORLivetime -= vetoDeadRun;
 
       livetimeMapHL[ch].push_back(thisORLivetime/thisRunTime);
     }
-
 
     // Done with this run.
     delete bltFile;
@@ -568,11 +562,14 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
   double m1EnrExp=0, m1NatExp=0, m2EnrExp=0, m2NatExp=0;
   double m1EnrActMass=0, m1NatActMass=0, m2EnrActMass=0, m2NatActMass=0;
   map <int,double> channelExposure;
-  for (auto &live : channelLivetime) // exact calculation, including deadtimes
-  // for (auto &raw: channelRuntime) // runtime calculation do it gerda style
+
+  // If we don't have dead time information, just report runtime exposure.
+  map <int,double> loopDummy;
+  if (noDT) loopDummy = channelRuntime;
+  else loopDummy = channelLivetime;
+
+  for (auto &live : loopDummy)
   {
-    // int chan = raw.first;
-    // double livetime = raw.second;
     int chan = live.first;
     double livetime = live.second;
     int detID = detChanToDetIDMap[chan];
