@@ -686,7 +686,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   printf("Total average uncertainty: %f\n",getVectorUncertainty(allAvg));
   printf("Average channel uncertainty: %f\n",getVectorAverage(allUnc));
 
-  cout << "Detector summary with best (H or L) gain: \n";
+  cout << "\nDetector summary with best (H or L) gain: \n";
   for(auto &pair : channelLivetimeHL) {
     int chan = pair.first;
     int detID = detChanToDetIDMap[chan];
