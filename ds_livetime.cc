@@ -61,6 +61,8 @@ void locateRunRange(int run, map<int,vector<string>> ranges, int& runInSet, stri
 map<int, vector<string>> getDeadtimeRanges(int dsNum, int dsNum_hi=-1) ;
 double getTotalLivetimeUncertainty(map<int, double> livetimes);
 double getLivetimeAverage(map<int, double> livetimes);
+double getVectorUncertainty(vector<double> aVector);
+double getVectorAverage(vector<double> aVector);
 
 int main(int argc, char** argv)
 {
@@ -628,8 +630,8 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
     int detID = detChanToDetIDMap[chan];
     if (detID==-1) continue; // don't print pulser monitor chans
     double activeMass = actM4Det_g[detID]/1000;
-    double dtAvg = getLivetimeAverage(deadtimeMap[chan]);
-    double dtUnc = getTotalLivetimeUncertainty(deadtimeMap[chan]);
+    double dtAvg = getVectorAverage(deadtimeMap[chan]);
+    double dtUnc = getVectorUncertainty(deadtimeMap[chan]);
     cout << Form("%i  %-8i  %.2f kg  DT Avg: %.2f  DT Unc.: %.2f  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, dtAvg, dtUnc, raw.second, channelLivetime[chan], channelExposure[chan]);
     // cout << Form("%i  %-7i  %.2fkg  Livetime: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelExposure[chan]);
   }
@@ -929,6 +931,35 @@ double getLivetimeAverage(map<int, double> livetimes)
   {
     sum_x += values.second;
     n++;
+  }
+  return sum_x / n;
+}
+
+double getVectorUncertainty(vector<double> aVector)
+{
+  double sum_x = 0;
+  double sum_x2 = 0;
+  int n = aVector.size();
+
+  for (int i=0; i<n; i++)
+  {
+    sum_x += aVector[i]
+    sum_x2 += aVector[i]*vaVector[i];
+  }
+  double mean = sum_x / n;
+  double stdev = sqrt((sum_x2 / n) - (mean * mean));
+  return stdev / sqrt(n) ;
+
+}
+
+double getVectorAverage(vector<double> aVector)
+{
+  double sum_x = 0;
+  int n = aVector.size();
+
+  for (int i=0; i<n; i++)
+  {
+    sum_x += aVector[i]
   }
   return sum_x / n;
 }
