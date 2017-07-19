@@ -208,7 +208,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
       dtMap.clear();
       while (getline(dtFile, buffer))
       {
-        int id, pos, p1, p2, p3, p4, p5, p6;
+        int id, pos;
+        double p1, p2, p3, p4, p5, p6;
         double hgFWHM, hgNeg, hgPos, hgDead;
         double lgFWHM, lgNeg, lgPos, lgDead;
         double orDead;
@@ -217,7 +218,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
         iss >> id >> pos >> hgFWHM >> hgNeg >> hgPos >> hgDead
             >> lgFWHM >> lgNeg >> lgPos >> lgDead >> orDead
             >> det >> p1 >> p2 >> p3 >> p4 >> p5 >> p6;
-        cout << Form("%i %i %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %i %i %i %i %i %i\n" ,id,pos,hgFWHM,hgNeg,hgPos,hgDead,lgFWHM,lgNeg,lgPos,lgDead,orDead,det.c_str(),p1,p2,p3,p4,p5,p6);
+        cout << Form("%i %i %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %.0f %.0f %.0f %.0f %.0f %.0f\n" ,id,pos,hgFWHM,hgNeg,hgPos,hgDead,lgFWHM,lgNeg,lgPos,lgDead,orDead,det.c_str(),p1,p2,p3,p4,p5,p6);
 
         // Check if anything is nan.  We'll take it to mean 100% dead.
         // This is maximally conservative, as it could be 100% live.
@@ -226,7 +227,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
         if(orDead != orDead) orDead = 100.0;
 
         // fill the deadtime map
-        dtMap[det] = {hgDead,lgDead,orDead,(double)p1,(double)p2,(double)p3};
+        dtMap[det] = {hgDead,lgDead,orDead,p1,p2,p3};
       }
 
       // Save the subset number
@@ -346,16 +347,18 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
     m1LNDead += m1LNDeadRun;
     m2LNDead += m2LNDeadRun;
 
-    // Calculate each enabled detector's livetime.
+    // Calculate each enabled detector's runtime and livetime for this run.
+    // NOTES:
+    // - For each run, get a list (vector) of enabled channels.
+    //   Then use the DataSetInfo veto-only and bad lists to pop channels from the list.
+    //   Then look for a GATChannelSelectionInfo file and pop any additional channels.
+    //   We don't count the runtime OR livetime from detectors that are on these lists.
+    // - If we're applying a burst cut for this run, remove the affected channels.
+    // - TODO: If we don't have a deadtime file, report only the runtime.
+
     MJTChannelMap *chMap = (MJTChannelMap*)bltFile->Get("ChannelMap");
     MJTChannelSettings *chSet = (MJTChannelSettings*)bltFile->Get("ChannelSettings");
     vector<uint32_t> enabledIDs = chSet->GetEnabledIDList();
-
-    // Apply the DataSetInfo veto-only and bad lists regardless of having a channel selection object.
-    // Don't count the livetime from detectors that are on these lists.
-    // Also, save the channel to detID map for the exposure calculation.
-    // Look for a GATChannelSelectionInfo file and remove the enabledID if it's flagged as bad.
-    // If we're applying a burst cut for this run, remove the affected channels.
 
     vector<uint32_t>::iterator ite = enabledIDs.begin();
     while (ite != enabledIDs.end()){
