@@ -614,8 +614,6 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
          << "\tRaw Livetime : " << rawLive << "\n"
          << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/rawLive << ")\n"
          << "\tLN Deadtime : " << m1LNDead << " (" << m1LNDead/rawLive << ")\n"
-         << "\tAverage Channel Livetime: " << getLivetimeAverage(channelLivetime) << "\n"
-         << "\tTotal livetime uncertainty: " << getTotalLivetimeUncertainty(channelLivetime) << "\n"
                  //  << "\tFinal Livetime : " << rawLive-m1LNDead-vetoDead << "\n"
          << "\tActive Enr Mass : " << m1EnrActMass  << "\n"
          << "\tActive Nat Mass : " << m1NatActMass << "\n"
@@ -627,8 +625,6 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
          << "\tRaw Livetime : " << rawLive << "\n"
          << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/rawLive << ")\n"
          << "\tLN Deadtime : " << m2LNDead << " (" << m2LNDead/rawLive << ")\n"
-         << "\tAverage Channel Livetime: " << getLivetimeAverage(channelLivetime) << "\n"
-         << "\tTotal Livetime uncertainty: " << getTotalLivetimeUncertainty(channelLivetime) << "\n"
         //  << "\tFinal Livetime : " << rawLive-m2LNDead-vetoDead << "\n"
          << "\tActive Enr Mass : " << m2EnrActMass  << "\n"
          << "\tActive Nat Mass : " << m2NatActMass << "\n"
@@ -652,6 +648,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
     cout << Form("%i  %-8i  %.2f kg  LT Frac Avg: %.5f  LT Frac Unc.: %.5f  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, ltAvg, ltUnc, raw.second, channelLivetime[chan], channelExposure[chan]);
     // cout << Form("%i  %-7i  %.2fkg  Livetime: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelExposure[chan]);
   }
+  printf("Channel livetime average: %f", getLivetimeAverage(channelLivetime));
+  printf("Channel livetime avg unc: %f", getTotalLivetimeUncertainty(channelLivetime) );
   printf("Total average livetime: %f\n",getVectorAverage(allAvg));
   printf("Total average uncertainty: %f\n",getVectorUncertainty(allAvg));
   printf("Average channel uncertainty: %f\n",getVectorAverage(allUnc));
