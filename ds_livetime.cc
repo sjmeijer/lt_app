@@ -600,7 +600,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   // The masses are the same as previous HG calc
   double m1EnrExpHL=0, m1NatExpHL=0, m2EnrExpHL=0, m2NatExpHL=0;
   // double m1EnrActMassHL=0, m1NatActMassHL=0, m2EnrActMassHL=0, m2NatActMassHL=0;
-  map <int,double> detectorExposureHL;
+  map <int,double> detectorExposure;
 
   if(!noDT) // only do this if we are using the full deadtime
   {
@@ -648,6 +648,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
          << "\tActive Nat Mass : " << m1NatActMass << "\n"
          << "\tFinal Enr Exposure : " << m1EnrExp << "\n"
          << "\tFinal Nat Exposure : " << m1NatExp << "\n";
+         << "\tFinal Enr Exposure H/L: " << m1EnrExpHL << "\n"
+         << "\tFinal Nat Exposure H/L: " << m1NatExpHL << "\n";
   }
   if (mod2) {
     cout << "Module 2:\n"
@@ -659,6 +661,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
          << "\tActive Nat Mass : " << m2NatActMass << "\n"
          << "\tFinal Enr Exposure : " << m2EnrExp << "\n"
          << "\tFinal Nat Exposure : " << m2NatExp << "\n";
+         << "\tFinal Enr Exposure H/L: " << m2EnrExpHL << "\n"
+         << "\tFinal Nat Exposure H/L: " << m2NatExpHL << "\n";
   }
 
   // Subtract veto time and print channel by channel summary
@@ -691,10 +695,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     if (detID==-1) continue; // don't print pulser monitor chans
     double activeMass = actM4Det_g[detID]/1000;
     cout << Form("%i  %-8i  %.2f kg  LT Frac Avg: %.5f  LT Frac Unc.: %.5f  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, ltAvg, ltUnc, pair.second, channelLivetimeHL[chan], detectorExposure[detID]);
-
   }
-  detectorExposure[detID]
-
 }
 
 
