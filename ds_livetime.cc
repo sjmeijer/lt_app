@@ -943,7 +943,7 @@ double getVectorUncertainty(vector<double> aVector)
 
   for (int i=0; i<n; i++)
   {
-    sum_x += aVector[i]
+    sum_x += aVector[i];
     sum_x2 += aVector[i]*vaVector[i];
   }
   double mean = sum_x / n;
@@ -959,7 +959,7 @@ double getVectorAverage(vector<double> aVector)
 
   for (int i=0; i<n; i++)
   {
-    sum_x += aVector[i]
+    sum_x += aVector[i];
   }
   return sum_x / n;
 }
