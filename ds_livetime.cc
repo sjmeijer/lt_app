@@ -217,6 +217,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
   double rawLive=0, vetoLive=0, vetoDead=0, m1LNDead=0, m2LNDead=0;
   map <int,double> channelRuntime, channelLivetime, channelLivetimeML;
   map <int,int> detChanToDetIDMap;
+  map <int,vector<double>> deadtimeMap;
   map<string, vector<double>> dtMap;
   time_t prevStop=0;
   int prevSubSet=-1;
@@ -497,22 +498,20 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
 
         // Calculate livetime for this channel
         if (ch%2 == 0) {
-          channelLivetime[ch] += (double)(stop-start) * (1 - hgDead);
+          channelLivetime[ch] += (double)(stop-start) * (1 - hgDead) - hgPulserDT;
+          deadtimeMap[ch].push_back(1.0-hgDead)
           // printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],(double)(stop-start), hgDead);
         }
         if (ch%2 == 1){
-          channelLivetime[ch] += (double)(stop-start) * (1 - lgDead);
+          channelLivetime[ch] += (double)(stop-start) * (1 - lgDead) - lgPulserDT;
+          deadtimeMap[ch].push_back(1.0-lgDead)
           // printf("   livetime[%d]: %f   ,%.3f  *   (1 - %f)\n",ch,channelLivetime[ch],(double)(stop-start), lgDead);
         }
 
-        // Remove some for the pulser deadtime
-        if (ch%2 == 0) channelLivetime[ch] -= hgPulserDT;
-        if (ch%2 == 1) channelLivetime[ch] -= lgPulserDT;
-
         // TODO: we need an object with one entry for every DETECTOR, not channel.
         // Maybe the best way to do that is to form it from "channelLivetimeML" AFTER this loop.
-        channelLivetimeML[ch] += (double)(stop-start) * (1 - orDead);
-        channelLivetimeML[ch] -= orPulserDT;
+        channelLivetimeML[ch] += (double)(stop-start) * (1 - orDead) - orPulserDT;
+        deadtimeMap[ch].push_back(1.0-orDead)
       }
       else {
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
@@ -629,7 +628,9 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
     int detID = detChanToDetIDMap[chan];
     if (detID==-1) continue; // don't print pulser monitor chans
     double activeMass = actM4Det_g[detID]/1000;
-    cout << Form("%i  %-8i  %.2f kg  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelLivetime[chan], channelExposure[chan]);
+    double dtAvg = getLivetimeAverage(deadtimeMap[ch]);
+    double dtUnc = getTotalLivetimeUncertainty(deadtimeMap[ch]);
+    cout << Form("%i  %-8i  %.2f kg  DT Avg: LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, dtAvg, dtUnc, raw.second, channelLivetime[chan], channelExposure[chan]);
     // cout << Form("%i  %-7i  %.2fkg  Livetime: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelExposure[chan]);
   }
 }
