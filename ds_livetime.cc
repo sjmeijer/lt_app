@@ -43,7 +43,7 @@ int mergeIntervals(vector<pair<int,int>> vals, int start, int stop);
 map<int,vector<int>> LoadBurstCut();
 void getDBRunList(int &dsNum, double &ElapsedTime, string options, vector<int> &runList, vector<pair<int,double>> &times);
 void locateRunRange(int run, map<int,vector<string>> ranges, int& runInSet, string& dtFilePath);
-map<int, vector<string>> getDeadtimeMap(int dsNum, int dsNum_hi=-1) ;
+map<int, vector<string>> getDeadtimeMap(int dsNum, bool& noDT, int dsNum_hi=-1) ;
 double getTotalLivetimeUncertainty(map<int, double> livetimes);
 double getLivetimeAverage(map<int, double> livetimes);
 double getVectorUncertainty(vector<double> aVector);
@@ -119,8 +119,7 @@ int main(int argc, char** argv)
     vector<int> runList;
     vector<pair<int,double>> times;
     getDBRunList(dsNum, ElapsedTime, runDBOpt, runList, times); // auto-detects dsNum
-    map<int, vector<string>> ranges = getDeadtimeMap(0,5); // we don't know what DS we're in, so load them all.
-
+    map<int, vector<string>> ranges = getDeadtimeMap(0,noDT,5); // we don't know what DS we're in, so load them all.
     // -- Main routine --
     calculateLiveTime(runList,dsNum,raw,rdb,noDT,ranges,times);
   }
@@ -132,7 +131,7 @@ int main(int argc, char** argv)
     cout << "Scanning DS-" << dsNum << endl;
     for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
     for (size_t i = 0; i < ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
-    map<int, vector<string>> ranges = getDeadtimeMap(dsNum);
+    map<int, vector<string>> ranges = getDeadtimeMap(dsNum,noDT);
     map<int,vector<int>> burst = LoadBurstCut(); // (low-energy run+channel selection)
 
     // -- Main routine --
@@ -188,13 +187,11 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
     cout << "Scanning run " << run << endl;
 
-    // locate subset and first run in set numbers.
-    int runInSet;
+     // Load the deadtime file ONLY when the subset changes.
+    int runInSet = -1;
     string dtFilePath;
-    locateRunRange(run,ranges,runInSet,dtFilePath);
-
-    // Load the deadtime file ONLY when the subset changes and repopulate the deadtime map 'dtMap'.
-    if (runInSet != prevSubSet)
+    if (!noDT) locateRunRange(run,ranges,runInSet,dtFilePath);
+    if (!noDT && (runInSet != prevSubSet))
     {
       cout << "Subset " << runInSet << ", loading DT file:" << dtFilePath << endl;
       ifstream dtFile(dtFilePath.c_str());
@@ -445,6 +442,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       channelRuntime[ch] += thisRunTime; // creates new entry if one doesn't exist
 
       // HG and LG Livetime
+      if (noDT) continue;
       string pos = chMap->GetDetectorPos(ch);
       double thisLiveTime = 0;
       if (dtMap.find(pos) != dtMap.end())
@@ -503,6 +501,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     for (auto ch : bestIDs)
     {
       if (detChanToDetIDMap[ch] == -1) continue;
+      if (noDT) continue;
 
       double thisLivetime = 0;
       string pos = chMap->GetDetectorPos(ch);
@@ -874,7 +873,7 @@ void locateRunRange(int run, map<int,vector<string>> ranges, int& runInSet, stri
 
 // Parses the 'lis' files in ./deadtime/ to make a range map.
 // The first string is the file path, the rest are the 'int' run ranges.
-map<int, vector<string>> getDeadtimeMap(int dsNum, int dsNum_hi)
+map<int, vector<string>> getDeadtimeMap(int dsNum, bool& noDT, int dsNum_hi)
 {
   map<int, vector<string>> ranges;
 
@@ -891,7 +890,6 @@ map<int, vector<string>> getDeadtimeMap(int dsNum, int dsNum_hi)
     // Find runlist files for this dataset
     string command = Form("ls ./deadtime/ds%i_*.lis",ds);
     if (ds==5) command = Form("ls ./deadtime/DS*.lis");
-    cout << "command is " << command << endl;
     array<char, 128> buffer;
     vector<string> files;
     string str;
@@ -904,6 +902,13 @@ map<int, vector<string>> getDeadtimeMap(int dsNum, int dsNum_hi)
         files.push_back(str);
       }
     }
+
+    // If we didn't find any files, set noDT = true and return.
+    if (files.size()==0) {
+      noDT=1;
+      return ranges;
+    }
+    
     // Build the ranges.  Quit at the first sign of trouble.
     for (auto file : files)
     {
