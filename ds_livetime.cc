@@ -247,8 +247,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
     }
     else {
       MJTRun *runInfo = (MJTRun*)bltFile->Get("run");
-      start = runInfo->GetStartTime();
-      stop = runInfo->GetStopTime();
+      start = runInfo->GetStartClockTime();
+      stop = runInfo->GetStopClockTime();
       struct tm *tmStart, *tmStop;  // I dunno if this is the best way to check for bad start/stop vals
       tmStart = gmtime(&start), tmStop = gmtime(&stop);
       int yrStart = 1900+tmStart->tm_year, yrStop = 1900+tmStop->tm_year;
