@@ -647,7 +647,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
          << "\tActive Enr Mass : " << m1EnrActMass  << "\n"
          << "\tActive Nat Mass : " << m1NatActMass << "\n"
          << "\tFinal Enr Exposure : " << m1EnrExp << "\n"
-         << "\tFinal Nat Exposure : " << m1NatExp << "\n";
+         << "\tFinal Nat Exposure : " << m1NatExp << "\n"
          << "\tFinal Enr Exposure H/L: " << m1EnrExpHL << "\n"
          << "\tFinal Nat Exposure H/L: " << m1NatExpHL << "\n";
   }
@@ -660,7 +660,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
          << "\tActive Enr Mass : " << m2EnrActMass  << "\n"
          << "\tActive Nat Mass : " << m2NatActMass << "\n"
          << "\tFinal Enr Exposure : " << m2EnrExp << "\n"
-         << "\tFinal Nat Exposure : " << m2NatExp << "\n";
+         << "\tFinal Nat Exposure : " << m2NatExp << "\n"
          << "\tFinal Enr Exposure H/L: " << m2EnrExpHL << "\n"
          << "\tFinal Nat Exposure H/L: " << m2NatExpHL << "\n";
   }
