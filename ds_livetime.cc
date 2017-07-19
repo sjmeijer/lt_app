@@ -694,6 +694,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
     if (detID==-1) continue; // don't print pulser monitor chans
     double activeMass = actM4Det_g[detID]/1000;
+    double ltAvg = getVectorAverage(livetimeMapHL[chan]);
+    double ltUnc = getVectorUncertainty(livetimeMapHL[chan]);
     cout << Form("%i  %-8i  %.2f kg  LT Frac Avg: %.5f  LT Frac Unc.: %.5f  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, ltAvg, ltUnc, pair.second, channelLivetimeHL[chan], detectorExposure[detID]);
   }
 }
