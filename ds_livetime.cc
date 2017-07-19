@@ -420,14 +420,13 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
       cout << endl;
     }
 
+
+    // Finally, add to the runtime and deadtime of ONLY GOOD detectors.
     vector<uint32_t> bestIDs;
     bestIDs = getBestIDs(enabledIDs);
-
-    // Finally, add to the raw and reduced livetime of ONLY GOOD detectors.
     for (auto ch : enabledIDs)
     {
-      // don't include pulser monitors.
-      if (detChanToDetIDMap[ch] == -1) continue;
+      if (detChanToDetIDMap[ch] == -1) continue;  // don't include pulser monitors.
 
       // Runtime
       channelRuntime[ch] += (double)(stop-start); // creates new entry if one doesn't exist
