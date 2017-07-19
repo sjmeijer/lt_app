@@ -504,7 +504,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     {
       if (detChanToDetIDMap[ch] == -1) continue;
 
-      double thisORLivetime = 0;
+      double thisLivetime = 0;
       string pos = chMap->GetDetectorPos(ch);
       if (dtMap.find(pos) != dtMap.end())
       {
@@ -516,7 +516,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         double orPulserDT = orPulsers*(dsNum==2?100e-6:62e-6);
 
         channelLivetimeHL[ch] += thisRunTime * (1 - orDead) - orPulserDT;
-        thisORLivetime += thisRunTime * (1 - orDead) - orPulserDT;
+        thisLivetime += thisRunTime * (1 - orDead) - orPulserDT;
       }
       else {
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
@@ -527,16 +527,16 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       int detID = gp.GetDetIDFromName( chMap->GetString(ch, "kDetectorName") );
       if (CheckModule(detID)==1) {
         channelLivetimeHL[ch] -= m1LNDeadRun;
-        thisORLivetime -= m1LNDeadRun;
+        thisLivetime -= m1LNDeadRun;
       }
       if (CheckModule(detID)==2) {
         channelLivetimeHL[ch] -= m2LNDeadRun;
-        thisORLivetime -= m2LNDeadRun;
+        thisLivetime -= m2LNDeadRun;
       }
       channelLivetimeHL[ch] -= vetoDeadRun;
-      thisORLivetime -= vetoDeadRun;
+      thisLivetime -= vetoDeadRun;
 
-      livetimeMapHL[ch].push_back(thisORLivetime/thisRunTime);
+      livetimeMapHL[ch].push_back(thisLivetime/thisRunTime);
     }
 
     // Done with this run.
