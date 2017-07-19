@@ -173,7 +173,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
   map<int,bool> detIsEnr = LoadEnrNatMap();
 
   // Start loop over runs.
-  double rawLive=0, vetoLive=0, vetoDead=0, m1LNDead=0, m2LNDead=0;
+  double runTime=0, vetoLive=0, vetoDead=0, m1LNDead=0, m2LNDead=0;
   map <int,double> channelRuntime, channelLivetime, channelLivetimeHL;
   map <int,int> detChanToDetIDMap;
   map <int,vector<double>> livetimeMap, livetimeMapHL;
@@ -240,9 +240,10 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
     TFile *bltFile = new TFile(bltPath.c_str());
 
     // Get start/stop time, and add to raw live time
-    double start=0, stop=0;
+    double start=0, stop=0, thisRunTime=0;
+    time_t startUnix=0, stopUnix=0;
     if (runDB) {
-      rawLive += times[r].second;
+      runTime += times[r].second;
       stop = (double)times[r].first;
       start = (double)times[r].first - (double)times[r].second;
     }
@@ -250,7 +251,19 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
       MJTRun *runInfo = (MJTRun*)bltFile->Get("run");
       start = runInfo->GetStartClockTime();
       stop = runInfo->GetStopClockTime();
-      rawLive += (double)(stop - start)/1e9;
+      thisRunTime = (stop-start)/1e9;
+      runTime += thisRunTime;
+
+      // need unix times for LN fill deadtime calculation
+      startUnix = runInfo->GetStartTime();
+      stopUnix = runInfo->GetStopTime();
+      struct tm *tmStart, *tmStop;  // I dunno if this is the best way to check for bad start/stop vals
+      tmStart = gmtime(&startUnix), tmStop = gmtime(&stopUnix);
+      int yrStart = 1900+tmStart->tm_year, yrStop = 1900+tmStop->tm_year;
+      if (yrStart < 2005 || yrStart > 2025 || yrStop < 2005 || yrStart > 2025) {
+        cout << Form("Run %i has corrupted start/stop packets.  Start (yr%i) %li  Stop (yr %i) %li.  Continuing...\n", run,yrStart,startUnix,yrStop,stopUnix);
+        continue;
+      }
     }
     if (raw) {
       delete bltFile;
@@ -334,8 +347,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
            (fill > stop && fill-loFill < stop))      // < 15 mins after this run
            runFills[mod].push_back(make_pair(fill-loFill,fill+hiFill));
     }
-    if (mod1 && runFills[0].size() > 0) m1LNDeadRun = mergeIntervals(runFills[0],start,stop);
-    if (mod2 && runFills[1].size() > 0) m2LNDeadRun = mergeIntervals(runFills[1],start,stop);
+    if (mod1 && runFills[0].size() > 0) m1LNDeadRun = mergeIntervals(runFills[0],startUnix,stopUnix);
+    if (mod2 && runFills[1].size() > 0) m2LNDeadRun = mergeIntervals(runFills[1],startUnix,stopUnix);
     // if (m1LNDeadRun > 0 || m2LNDeadRun > 0) cout << Form("Fill: Run %i  mod1: %i  mod2 %i\n",run,m1LNDeadRun,m2LNDeadRun);
     m1LNDead += m1LNDeadRun;
     m2LNDead += m2LNDeadRun;
@@ -429,7 +442,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
       if (detChanToDetIDMap[ch] == -1) continue;  // don't include pulser monitors.
 
       // Runtime
-      channelRuntime[ch] += (double)(stop-start); // creates new entry if one doesn't exist
+      channelRuntime[ch] += thisRunTime; // creates new entry if one doesn't exist
 
       // Bookkeeping for getting averages and uncertainty
       double thisLT = 0; // gives the livetime for this channel for this run.
@@ -458,12 +471,12 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
 
         // Calculate livetime for this channel
         if (ch%2 == 0) {
-          channelLivetime[ch] += (double)(stop-start) * (1 - hgDead) - hgPulserDT;
-          thisLT += (double)(stop-start) * (1 - hgDead) - hgPulserDT;
+          channelLivetime[ch] += thisRunTime * (1 - hgDead) - hgPulserDT;
+          thisLT += thisRunTime * (1 - hgDead) - hgPulserDT;
         }
         if (ch%2 == 1){
-          channelLivetime[ch] += (double)(stop-start) * (1 - lgDead) - lgPulserDT;
-          thisLT += (double)(stop-start) * (1 - lgDead) - lgPulserDT;
+          channelLivetime[ch] += thisRunTime * (1 - lgDead) - lgPulserDT;
+          thisLT += thisRunTime * (1 - lgDead) - lgPulserDT;
         }
 
       }
@@ -488,7 +501,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
       channelLivetime[ch] -= vetoDeadRun;
       thisLT -= vetoDeadRun;
 
-      livetimeMap[ch].push_back(thisLT/(double)(stop-start));
+      livetimeMap[ch].push_back(thisLT/thisRunTime);
     }
 
     // now do a loop for just the "best" channels
@@ -498,7 +511,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
       if (detChanToDetIDMap[ch] == -1) continue;
 
       // Runtime is the same for all channels in the same run
-      // channelRuntime[ch] += (double)(stop-start); // creates new entry if one doesn't exist
+      // channelRuntime[ch] += thisRunTime; // creates new entry if one doesn't exist
 
       // Bookkeeping for getting averages and uncertainty
       double ORthisLT = 0; // gives the livetime for the OR of HL channels for this run.
@@ -517,8 +530,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
         double orPulserDT = orPulsers*(dsNum==2?100e-6:62e-6);
 
         // Calculate livetime for this channel
-        channelLivetimeHL[ch] += (double)(stop-start) * (1 - orDead) - orPulserDT;
-        ORthisLT += (double)(stop-start) * (1 - orDead) - orPulserDT;
+        channelLivetimeHL[ch] += thisRunTime * (1 - orDead) - orPulserDT;
+        ORthisLT += thisRunTime * (1 - orDead) - orPulserDT;
       }
       else {
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
@@ -541,7 +554,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
       channelLivetimeHL[ch] -= vetoDeadRun;
       ORthisLT -= vetoDeadRun;
 
-      livetimeMapHL[ch].push_back(ORthisLT/(double)(stop-start));
+      livetimeMapHL[ch].push_back(ORthisLT/thisRunTime);
     }
 
 
@@ -551,7 +564,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
 
   // Calculate channel-by-channel exposure in kg-days
 
-  rawLive = rawLive/86400;  // 86400 seconds = 1 day
+  runTime = runTime/86400;  // 86400 seconds = 1 day
   vetoLive = vetoLive/86400;
   vetoDead = vetoDead/86400;
   m1LNDead = m1LNDead/86400;
@@ -606,10 +619,10 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
        << "\tRaw Veto Livetime " << vetoLive << "\n";
   if (mod1) {
     cout << "Module 1:\n"
-         << "\tRaw Livetime : " << rawLive << "\n"
-         << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/rawLive << ")\n"
-         << "\tLN Deadtime : " << m1LNDead << " (" << m1LNDead/rawLive << ")\n"
-                 //  << "\tFinal Livetime : " << rawLive-m1LNDead-vetoDead << "\n"
+         << "\tRaw Runtime : " << runTime << "\n"
+         << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/runTime << ")\n"
+         << "\tLN Deadtime : " << m1LNDead << " (" << m1LNDead/runTime << ")\n"
+                 //  << "\tFinal Livetime : " << runTime-m1LNDead-vetoDead << "\n"
          << "\tActive Enr Mass : " << m1EnrActMass  << "\n"
          << "\tActive Nat Mass : " << m1NatActMass << "\n"
          << "\tFinal Enr Exposure : " << m1EnrExp << "\n"
@@ -617,10 +630,10 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
   }
   if (mod2) {
     cout << "Module 2:\n"
-         << "\tRaw Livetime : " << rawLive << "\n"
-         << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/rawLive << ")\n"
-         << "\tLN Deadtime : " << m2LNDead << " (" << m2LNDead/rawLive << ")\n"
-        //  << "\tFinal Livetime : " << rawLive-m2LNDead-vetoDead << "\n"
+         << "\tRaw Runtime : " << runTime << "\n"
+         << "\tVeto Deadtime : " << vetoDead << " (" << vetoDead/runTime << ")\n"
+         << "\tLN Deadtime : " << m2LNDead << " (" << m2LNDead/runTime << ")\n"
+        //  << "\tFinal Livetime : " << runTime-m2LNDead-vetoDead << "\n"
          << "\tActive Enr Mass : " << m2EnrActMass  << "\n"
          << "\tActive Nat Mass : " << m2NatActMass << "\n"
          << "\tFinal Enr Exposure : " << m2EnrExp << "\n"
