@@ -43,7 +43,7 @@ int mergeIntervals(vector<pair<int,int>> vals, int start, int stop);
 map<int,vector<int>> LoadBurstCut();
 void getDBRunList(int &dsNum, double &ElapsedTime, string options, vector<int> &runList, vector<pair<int,double>> &times);
 void locateRunRange(int run, map<int,vector<string>> ranges, int& runInSet, string& dtFilePath);
-map<int, vector<string>> getDeadtimeMap(int dsNum, int dsNum_hi=-1) ;
+map<int, vector<string>> getDeadtimeMap(int dsNum, bool noDT=0, int dsNum_hi=-1) ;
 double getTotalLivetimeUncertainty(map<int, double> livetimes);
 double getLivetimeAverage(map<int, double> livetimes);
 double getVectorUncertainty(vector<double> aVector);
