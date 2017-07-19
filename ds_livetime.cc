@@ -43,7 +43,7 @@ int mergeIntervals(vector<pair<int,int>> vals, int start, int stop);
 map<int,vector<int>> LoadBurstCut();
 void getDBRunList(int &dsNum, double &ElapsedTime, string options, vector<int> &runList, vector<pair<int,double>> &times);
 void locateRunRange(int run, map<int,vector<string>> ranges, int& runInSet, string& dtFilePath);
-map<int, vector<string>> getDeadtimeMap(int dsNum, bool& noDT, int dsNum_hi=-1) ;
+map<int, vector<string>> getDeadtimeMap(int dsNum, int dsNum_hi=-1) ;
 double getTotalLivetimeUncertainty(map<int, double> livetimes);
 double getLivetimeAverage(map<int, double> livetimes);
 double getVectorUncertainty(vector<double> aVector);
@@ -119,7 +119,7 @@ int main(int argc, char** argv)
     vector<int> runList;
     vector<pair<int,double>> times;
     getDBRunList(dsNum, ElapsedTime, runDBOpt, runList, times); // auto-detects dsNum
-    map<int, vector<string>> ranges = getDeadtimeMap(0,noDT,5); // we don't know what DS we're in, so load them all.
+    map<int, vector<string>> ranges = getDeadtimeMap(0,5); // we don't know what DS we're in, so load them all.
 
     // -- Main routine --
     calculateLiveTime(runList,dsNum,raw,rdb,noDT,ranges,times);
@@ -132,7 +132,7 @@ int main(int argc, char** argv)
     cout << "Scanning DS-" << dsNum << endl;
     for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
     for (size_t i = 0; i < ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
-    map<int, vector<string>> ranges = getDeadtimeMap(dsNum,noDT);
+    map<int, vector<string>> ranges = getDeadtimeMap(dsNum);
     map<int,vector<int>> burst = LoadBurstCut(); // (low-energy run+channel selection)
 
     // -- Main routine --
@@ -188,11 +188,13 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
     cout << "Scanning run " << run << endl;
 
-    // Load the deadtime file ONLY when the subset changes.
-    int runInSet = -1;
+    // locate subset and first run in set numbers.
+    int runInSet;
     string dtFilePath;
-    if (!noDT) locateRunRange(run,ranges,runInSet,dtFilePath);
-    if (!noDT && (runInSet != prevSubSet))
+    locateRunRange(run,ranges,runInSet,dtFilePath);
+
+    // Load the deadtime file ONLY when the subset changes and repopulate the deadtime map 'dtMap'.
+    if (runInSet != prevSubSet)
     {
       cout << "Subset " << runInSet << ", loading DT file:" << dtFilePath << endl;
       ifstream dtFile(dtFilePath.c_str());
@@ -443,7 +445,6 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       channelRuntime[ch] += thisRunTime; // creates new entry if one doesn't exist
 
       // HG and LG Livetime
-      if (noDT) continue;
       string pos = chMap->GetDetectorPos(ch);
       double thisLiveTime = 0;
       if (dtMap.find(pos) != dtMap.end())
@@ -502,7 +503,6 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     for (auto ch : bestIDs)
     {
       if (detChanToDetIDMap[ch] == -1) continue;
-      if (noDT) continue;
 
       double thisLivetime = 0;
       string pos = chMap->GetDetectorPos(ch);
@@ -596,6 +596,43 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     // cout << Form("Mass - detID %i  mod %i  enr? %i  mass %.3f\n", detID,CheckModule(detID),detIsEnr[detID],activeMass);
   }
 
+  // Now calculate it again for the "best" gain scenario
+  // The masses are the same as previous HG calc
+  double m1EnrExpHL=0, m1NatExpHL=0, m2EnrExpHL=0, m2NatExpHL=0;
+  // double m1EnrActMassHL=0, m1NatActMassHL=0, m2EnrActMassHL=0, m2NatActMassHL=0;
+  map <int,double> detectorExposureHL;
+
+  if(!noDT) // only do this if we are using the full deadtime
+  {
+    for (auto &live : channelLivetimeHL)
+    {
+      int chan = live.first;
+      double livetime = live.second;
+      int detID = detChanToDetIDMap[chan];
+      double activeMass = actM4Det_g[detID]/1000;
+      detectorExposure[detID] = activeMass * livetime;
+
+      if ( detID==-1) continue; // don't double count detectors or include pulser monitors
+
+      if (CheckModule(detID)==1 && detIsEnr[detID]==1) {
+        m1EnrExpHL += detectorExposure[detID];
+        // m1EnrActMass += activeMass;
+      }
+      if (CheckModule(detID)==1 && detIsEnr[detID]==0) {
+        m1NatExpHL += detectorExposure[detID];
+        // m1NatActMass += activeMass;
+      }
+      if (CheckModule(detID)==2 && detIsEnr[detID]==1) {
+        m2EnrExpHL += detectorExposure[detID];
+        // m2EnrActMass += activeMass;
+      }
+      if (CheckModule(detID)==2 && detIsEnr[detID]==0) {
+        m2NatExpHL += detectorExposure[detID];
+        // m2NatActMass += activeMass;
+      }
+  }
+
+
   // Print results by module.
   time_t t = time(0);   // get time now
   struct tm * now = localtime( & t );
@@ -637,7 +674,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     double ltUnc = getVectorUncertainty(livetimeMap[chan]);
     allAvg.push_back(ltAvg);
     allUnc.push_back(ltUnc);
-    cout << Form("%i  %-8i  %.2f kg  LT Frac Avg: %.5f  LT Frac Unc.: %.5f  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, ltAvg, ltUnc, raw.second, channelLivetime[chan], channelExposure[chan]);
+    cout << Form("%i  %-8i  %.2f kg  LT Frac Avg: %.5f  LT Frac Unc.: %.5f  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f \n", chan, detID, activeMass, ltAvg, ltUnc, raw.second, channelLivetime[chan], channelExposure[chan]);
     // cout << Form("%i  %-7i  %.2fkg  Livetime: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, raw.second, channelExposure[chan]);
   }
   printf("Channel livetime average: %f\n", getLivetimeAverage(channelLivetime));
@@ -645,6 +682,19 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   printf("Total average livetime: %f\n",getVectorAverage(allAvg));
   printf("Total average uncertainty: %f\n",getVectorUncertainty(allAvg));
   printf("Average channel uncertainty: %f\n",getVectorAverage(allUnc));
+
+  cout << "Detector summary with best (H or L) gain: \n";
+  for(auto &pair : channelLivetimeHL) {
+    int chan = pair.first;
+    int detID = detChanToDetIDMap[chan];
+
+    if (detID==-1) continue; // don't print pulser monitor chans
+    double activeMass = actM4Det_g[detID]/1000;
+    cout << Form("%i  %-8i  %.2f kg  LT Frac Avg: %.5f  LT Frac Unc.: %.5f  LT Raw: %.4f  LT Red: %.4f  Exp (kg-d): %.4f\n", chan, detID, activeMass, ltAvg, ltUnc, pair.second, channelLivetimeHL[chan], detectorExposure[detID]);
+
+  }
+  detectorExposure[detID]
+
 }
 
 
@@ -821,7 +871,7 @@ void locateRunRange(int run, map<int,vector<string>> ranges, int& runInSet, stri
 
 // Parses the 'lis' files in ./deadtime/ to make a range map.
 // The first string is the file path, the rest are the 'int' run ranges.
-map<int, vector<string>> getDeadtimeMap(int dsNum, bool& noDT, int dsNum_hi)
+map<int, vector<string>> getDeadtimeMap(int dsNum, int dsNum_hi)
 {
   map<int, vector<string>> ranges;
 
@@ -838,6 +888,7 @@ map<int, vector<string>> getDeadtimeMap(int dsNum, bool& noDT, int dsNum_hi)
     // Find runlist files for this dataset
     string command = Form("ls ./deadtime/ds%i_*.lis",ds);
     if (ds==5) command = Form("ls ./deadtime/DS*.lis");
+    cout << "command is " << command << endl;
     array<char, 128> buffer;
     vector<string> files;
     string str;
@@ -850,13 +901,6 @@ map<int, vector<string>> getDeadtimeMap(int dsNum, bool& noDT, int dsNum_hi)
         files.push_back(str);
       }
     }
-
-    // If we didn't find any files, set noDT = true and return.
-    if (files.size()==0) {
-      noDT=1;
-      return ranges;
-    }
-
     // Build the ranges.  Quit at the first sign of trouble.
     for (auto file : files)
     {
