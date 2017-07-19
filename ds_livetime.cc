@@ -18,15 +18,6 @@
 #include "GATDetInfoProcessor.hh"
 #include "DataSetInfo.hh"
 
-// NOTE:  Right now this will double-count an overlapping veto+LN fill.
-//        If we add more effects it will double count them too.
-//        If we want an exact, non-overlapping calculation of dead time,
-//        we need to modify the function mergeIntervals to accept a list
-//        of every veto period in a run. Its algorithm should be able
-//        to exactly calculate the dead time.
-//        Until someone is ready to do this, let's just report the
-//        reductions as fractions from the raw livetime.
-
 /*
   Results, 13 June 2017 (DataSetInfo.hh from this date.  db2 method used.)
   DS    Livetime   Enr. Act. Mass  Enr. Exp.      Nat. Act. Mass  Nat. Exp.
@@ -37,28 +28,22 @@
   DS4   23.6842    5.4712          129.578        3.95            93.5506
   DS5M1 121.779    12.0402         1436.07        3.912           452.974
   DS5M2 121.779    6.152           693.184        5.085           548.364
-
-  Results, 13 May 2017 (Used for LEGEND Meeting)
-  DS    Livetime   Enr. Act. Mass  Enr. Exp.      Nat. Act. Mass  Nat. Exp.
-  DS0   47.4283    10.104          479.216        3.905           185.208
-  DS1   58.9347    11.310          661.597        1.121           66.0657
-  DS2   9.6594     11.310          109.25         1.121           10.828
-  DS3   29.9286    12.040          360.346        2.781           83.231
-  DS4   23.7788    5.471           130.098        3.95            93.926
-  DS5M1 122.557    12.040          1445.23        3.912           455.998
-  DS5M2 122.557    6.152           697.178        5.085           552.012
 */
 
 using namespace std;
 using namespace MJDB;
 
-void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int dsNum, bool raw, bool runDB,
-map<int,vector<int>> burst, map<int,vector<string>> ranges = map<int,vector<string>>());
+void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
+  map<int,vector<string>> ranges = map<int,vector<string>>(),
+  vector<pair<int,double>> times = vector<pair<int,double>>(),
+  map<int,vector<int>> burst = map<int,vector<int>>());
+
 bool compareInterval(pair<int,int> i1, pair<int,int> i2) { return (i1.first < i2.first); }
 int mergeIntervals(vector<pair<int,int>> vals, int start, int stop);
+map<int,vector<int>> LoadBurstCut();
 void getDBRunList(int &dsNum, double &ElapsedTime, string options, vector<int> &runList, vector<pair<int,double>> &times);
 void locateRunRange(int run, map<int,vector<string>> ranges, int& runInSet, string& dtFilePath);
-map<int, vector<string>> getDeadtimeRanges(int dsNum, int dsNum_hi=-1) ;
+map<int, vector<string>> getDeadtimeMap(int dsNum, int dsNum_hi=-1) ;
 double getTotalLivetimeUncertainty(map<int, double> livetimes);
 double getLivetimeAverage(map<int, double> livetimes);
 double getVectorUncertainty(vector<double> aVector);
@@ -87,7 +72,6 @@ int main(int argc, char** argv)
   int dsNum = stoi(argv[1]);
   string runDBOpt = "";
   bool raw=0, gds=0, lt=1, rdb=0, low=0;
-  map<int,vector<int>> burst;
   vector<string> opt(argv+1, argv+argc);
   for (size_t i = 0; i < opt.size(); i++) {
     if (opt[i] == "-raw") { raw=1; }
@@ -97,7 +81,7 @@ int main(int argc, char** argv)
     if (opt[i] == "-low") { lt=0; low=1; }
   }
 
-  // Do GATDataSet method and quit (-gds)
+  // -- Do GATDataSet method and quit (-gds) --
   if (gds) {
     cout << "Scanning DS-" << dsNum << " with GetRunTime...\n";
     GATDataSet gds;
@@ -106,90 +90,62 @@ int main(int argc, char** argv)
     return 0;
   }
 
-  // Do RunDB method and quit (-db1)
+  // -- Do RunDB method and quit (-db1) --
   if (!lt && rdb) {
     double ElapsedTime;
     vector<int> runList;
     vector<pair<int,double>> times;
     getDBRunList(dsNum, ElapsedTime, runDBOpt, runList, times);
-    // for (size_t i = 0; i < times.size(); i++) {
-    //   cout << times[i].first << " " << times[i].second << endl;
-    // }
     cout << Form("DS-%i total from RunDB: %.4f days.\n",dsNum,ElapsedTime/86400);
     return 0;
   }
 
-  // Primary livetime routine, using DataSetInfo run sequences (default, no extra args)
+  // -- Primary livetime routine, using DataSetInfo run sequences (default, no extra args) --
   if (lt && !rdb) {
+    vector<int> runList;
     GATDataSet ds;
     cout << "Scanning DS-" << dsNum << endl;
-
-    // Get ranges from deadtime '.lis' files.
     for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
-    map<int, vector<string>> ranges = getDeadtimeRanges(dsNum);
+    for (size_t i = 0; i < ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
+    map<int, vector<string>> ranges = getDeadtimeMap(dsNum);
 
-    // Load list of runs
-    vector<int> runList;
-    for (int i = 0; i < (int)ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
-
-    // Main routine -- Calculate live time.
-    vector<pair<int,double>> times; // dummy
-    calculateLiveTime(runList,times,dsNum,raw,rdb,burst,ranges);
+    // -- Main routine --
+    calculateLiveTime(runList,dsNum,raw,rdb,ranges);
   }
 
-  // Do primary livetime routine using a run list from the RunDB (-db2)
+  // -- Do primary livetime routine using a run list from the RunDB (-db2) --
   if (lt && rdb) {
     double ElapsedTime=0;
     vector<int> runList;
     vector<pair<int,double>> times;
-    getDBRunList(dsNum, ElapsedTime, runDBOpt, runList, times); // uses "times", auto-detects dsNum
+    getDBRunList(dsNum, ElapsedTime, runDBOpt, runList, times); // auto-detects dsNum
+    map<int, vector<string>> ranges = getDeadtimeMap(0,5); // we don't know what DS we're in, so load them all.
 
-    // Load ranges for deadtime - we don't know what DS we're in, so load them all.
-    map<int, vector<string>> ranges = getDeadtimeRanges(0,5);
-
-    calculateLiveTime(runList,times,dsNum,raw,rdb,burst);
+    // -- Main routine --
+    calculateLiveTime(runList,dsNum,raw,rdb,ranges,times);
   }
 
-  // Do primary livetime with a low-energy burst cut applied.
+  // -- Do primary livetime with a low-energy run+channels 'burst' cut applied. --
   if (low) {
-    cout << "Scanning DS-" << dsNum << endl;
-
-    GATDataSet ds;
-    map<int, vector<int>> ranges = LoadDataSet(ds, dsNum, 0);
-    for (int rs = 1; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
-
     vector<int> runList;
-    for (int i = 0; i < (int)ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
+    GATDataSet ds;
+    cout << "Scanning DS-" << dsNum << endl;
+    for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
+    for (size_t i = 0; i < ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
+    map<int, vector<string>> ranges = getDeadtimeMap(dsNum);
+    map<int,vector<int>> burst = LoadBurstCut(); // (low-energy run+channel selection)
 
-    cout << "Loading burst cut ...\n";
-    map<int,vector<int>> burst;
-    ifstream inFile;
-    inFile.open("burstCut_v1.txt");
-    string line;
-    while (getline(inFile, line)) {
-      vector<string> inputs;
-      istringstream iss(line);
-      string buf;
-      while (iss >> buf) inputs.push_back(buf);
-      int key = stoi(inputs[0]);
-      vector<int> cut;
-      for (size_t i = 1; i < inputs.size(); i++) cut.push_back( stoi(inputs[i]) );
-      burst[ key ] = cut;
-    }
-    // Also note channels that were entirely removed from the dataset.
-    burst[0] = {656};
-    burst[3] = {592,692};
-    burst[4] = {1332};
-    burst[5] = {614,692,1124,1232};
-
-    vector<pair<int,double>> times;
-    calculateLiveTime(runList,times,dsNum,raw,rdb,burst);
+    // -- Main routine --
+    vector<pair<int,double>> times; // dummy (empty)
+    calculateLiveTime(runList,dsNum,raw,rdb,ranges,times,burst);
   }
 }
 
 
-void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int dsNum, bool raw, bool runDB,
-  map<int,vector<int>> burst, map<int,vector<string>> ranges)
+void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB,
+  map<int,vector<string>> ranges,
+  vector<pair<int,double>> times,
+  map<int,vector<int>> burst)
 {
   // Do we have M1 and M2 enabled?
   bool mod1=0, mod2=0;
@@ -560,7 +516,7 @@ void calculateLiveTime(vector<int> runList, vector<pair<int,double>> times, int 
     {
       // don't include pulser monitors.
       if (detChanToDetIDMap[ch] == -1) continue;
-      
+
       // Runtime is the same for all channels in the same run
       // channelRuntime[ch] += (double)(stop-start); // creates new entry if one doesn't exist
 
@@ -894,6 +850,32 @@ inline void TimeSortMerge(vector<pair<double,double> >& pulseTimes)
 }
 
 
+// Used to perform low-energy run selection.
+map<int,vector<int>> LoadBurstCut()
+{
+  map<int, vector<int>> burst;
+  ifstream inFile;
+  inFile.open("burstCut_v1.txt");
+  string line;
+  while (getline(inFile, line)) {
+    vector<string> inputs;
+    istringstream iss(line);
+    string buf;
+    while (iss >> buf) inputs.push_back(buf);
+    int key = stoi(inputs[0]);
+    vector<int> cut;
+    for (size_t i = 1; i < inputs.size(); i++) cut.push_back( stoi(inputs[i]) );
+    burst[ key ] = cut;
+  }
+  // Also note channels that were entirely removed from the dataset.
+  burst[0] = {656};
+  burst[3] = {592,692};
+  burst[4] = {1332};
+  burst[5] = {614,692,1124,1232};
+  return burst;
+}
+
+
 // Looks up which sub-range a particular run is in, given a range map.
 void locateRunRange(int run, map<int,vector<string>> ranges, int& runInSet, string& dtFilePath)
 {
@@ -920,7 +902,7 @@ void locateRunRange(int run, map<int,vector<string>> ranges, int& runInSet, stri
 
 // Parses the 'lis' files in ./deadtime/ to make a range map.
 // c++ map trick: the first string is the file path, the rest are the run ranges.
-map<int, vector<string>> getDeadtimeRanges(int dsNum, int dsNum_hi)
+map<int, vector<string>> getDeadtimeMap(int dsNum, int dsNum_hi)
 {
   map<int, vector<string>> ranges;
 
@@ -1069,4 +1051,4 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
     else{ goodIDs.push_back(aChannel); }
   }
   return goodIDs;
-}
+} 
