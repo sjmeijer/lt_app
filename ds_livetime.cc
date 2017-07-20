@@ -251,6 +251,11 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       thisRunTime = (stop-start)/1e9;
       runTime += thisRunTime;
 
+      if(thisRunTime < 0)
+      {
+        printf("Error, the runtime is negative! %d  -  %d  = %.2f   \n",start,stop,thisRunTime)
+      }
+
       // need unix times for LN fill deadtime calculation
       startUnix = runInfo->GetStartTime();
       stopUnix = runInfo->GetStopTime();
@@ -536,7 +541,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       thisLivetime -= vetoDeadRun;
 
       livetimeMapHL[ch].push_back(thisLivetime/thisRunTime);
-      printf("   %.5f / %.5f = %.5f\n",thisLivetime,thisRunTime,thisLivetime/thisRunTime);
+      // printf("   %.5f / %.5f = %.5f\n",thisLivetime,thisRunTime,thisLivetime/thisRunTime);
     }
 
     // Done with this run.
