@@ -81,25 +81,6 @@ int main(int argc, char** argv)
     if (opt[i] == "-low") { lt=0; low=1; }
   }
 
-  // -- Do GATDataSet method and quit (-gds) --
-  if (gds) {
-    cout << "Scanning DS-" << dsNum << " with GetRunTime...\n";
-    GATDataSet gds;
-    for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(gds, dsNum, rs);
-    cout << Form("DS-%i total from GetRunTime: %.4f days.\n",dsNum,gds.GetRunTime()/1e9/86400);
-    return 0;
-  }
-
-  // -- Do RunDB method and quit (-db1) --
-  if (!lt && rdb) {
-    double ElapsedTime;
-    vector<int> runList;
-    vector<pair<int,double>> times;
-    getDBRunList(dsNum, ElapsedTime, runDBOpt, runList, times);
-    cout << Form("DS-%i total from RunDB: %.4f days.\n",dsNum,ElapsedTime/86400);
-    return 0;
-  }
-
   // -- Primary livetime routine, using DataSetInfo run sequences (default, no extra args) --
   if (lt && !rdb) {
     vector<int> runList;
@@ -111,6 +92,25 @@ int main(int argc, char** argv)
 
     // -- Main routine --
     calculateLiveTime(runList,dsNum,raw,rdb,noDT,ranges);
+  }
+
+  // -- Do SIMPLE GATDataSet method and quit (-gds) --
+  if (gds) {
+    cout << "Scanning DS-" << dsNum << " with GetRunTime...\n";
+    GATDataSet gds;
+    for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(gds, dsNum, rs);
+    cout << Form("DS-%i total from GetRunTime: %.4f days.\n",dsNum,gds.GetRunTime()/1e9/86400);
+    return 0;
+  }
+
+  // -- Do SIMPLE RunDB method and quit (-db1) --
+  if (!lt && rdb) {
+    double ElapsedTime;
+    vector<int> runList;
+    vector<pair<int,double>> times;
+    getDBRunList(dsNum, ElapsedTime, runDBOpt, runList, times);
+    cout << Form("DS-%i total from RunDB: %.4f days.\n",dsNum,ElapsedTime/86400);
+    return 0;
   }
 
   // -- Do primary livetime routine using a run list from the RunDB (-db2) --
@@ -185,7 +185,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     if ((int)(100*(double)r/runList.size())%10==0)
       cout << 100*(double)r/runList.size() << "% done\n";
 
-    cout << "Scanning run " << run << endl;
+    // cout << "Scanning run " << run << endl;
 
      // Load the deadtime file ONLY when the subset changes.
     int runInSet = -1;
@@ -215,7 +215,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         iss >> id >> pos >> hgFWHM >> hgNeg >> hgPos >> hgDead
             >> lgFWHM >> lgNeg >> lgPos >> lgDead >> orDead
             >> det >> p1 >> p2 >> p3 >> p4 >> p5 >> p6;
-        cout << Form("%i %i %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %.0f %.0f %.0f %.0f %.0f %.0f\n" ,id,pos,hgFWHM,hgNeg,hgPos,hgDead,lgFWHM,lgNeg,lgPos,lgDead,orDead,det.c_str(),p1,p2,p3,p4,p5,p6);
+        // cout << Form("%i %i %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %.0f %.0f %.0f %.0f %.0f %.0f\n" ,id,pos,hgFWHM,hgNeg,hgPos,hgDead,lgFWHM,lgNeg,lgPos,lgDead,orDead,det.c_str(),p1,p2,p3,p4,p5,p6);
 
         // Check if anything is nan.  We'll take it to mean 100% dead.
         // This is maximally conservative, as it could be 100% live.
@@ -249,23 +249,15 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       start = runInfo->GetStartClockTime();
       stop = runInfo->GetStopClockTime();
       thisRunTime = (stop-start)/1e9;
-
-      if(thisRunTime < 0)
-      {
+      if(thisRunTime < 0) {
         printf("Error, the runtime is negative! %.1f  -  %.1f  = %.2f   \n",start,stop,thisRunTime);
-
         startUnix = runInfo->GetStartTime();
         stopUnix = runInfo->GetStopTime();
-
-        // Just in case we use these somewhere else
         start = startUnix;
         stop = stopUnix;
-
         thisRunTime = (stopUnix-startUnix);
         printf("Reverting to the unix timestamps (%.2f) for run %d \n",thisRunTime,run);
-
       }
-
       runTime += thisRunTime;
 
       // need unix times for LN fill deadtime calculation
@@ -356,18 +348,20 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     vector<pair<int,int>> runFills[2];
     for (int mod = 0; mod < 2; mod++) {
       for (auto fill : lnFillTimes[mod])
-        if ((fill > start && fill < stop) ||         // fill within this run
-           (fill < start && fill+hiFill > start) ||  // < 5 mins before this run
-           (fill > stop && fill-loFill < stop))      // < 15 mins after this run
+        if ((fill > startUnix && fill < stopUnix) ||         // fill within this run
+           (fill < startUnix && fill+hiFill > startUnix) ||  // < 5 mins before this run
+           (fill > stopUnix && fill-loFill < stopUnix)) {    // < 15 mins after this run
            runFills[mod].push_back(make_pair(fill-loFill,fill+hiFill));
+         }
     }
     if (mod1 && runFills[0].size() > 0) m1LNDeadRun = mergeIntervals(runFills[0],startUnix,stopUnix);
     if (mod2 && runFills[1].size() > 0) m2LNDeadRun = mergeIntervals(runFills[1],startUnix,stopUnix);
-    if (m1LNDeadRun > 0 || m2LNDeadRun > 0) cout << Form("   Fill: Run %i  mod1: %i  mod2 %i\n",run,m1LNDeadRun,m2LNDeadRun);
-    // cout << Form("   Fill: Run %i  mod1: %i  mod2 %i\n",run,m1LNDeadRun,m2LNDeadRun);
-    cout << Form("   nFills1: %lu    nFills2: %lu    (%.2f, %.2f, %.2f)\n",runFills[0].size(),runFills[1].size(),start,stop,thisRunTime);
-    m1LNDead += m1LNDeadRun;
-    m2LNDead += m2LNDeadRun;
+    m1LNDead += (double)m1LNDeadRun;
+    m2LNDead += (double)m2LNDeadRun;
+    if (m1LNDeadRun > 0 || m2LNDeadRun > 0)
+      cout << Form("FOUND FILL, run %i:  M1 nFills %lu  run %i  total %.0f -- M2 nFills %lu  run %i  total %.0f\n", run,runFills[0].size(),m1LNDeadRun,m1LNDead,runFills[1].size(),m2LNDeadRun,m2LNDead);
+
+    continue;
 
     // Calculate each enabled detector's runtime and livetime for this run.
     // NOTES:
@@ -564,11 +558,11 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
   // Calculate channel-by-channel exposure in kg-days
 
-  runTime = runTime/86400;  // 86400 seconds = 1 day
-  vetoLive = vetoLive/86400;
-  vetoDead = vetoDead/86400;
-  m1LNDead = m1LNDead/86400;
-  m2LNDead = m2LNDead/86400;
+  runTime = runTime/86400.0;  // 86400 seconds = 1 day
+  vetoLive = vetoLive/86400.0;
+  vetoDead = vetoDead/86400.0;
+  m1LNDead = m1LNDead/86400.0;
+  m2LNDead = m2LNDead/86400.0;
   for (auto &raw : channelRuntime) raw.second = raw.second/86400;
   for (auto &live : channelLivetime) live.second = live.second/86400;
   for (auto &live : channelLivetimeHL) live.second = live.second/86400;
