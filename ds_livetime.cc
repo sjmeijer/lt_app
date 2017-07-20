@@ -246,8 +246,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     }
     else {
       MJTRun *runInfo = (MJTRun*)bltFile->Get("run");
-      start = runInfo->GetStartClockTime()/1e8;
-      stop = runInfo->GetStopClockTime()/1e8;
+      start = runInfo->GetStartClockTime()/1e9;
+      stop = runInfo->GetStopClockTime()/1e9;
       thisRunTime = (stop-start);
 
       if(thisRunTime < 0)
@@ -365,7 +365,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     if (mod2 && runFills[1].size() > 0) m2LNDeadRun = mergeIntervals(runFills[1],startUnix,stopUnix);
     if (m1LNDeadRun > 0 || m2LNDeadRun > 0) cout << Form("   Fill: Run %i  mod1: %i  mod2 %i\n",run,m1LNDeadRun,m2LNDeadRun);
     // cout << Form("   Fill: Run %i  mod1: %i  mod2 %i\n",run,m1LNDeadRun,m2LNDeadRun);
-    cout << Form("   nFills1: %lu    nFills2: %lu    (%.1f, %.1f)\n",runFills[0].size(),runFills[1].size(),start,stop);
+    cout << Form("   nFills1: %lu    nFills2: %lu    (%.2f, %.2f, %.2f)\n",runFills[0].size(),runFills[1].size(),start,stop,thisRunTime);
     m1LNDead += m1LNDeadRun;
     m2LNDead += m2LNDeadRun;
 
