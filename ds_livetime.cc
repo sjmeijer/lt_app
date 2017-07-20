@@ -246,9 +246,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     }
     else {
       MJTRun *runInfo = (MJTRun*)bltFile->Get("run");
-      start = runInfo->GetStartClockTime();
-      stop = runInfo->GetStopClockTime();
-      thisRunTime = (stop-start)/1e9;
+      start = runInfo->GetStartClockTime()/1e9;
+      stop = runInfo->GetStopClockTime()/1e9;
+      thisRunTime = (stop-start);
 
       if(thisRunTime < 0)
       {
