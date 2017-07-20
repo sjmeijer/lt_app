@@ -253,12 +253,13 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       if(thisRunTime < 0)
       {
         printf("Error, the runtime is negative! %.1f  -  %.1f  = %.2f   \n",start,stop,thisRunTime);
-        printf("Reverting to the unix timestamps for run %d \n",run);
 
         startUnix = runInfo->GetStartTime();
         stopUnix = runInfo->GetStopTime();
 
         thisRunTime = (stopUnix-startUnix);
+        printf("Reverting to the unix timestamps (%.2f) for run %d \n",thisRunTime,run);
+
       }
 
       runTime += thisRunTime;
