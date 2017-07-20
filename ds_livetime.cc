@@ -246,8 +246,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     }
     else {
       MJTRun *runInfo = (MJTRun*)bltFile->Get("run");
-      start = runInfo->GetStartClockTime()/1e9;
-      stop = runInfo->GetStopClockTime()/1e9;
+      start = runInfo->GetStartClockTime();
+      stop = runInfo->GetStopClockTime();
       thisRunTime = (stop-start);
 
       if(thisRunTime < 0)
@@ -256,6 +256,10 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
         startUnix = runInfo->GetStartTime();
         stopUnix = runInfo->GetStopTime();
+
+        // Just in case we use these somewhere else
+        start = startUnix;
+        stop = stopUnix;
 
         thisRunTime = (stopUnix-startUnix);
         printf("Reverting to the unix timestamps (%.2f) for run %d \n",thisRunTime,run);
