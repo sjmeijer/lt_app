@@ -359,9 +359,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     }
     if (mod1 && runFills[0].size() > 0) m1LNDeadRun = mergeIntervals(runFills[0],startUnix,stopUnix);
     if (mod2 && runFills[1].size() > 0) m2LNDeadRun = mergeIntervals(runFills[1],startUnix,stopUnix);
-    // if (m1LNDeadRun > 0 || m2LNDeadRun > 0) cout << Form("Fill: Run %i  mod1: %i  mod2 %i\n",run,m1LNDeadRun,m2LNDeadRun);
-    cout << Form("   Fill: Run %i  mod1: %i  mod2 %i\n",run,m1LNDeadRun,m2LNDeadRun);
-    cout << Form("   nFills1: %llu    nFills2: %llu\n",runFills[0].size(),runFills[1].size());
+    if (m1LNDeadRun > 0 || m2LNDeadRun > 0) cout << Form("   Fill: Run %i  mod1: %i  mod2 %i\n",run,m1LNDeadRun,m2LNDeadRun);
+    // cout << Form("   Fill: Run %i  mod1: %i  mod2 %i\n",run,m1LNDeadRun,m2LNDeadRun);
+    // cout << Form("   nFills1: %llu    nFills2: %llu\n",runFills[0].size(),runFills[1].size());
     m1LNDead += m1LNDeadRun;
     m2LNDead += m2LNDeadRun;
 
