@@ -246,9 +246,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     }
     else {
       MJTRun *runInfo = (MJTRun*)bltFile->Get("run");
-      start = runInfo->GetStartClockTime()/1e9;
-      stop = runInfo->GetStopClockTime()/1e9;
-      thisRunTime = (stop-start);
+      start = runInfo->GetStartClockTime();
+      stop = runInfo->GetStopClockTime();
+      thisRunTime = (stop-start)/1e9;
 
       if(thisRunTime < 0)
       {
@@ -356,9 +356,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     vector<pair<int,int>> runFills[2];
     for (int mod = 0; mod < 2; mod++) {
       for (auto fill : lnFillTimes[mod])
-        if ((fill > startUnix && fill < stopUnix) ||         // fill within this run
-           (fill < startUnix && fill+hiFill > startUnix) ||  // < 5 mins before this run
-           (fill > stopUnix && fill-loFill < stopUnix))      // < 15 mins after this run
+        if ((fill > start && fill < stop) ||         // fill within this run
+           (fill < start && fill+hiFill > start) ||  // < 5 mins before this run
+           (fill > stop && fill-loFill < stop))      // < 15 mins after this run
            runFills[mod].push_back(make_pair(fill-loFill,fill+hiFill));
     }
     if (mod1 && runFills[0].size() > 0) m1LNDeadRun = mergeIntervals(runFills[0],startUnix,stopUnix);
