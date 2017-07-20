@@ -186,7 +186,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   for (size_t r = 0; r < runList.size(); r++)
   {
     int run = runList[r];
-    cout << "Scanning run " << run << endl;
+    // cout << "Scanning run " << run << endl;
     if (fmod(100*(double)r/runList.size(), 10.0) < 0.1)
       cout << 100*(double)r/runList.size() << " % done, run " << run << endl;
 
