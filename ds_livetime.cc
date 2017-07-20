@@ -253,7 +253,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
       if(thisRunTime < 0)
       {
-        printf("Error, the runtime is negative! %d  -  %d  = %.2f   \n",start,stop,thisRunTime)
+        printf("Error, the runtime is negative! %f  -  %f  = %.2f   \n",start,stop,thisRunTime);
       }
 
       // need unix times for LN fill deadtime calculation
