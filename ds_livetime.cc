@@ -182,8 +182,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   map <int,int> detChanToDetIDMap;
   map <int,vector<double>> livetimeMap, livetimeMapBest;
   map<string, vector<double>> dtMap;
-  bool firstTimeInSubset;   // Allows us to only add in pulser deadtime once per subset
-  bool firstTimeInSubset2;  // A flag for the "best"
+  bool firstTimeInSubset=true;   // Allows us to only add in pulser deadtime once per subset
+  bool firstTimeInSubset2=true;  // A flag for the "best"
 
   time_t prevStop=0;
   int prevSubSet=-1;
@@ -652,6 +652,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   if (mod1) {
     cout << "Module 1:\n"
          << "\tRuntime : " << runTime << "\n"
+         << "\tNumber of runs: " << runList.size() << " \n"
          << "\tLN Deadtime : " << m1LNDead << " (" << m1LNDead/runTime << ")\n"
          << "\tActive Enr Mass (kg): " << m1EnrActMass << "  Active Nat Mass: " << m1NatActMass << "\n";
     if (!noDT) {
@@ -668,6 +669,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   if (mod2) {
     cout << "Module 2:\n"
          << "\tRuntime : " << runTime << "\n"
+         << "\tNumber of runs: " << runList.size() << " \n"
          << "\tLN Deadtime : " << m2LNDead << " (" << m2LNDead/runTime << ")\n"
          << "\tActive Enr Mass (kg): " << m2EnrActMass << "  Active Nat Mass: " << m2NatActMass << "\n";
     if (!noDT) {
@@ -685,7 +687,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   if (!noDT)
   {
     cout << "\nDetector summary with best (H or L) gain and deadtime correction : \n"
-         << "Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d)  AvgLTFrac  AvgLTUnc\n";
+         << "Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d)  AvgLTFrac  AvgLTUnc NRuns\n";
     for(auto &live : channelLivetimeBest)
     {
       int chan = live.first;
@@ -697,7 +699,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       double ltAvg = getVectorAverage(livetimeMapBest[chan]);
       double ltUnc = getVectorUncertainty(livetimeMapBest[chan]);
 
-      cout << Form("%-4i  %-8i  %-8.3f  %-10.4f  %-11.4f  %-13.4f  %-9.5f  %.5f\n", chan,detID,activeMass,channelRuntime[chan],chLive,bestExposure[detID],ltAvg,ltUnc);
+      cout << Form("%-4i  %-8i  %-8.3f  %-10.4f  %-11.4f  %-13.4f  %-9.5f  %.5f  %d\n", chan,detID,activeMass,channelRuntime[chan],chLive,bestExposure[detID],ltAvg,ltUnc,livetimeMapBest[chan].size());
     }
 
     // Now report some average values for "all", "best", HG, and LG channel sets
