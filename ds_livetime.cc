@@ -181,6 +181,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   map <int,int> detChanToDetIDMap;
   map <int,vector<double>> livetimeMap, livetimeMapBest;
   map<string, vector<double>> dtMap;
+  bool firstTimeInSubset;   // Allows us to only add in pulser deadtime once per subset
+  bool firstTimeInSubset2;  // A flag for the "best"
+
   time_t prevStop=0;
   int prevSubSet=-1;
   for (size_t r = 0; r < runList.size(); r++)
@@ -197,6 +200,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     if (!noDT && (runInSet != prevSubSet))
     {
       cout << "Subset " << runInSet << ", loading DT file:" << dtFilePath << endl;
+      firstTimeInSubset = true;
+      firstTimeInSubset2 = true;
+
       ifstream dtFile(dtFilePath.c_str());
       if (!dtFile) {
         cout << "Couldn't find file: " << dtFilePath << endl;
@@ -484,8 +490,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         double lgPulserDT = lgPulsers * (dsNum==2 || dsNum==6 ? 100e-6 : 62e-6);
 
         // Get livetime for this channel
-        if (ch%2 == 0) thisLiveTime = thisRunTime * (1 - hgDead) - hgPulserDT;
-        if (ch%2 == 1) thisLiveTime = thisRunTime * (1 - lgDead) - lgPulserDT;
+        if (ch%2 == 0) thisLiveTime = thisRunTime * (1 - hgDead) - hgPulserDT*(firstTimeInSubset?1:0);
+        if (ch%2 == 1) thisLiveTime = thisRunTime * (1 - lgDead) - lgPulserDT*(firstTimeInSubset?1:0);
       }
       else {
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
@@ -508,6 +514,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
       // Used for averages and uncertainty
       livetimeMap[ch].push_back(thisLiveTime/thisRunTime);
+      firstTimeInSubset = false;
     }
 
     // Add to "Best" Livetime:  One entry per detector (loops over 'best' channel list)
@@ -525,7 +532,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
         double orPulsers = dtMap[pos][5];
         double orPulserDT = orPulsers*(dsNum==2 || dsNum==6 ? 100e-6 : 62e-6);
-        bestLiveTime = thisRunTime * (1 - orDead) - orPulserDT;
+        bestLiveTime = thisRunTime * (1 - orDead) - orPulserDT*(firstTimeInSubset2?1:0);
       }
       else {
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
@@ -545,6 +552,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       bestLiveTime -= vetoDeadRun;
 
       livetimeMapBest[ch].push_back(bestLiveTime/thisRunTime);
+      firstTimeInSubset2 = false;
     }
 
     // Done with this run.
