@@ -634,7 +634,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   // ============ Print results by module. ============
   time_t t = time(0);   // get time now
   struct tm * now = localtime( & t );
-  cout << "\n Results, " << now->tm_year+1900 << "/" << now->tm_mon+1 << "/" << now->tm_mday << "\n"
+  cout << "\nDS " << dsNum << " Results, " << now->tm_year+1900 << "/" << now->tm_mon+1 << "/" << now->tm_mday << "\n"
        << "\tVeto Runtime " << vetoRunTime << "\n"
        << "\tVeto Deadtime " << vetoDead << "\n";
 
@@ -646,8 +646,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
          << "\tLN Deadtime : " << m1LNDead << " (" << m1LNDead/runTime << ")\n"
          << "\tActive Enr Mass (kg): " << m1EnrActMass << "  Active Nat Mass: " << m1NatActMass << "\n";
     if (!noDT) {
-      cout << "\tBest Livetime (days): " << bestLivetime << "\n"
-           << "\tBest Enr Exposure : " << m1EnrExpBest << "\n"
+      // cout << "\tBest Livetime (days): " << bestLivetime << "\n"
+      cout << "\tBest Enr Exposure : " << m1EnrExpBest << "\n"
            << "\tBest Nat Exposure : " << m1NatExpBest << "\n";
     }
     else {
@@ -662,8 +662,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
          << "\tLN Deadtime : " << m2LNDead << " (" << m2LNDead/runTime << ")\n"
          << "\tActive Enr Mass (kg): " << m2EnrActMass << "  Active Nat Mass: " << m2NatActMass << "\n";
     if (!noDT) {
-      cout << "\tBest Livetime (days): " << bestLivetime << "\n"
-           << "\tBest Enr Exposure : " << m2EnrExpBest << "\n"
+      // cout << "\tBest Livetime (days): " << bestLivetime << "\n"
+      cout << "\tBest Enr Exposure : " << m2EnrExpBest << "\n"
            << "\tBest Nat Exposure : " << m2NatExpBest << "\n";
     }
     else {
@@ -702,7 +702,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     double chBestLTUnc = getTotalLivetimeUncertainty(channelLivetimeBest);
     double chHighLTUnc = getTotalLivetimeUncertainty(channelLivetime,"HG");
     double chLowLTUnc = getTotalLivetimeUncertainty(channelLivetime,"LG");
-    cout << Form("Channel livetime avg unc - All %.4f  Best %.4f  HG %.4f  LG %.4f\n",chAllLTUnc,chBestLTUnc,chHighLTUnc,chLowLTUnc);
+    cout << Form("Channel livetime avg unc -  All %.4f  Best %.4f  HG %.4f  LG %.4f\n",chAllLTUnc,chBestLTUnc,chHighLTUnc,chLowLTUnc);
 
     vector<double> allAvg;
     vector<double> allUnc;
@@ -710,8 +710,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       allAvg.push_back(getVectorAverage(livetimeMap[live.first]));
       allUnc.push_back(getVectorUncertainty(livetimeMap[live.first]));
     }
-    cout << "Total average livetime (all channels) : " << getVectorAverage(allAvg) << endl
-         << "Channel livetime average uncertainty : " << getVectorUncertainty(allAvg) << endl;
+    cout << "Total average fractional livetime (all channels) : " << getVectorAverage(allAvg) << endl
+         << "Total average fractional livetime uncertainty    : " << getVectorUncertainty(allAvg) << endl;
   }
 
   cout << "\nAll-channel summary (no deadtime corrections) : \n"
