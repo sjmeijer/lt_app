@@ -698,7 +698,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     double chLowLTAvg = getLivetimeAverage(channelLivetime,"LG");
     cout << Form("Channel livetime averages - All %.4f  Best %.4f  HG %.4f  LG %.4f\n",chAllLTAvg,chBestLTAvg,chHighLTAvg,chLowLTAvg);
 
-    double chAllLTUnc = getLivetimeAverage(channelLivetime);
+    double chAllLTUnc = getLivetimeUncertainty(channelLivetime);
     double chBestLTUnc = getTotalLivetimeUncertainty(channelLivetimeBest);
     double chHighLTUnc = getTotalLivetimeUncertainty(channelLivetime,"HG");
     double chLowLTUnc = getTotalLivetimeUncertainty(channelLivetime,"LG");
