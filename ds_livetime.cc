@@ -7,6 +7,7 @@
 #include <ctime>
 #include <sstream>
 #include <iterator>
+#include <array>
 #include "TFile.h"
 #include "TChain.h"
 #include "TTreeReader.h"
