@@ -418,7 +418,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     }
 
     // Now try and load a channel selection object and pop any other bad detectors
-    string chSelPath = Form("/global/projecta/projectdirs/majorana/users/jwmyslik/analysis/channelselection/DS%i/v_20170510-00001",dsNum);
+    string chSelPath = GetChannelSelectionPath(dsNum);
     if (FILE *file = fopen(chSelPath.c_str(), "r")) {
       fclose(file);
       GATChannelSelectionInfo ch_select (chSelPath, run);
