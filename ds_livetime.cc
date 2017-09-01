@@ -647,7 +647,12 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       double livetime = live.second;
       int detID = detChanToDetIDMap[chan];
       double activeMass = actM4Det_g[detID]/1000;
-      bestExposure[detID] = activeMass * livetime;
+
+      if(bestExposure.find(detID) == bestExposure.end()) // if detID does not exist
+        {bestExposure[detID] = activeMass * livetime;}
+      else // if this detector has been seen already
+        {bestExposure[detID] += activeMass * livetime;}
+      
       if (detID == -1) continue;
       if (CheckModule(detID)==1 && detIsEnr[detID]==1) m1EnrExpBest += bestExposure[detID];
       if (CheckModule(detID)==1 && detIsEnr[detID]==0) m1NatExpBest += bestExposure[detID];
