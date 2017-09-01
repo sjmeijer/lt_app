@@ -18,6 +18,7 @@ using namespace std;
 // GetTotalActiveMass - Total active mass for each dataset.
 //                      This could be calculated instead of hardcoded in the future.
 // LoadActiveMasses - Returns a map of all active masses.
+// LoadActiveMassUncertainties - Returns a map of all active mass uncertainties.
 // LoadBadDetectorMap - Returns a map of bad (i.e. not biased, unusuable) detectors.
 // LoadVetoDetectorMap - Returns a map of veto-only detectors.
 // GetChannelSelectionPath - Returns a string with the path to the highest
@@ -535,6 +536,54 @@ map<int,double> LoadActiveMasses(int dsNum)
   else cout << "Error: LoadActiveMasses(): unknown dataset number: " << dsNum << endl;
 
   return activeMassForDetID_g;
+}
+
+map<int,double> LoadActiveMassUncertainties(int dsNum)
+{
+  map<int,double> activeMassUncForDetID_g;
+  if (dsNum==0 || dsNum==1 || dsNum==2 || dsNum==3) {
+    activeMassUncForDetID_g = {
+      {1426981, 10}, {1425750, 13}, {1426612, 12}, {1425380, 13},       // C1P1
+      {28474, 13}, {1426640, 11}, {1426650, 11}, {1426622, 10},         // C1P2
+      {28480, 13}, {1426980, 12}, {1425381, 13}, {1425730, 14},         // C1P3
+      {28455, 13}, {28470, 13}, {28463, 13}, {28465, 12}, {28469, 13},  // C1P4
+      {28477, 13}, {1425751, 11}, {1426610, 11}, {1425731, 13},         // C1P5
+      {1425742, 11}, {1426611, 12}, {1425740, 11}, {1426620, 9.4},      // C1P6
+      {28482, 13}, {1425741, 11}, {1426621, 9}, {1425370, 13} };        // C1P7
+  }
+  else if (dsNum == 4) {
+    activeMassUncForDetID_g = {
+      {28459, 13}, {1426641, 9}, {1427481, 12}, {1427480, 12},          // C2P1
+      {28481, 13}, {28576, 13}, {28594, 13}, {28595, 13}, {28461, 13},  // C2P2
+      {1427490, 12}, {1427491, 11}, {1428530, 12},                      // C2P3
+      {28607, 13}, {28456, 13}, {28621, 13}, {28466, 13}, {28473, 13},  // C2P4
+      {28487, 13}, {1426651, 10}, {1428531, 13}, {1427120, 11},         // C2P5
+      {1235170, 8.4}, {1429091, 12}, {1429092, 11}, {1426652, 11},      // C2P6
+      {28619, 13}, {1427121, 12}, {1429090, 10}, {28717, 13} };         // C2P7
+  }
+  else if (dsNum == 5 || dsNum == 6) {
+    activeMassUncForDetID_g = {
+      // M1
+      {1426981, 10}, {1425750, 13}, {1426612, 12}, {1425380, 13},       // C1P1
+      {28474, 13}, {1426640, 11}, {1426650, 11}, {1426622, 10},         // C1P2
+      {28480, 13}, {1426980, 12}, {1425381, 13}, {1425730, 14},         // C1P3
+      {28455, 13}, {28470, 13}, {28463, 13}, {28465, 12}, {28469, 13},  // C1P4
+      {28477, 13}, {1425751, 11}, {1426610, 11}, {1425731, 13},         // C1P5
+      {1425742, 11}, {1426611, 12}, {1425740, 11}, {1426620, 9.4},      // C1P6
+      {28482, 13}, {1425741, 11}, {1426621, 9}, {1425370, 13},        // C1P7
+      // M2
+      {28459, 13}, {1426641, 9}, {1427481, 12}, {1427480, 12},          // C2P1
+      {28481, 13}, {28576, 13}, {28594, 13}, {28595, 13}, {28461, 13},  // C2P2
+      {1427490, 12}, {1427491, 11}, {1428530, 12},                      // C2P3
+      {28607, 13}, {28456, 13}, {28621, 13}, {28466, 13}, {28473, 13},  // C2P4
+      {28487, 13}, {1426651, 10}, {1428531, 13}, {1427120, 11},         // C2P5
+      {1235170, 8.4}, {1429091, 12}, {1429092, 11}, {1426652, 11},      // C2P6
+      {28619, 13}, {1427121, 12}, {1429090, 10}, {28717, 13}            // C2P7
+    };
+  }
+  else cout << "Error: LoadActiveMassUncertainties(): unknown dataset number: " << dsNum << endl;
+
+  return activeMassUncForDetID_g;
 }
 
 
