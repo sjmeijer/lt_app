@@ -1,6 +1,10 @@
 // MJD Data Set livetime & exposure calculator.
 // C. Wiseman, USC
 // S. Meijer and A. Reine, UNC
+//
+// FOR OFFICIAL RESULTS FROM THIS CODE, PLEASE REFER TO THE LIVETIME UNIDOC:
+// "Livetime and Exposure for Majorana Demonstrator Data Sets 0-5"
+// https://mjdoc.npl.washington.edu/record/1863?ln=en
 
 #include <iostream>
 #include <map>
@@ -18,18 +22,6 @@
 #include "GATChannelSelectionInfo.hh"
 #include "GATDetInfoProcessor.hh"
 #include "DataSetInfo.hh"
-
-/*
-  Results, 13 June 2017 (DataSetInfo.hh from this date.  db2 method used.)
-  DS    Livetime   Enr. Act. Mass  Enr. Exp.      Nat. Act. Mass  Nat. Exp.
-  DS0   46.0368    10.104          478.915        3.905           185.092
-  DS1   58.93      11.3102         661.523        1.121           66.0583
-  DS2   9.65746    11.3102         109.224        1.121           10.8256
-  DS3   29.9112    12.0402         360.124        2.781           83.18
-  DS4   23.6842    5.4712          129.578        3.95            93.5506
-  DS5M1 121.779    12.0402         1436.07        3.912           452.974
-  DS5M2 121.779    6.152           693.184        5.085           548.364
-*/
 
 using namespace std;
 using namespace MJDB;
@@ -57,6 +49,7 @@ bool check_num(std::string const &in) {
     return !in.empty() && *end == '\0';
 }
 
+// =======================================================================================
 int main(int argc, char** argv)
 {
   // "let's get some (m)args"
@@ -156,8 +149,8 @@ int main(int argc, char** argv)
     calculateLiveTime(runList,dsNum,raw,rdb,noDT,ranges,times,burst);
   }
 }
-
 // =======================================================================================
+
 void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, bool noDT,
   map<int,vector<string>> ranges,
   vector<pair<int,double>> times,
@@ -652,7 +645,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         {bestExposure[detID] = activeMass * livetime;}
       else // if this detector has been seen already
         {bestExposure[detID] += activeMass * livetime;}
-      
+
       if (detID == -1) continue;
       if (CheckModule(detID)==1 && detIsEnr[detID]==1) m1EnrExpBest += bestExposure[detID];
       if (CheckModule(detID)==1 && detIsEnr[detID]==0) m1NatExpBest += bestExposure[detID];
@@ -1006,6 +999,7 @@ map<int, vector<string>> getDeadtimeMap(int dsNum, bool& noDT, int dsNum_hi)
   return ranges;
 }
 
+
 double getTotalLivetimeUncertainty(map<int, double> livetimes, string opt)
 {
   double sum_x = 0;
@@ -1034,6 +1028,7 @@ double getTotalLivetimeUncertainty(map<int, double> livetimes, string opt)
   return stdev / sqrt(n) ;
 }
 
+
 double getLivetimeAverage(map<int, double> livetimes, string opt)
 {
   double sum_x = 0;
@@ -1056,6 +1051,7 @@ double getLivetimeAverage(map<int, double> livetimes, string opt)
   return sum_x / n;
 }
 
+
 double getVectorUncertainty(vector<double> aVector)
 {
   double sum_x = 0;
@@ -1073,6 +1069,7 @@ double getVectorUncertainty(vector<double> aVector)
 
 }
 
+
 double getVectorAverage(vector<double> aVector)
 {
   double sum_x = 0;
@@ -1084,6 +1081,7 @@ double getVectorAverage(vector<double> aVector)
   }
   return sum_x / n;
 }
+
 
 vector<uint32_t> getBestIDs(vector<uint32_t> input)
 {
