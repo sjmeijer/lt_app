@@ -187,6 +187,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
   // ====== Loop over runs ======
   double runTime=0, vetoRunTime=0, vetoDead=0, m1LNDead=0, m2LNDead=0;
+  double hwORDead=0, hwHGDead=0, hwLGDead=0, orPulserDead=0, hgPulserDead=0, lgPulserDead=0;
   map <int,double> channelRuntime, channelLivetime, channelLivetimeBest;
   map <int,int> detChanToDetIDMap;
   map <int,vector<double>> livetimeMap, livetimeMapBest;
@@ -499,9 +500,17 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         double hgPulserDT = hgPulsers * (dsNum==2 || dsNum==6 ? 100e-6 : 62e-6);
         double lgPulserDT = lgPulsers * (dsNum==2 || dsNum==6 ? 100e-6 : 62e-6);
 
-        // Get livetime for this channel
-        if (ch%2 == 0) thisLiveTime = thisRunTime * (1 - hgDead) - hgPulserDT*(firstTimeInSubset?1:0);
-        if (ch%2 == 1) thisLiveTime = thisRunTime * (1 - lgDead) - lgPulserDT*(firstTimeInSubset?1:0);
+        // Get livetime for this channel.  Subtract off the pulser deadtime from the entire subset only once.
+        if (ch%2 == 0) {
+          thisLiveTime = thisRunTime * (1 - hgDead) - hgPulserDT*(firstTimeInSubset?1:0);
+          hwHGDead += thisRunTime * hgDead;
+          hgPulserDead += hgPulserDT*(firstTimeInSubset?1:0);
+        }
+        if (ch%2 == 1) {
+          thisLiveTime = thisRunTime * (1 - lgDead) - lgPulserDT*(firstTimeInSubset?1:0);
+          hwLGDead += thisRunTime * lgDead;
+          lgPulserDead += hgPulserDT*(firstTimeInSubset?1:0);
+        }
       }
       else {
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
@@ -543,6 +552,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         double orPulsers = dtMap[pos][5];
         double orPulserDT = orPulsers*(dsNum==2 || dsNum==6 ? 100e-6 : 62e-6);
         bestLiveTime = thisRunTime * (1 - orDead) - orPulserDT*(firstTimeInSubset2?1:0);
+        hwORDead += thisRunTime * orDead;
+        orPulserDead += orPulserDT*(firstTimeInSubset2?1:0);
       }
       else {
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
