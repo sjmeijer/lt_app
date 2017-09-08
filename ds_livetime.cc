@@ -411,6 +411,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     }
 
     // Now try and load a channel selection object and pop any other bad detectors
+    // NOTE: future versions of this code should use the 'official version' argument in GetChannelSelectionPath.
+    //       but as of 9/8/17 for the 0nbb paper, that directory is empty.  If the 0nbb dataset deadtime needs
+    //       to be recalculated, this change must be made, so that the channel selection files are the same.
     string chSelPath = GetChannelSelectionPath(dsNum);
     if (FILE *file = fopen(chSelPath.c_str(), "r")) {
       fclose(file);
