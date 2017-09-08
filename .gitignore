@@ -1,3 +1,4 @@
+.depend
 *.o
 ds_livetime
 check-data
