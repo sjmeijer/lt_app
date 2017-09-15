@@ -3,7 +3,7 @@
 def main():
 
     lines = []
-    with open('./deadtime/ds0_0.DT') as f:
+    with open('./deadtime/ds3_0.DT') as f:
         lines = f.readlines()[2:]
 
     # 0 1   2     3       4       5     6    7      8        9     10       11      12 13 14 15 16 17
