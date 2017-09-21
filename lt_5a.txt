@@ -1,0 +1,251 @@
+Scanning DS-5
+5A
+0 % done, run 18623
+Subset 0, loading DT file:./deadtime/DS18623.DT
+detInfoProc:  this is GAT branch master, commit 011c0b5
+0.0438596 % done, run 18624
+0.0877193 % done, run 18628
+Subset 1, loading DT file:./deadtime/DS18626.DT
+Subset 2, loading DT file:./deadtime/DS18645.DT
+Subset 3, loading DT file:./deadtime/DS18654.DT
+Subset 4, loading DT file:./deadtime/DS18738.DT
+Subset 10, loading DT file:./deadtime/DS18808.DT
+Subset 11, loading DT file:./deadtime/DS18844.DT
+Subset 12, loading DT file:./deadtime/DS18883.DT
+Subset 13, loading DT file:./deadtime/DS19240.DT
+Subset 14, loading DT file:./deadtime/DS19304.DT
+10 % done, run 19324
+10.0439 % done, run 19325
+10.0877 % done, run 19326
+Subset 15, loading DT file:./deadtime/DS19387.DT
+Subset 16, loading DT file:./deadtime/DS19423.DT
+Subset 17, loading DT file:./deadtime/DS19436.DT
+Subset 18, loading DT file:./deadtime/DS19481.DT
+Subset 19, loading DT file:./deadtime/DS19502.DT
+Subset 20, loading DT file:./deadtime/DS19613.DT
+Subset 21, loading DT file:./deadtime/DS19696.DT
+Subset 22, loading DT file:./deadtime/DS19707.DT
+Subset 23, loading DT file:./deadtime/DS19733.DT
+20 % done, run 19734
+20.0439 % done, run 19735
+20.0877 % done, run 19736
+Subset 24, loading DT file:./deadtime/DS19771.DT
+Subset 25, loading DT file:./deadtime/DS19806.DT
+Subset 26, loading DT file:./deadtime/DS19832.DT
+Subset 27, loading DT file:./deadtime/DS19837.DT
+Subset 28, loading DT file:./deadtime/DS19968.DT
+Subset 29, loading DT file:./deadtime/DS20020.DT
+Subset 30, loading DT file:./deadtime/DS20074.DT
+30 % done, run 20132
+Subset 31, loading DT file:./deadtime/DS20132.DT
+30.0439 % done, run 20133
+30.0877 % done, run 20134
+Subset 32, loading DT file:./deadtime/DS20136.DT
+Subset 33, loading DT file:./deadtime/DS20244.DT
+Subset 34, loading DT file:./deadtime/DS20311.DT
+Subset 35, loading DT file:./deadtime/DS20319.DT
+Subset 36, loading DT file:./deadtime/DS20377.DT
+40 % done, run 20409
+40.0439 % done, run 20410
+40.0877 % done, run 20411
+Subset 37, loading DT file:./deadtime/DS20489.DT
+Subset 38, loading DT file:./deadtime/DS20494.DT
+Subset 39, loading DT file:./deadtime/DS20522.DT
+Subset 40, loading DT file:./deadtime/DS20537.DT
+Subset 41, loading DT file:./deadtime/DS20685.DT
+Subset 42, loading DT file:./deadtime/DS20755.DT
+Subset 43, loading DT file:./deadtime/DS20758.DT
+50 % done, run 20885
+50.0439 % done, run 20886
+50.0877 % done, run 20887
+60 % done, run 21123
+60.0439 % done, run 21124
+60.0877 % done, run 21125
+Subset 44, loading DT file:./deadtime/DS21169.DT
+Subset 45, loading DT file:./deadtime/DS21218.DT
+Subset 46, loading DT file:./deadtime/DS21300.DT
+70 % done, run 21412
+70.0439 % done, run 21413
+70.0877 % done, run 21414
+Subset 47, loading DT file:./deadtime/DS21568.DT
+Subset 48, loading DT file:./deadtime/DS21587.DT
+Subset 49, loading DT file:./deadtime/DS21595.DT
+Subset 50, loading DT file:./deadtime/DS21694.DT
+80 % done, run 21704
+80.0439 % done, run 21705
+80.0877 % done, run 21747
+Subset 51, loading DT file:./deadtime/DS21747.DT
+Subset 52, loading DT file:./deadtime/DS21766.DT
+Subset 53, loading DT file:./deadtime/DS21833.DT
+Subset 54, loading DT file:./deadtime/DS21839.DT
+Subset 55, loading DT file:./deadtime/DS21851.DT
+Subset 56, loading DT file:./deadtime/DS21891.DT
+Subset 57, loading DT file:./deadtime/DS21924.DT
+Subset 58, loading DT file:./deadtime/DS21953.DT
+Subset 59, loading DT file:./deadtime/DS22001.DT
+90 % done, run 22084
+90.0439 % done, run 22085
+90.0877 % done, run 22086
+Subset 60, loading DT file:./deadtime/DS22104.DT
+Subset 61, loading DT file:./deadtime/DS22105.DT
+Subset 62, loading DT file:./deadtime/DS22120.DT
+Subset 63, loading DT file:./deadtime/DS22147.DT
+Subset 64, loading DT file:./deadtime/DS22180.DT
+Subset 65, loading DT file:./deadtime/DS22181.DT
+Subset 66, loading DT file:./deadtime/DS22266.DT
+Subset 67, loading DT file:./deadtime/DS22316.DT
+Subset 68, loading DT file:./deadtime/DS22369.DT
+Subset 69, loading DT file:./deadtime/DS22374.DT
+
+DS 5 Results, 2017/9/8
+	Veto Runtime 81.5872
+	Veto Deadtime 0.0292362
+Module 1:
+	Runtime : 81.5887
+	Number of runs: 2280 
+	LN Deadtime : 0.778345 (0.00953986)
+	Active Enr Mass (kg): 11.667  Active Nat Mass: 3.912
+	Best Enr Exposure : 905.487
+	Best Nat Exposure : 286.241
+Module 2:
+	Runtime : 81.5887
+	Number of runs: 2280 
+	LN Deadtime : 1.09641 (0.0134383)
+	Active Enr Mass (kg): 5.811  Active Nat Mass: 5.085
+	Best Enr Exposure : 355.616
+	Best Nat Exposure : 343.828
+
+Detector summary with best (H or L) gain and deadtime correction : 
+Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d)  AvgLTFrac  AvgLTUnc NRuns
+584   1425730   1.024     77.5786     76.3225      78.1542        0.98140    0.00159  2162
+592   1426610   0.632     74.8879     73.4860      46.4432        0.97956    0.00170  2097
+598   1425751   0.730     77.5786     76.5423      55.8758        0.98494    0.00159  2162
+608   1425381   0.949     77.5786     76.4772      72.5769        0.98412    0.00161  2162
+610   1426980   0.886     81.5887     80.4599      71.2874        0.98432    0.00161  2280
+614   28469     0.557     81.5887     79.9758      44.5465        0.97838    0.00155  2280
+624   28455     0.558     77.5786     76.2381      42.5409        0.98024    0.00177  2162
+626   1425740   0.701     80.0966     78.9914      55.3730        0.98450    0.00159  2226
+628   28470     0.564     63.5224     62.5629      35.2855        0.98454    0.00187  1810
+632   1425742   0.732     77.5786     76.5609      56.0426        0.98543    0.00162  2162
+640   1426650   0.659     81.5887     80.6462      53.1459        0.98653    0.00158  2280
+648   1426640   0.723     81.5887     80.6788      58.3308        0.98696    0.00155  2280
+658   1425380   0.968     81.5887     77.2467      74.7748        0.93407    0.00296  2280
+660   1426612   0.811     81.5887     77.5829      62.9198        0.94031    0.00257  2280
+662   1425750   0.979     81.5887     77.0169      75.3995        0.93317    0.00270  2280
+674   1426621   0.591     81.5887     80.5803      47.6068        0.98563    0.00155  2280
+678   1425741   0.710     77.5786     76.4611      54.2874        0.98398    0.00162  2162
+680   28482     0.561     77.5786     75.8145      42.5319        0.97655    0.00180  2162
+688   28463     0.567     63.5224     62.2797      35.3126        0.98019    0.00184  1810
+690   1426620   0.572     77.5786     75.6178      43.2685        0.97429    0.00236  2162
+692   28474     0.560     81.5887     80.3713      45.0079        0.98251    0.00166  2280
+694   28465     0.545     77.5866     75.2584      41.0158        0.97045    0.00212  2163
+1106  28594     0.559     64.2196     62.4636      34.9172        0.95594    0.00302  1822
+1120  28466     0.566     72.6038     71.5177      40.4790        0.97341    0.00262  2025
+1124  28459     0.556     39.2526     38.5520      21.4349        0.96881    0.00388  1012
+1128  28576     0.562     72.0016     70.8092      39.7948        0.97139    0.00265  2019
+1170  28607     0.558     80.9003     79.5608      44.3950        0.97083    0.00256  2263
+1172  1427491   0.852     78.3148     76.8878      65.5084        0.96997    0.00259  2194
+1174  28481     0.581     63.5652     62.4381      36.2766        0.96846    0.00301  1765
+1176  1427490   0.872     74.4889     73.3618      63.9715        0.97403    0.00249  2082
+1204  1427480   0.917     72.0362     70.9315      65.0442        0.97211    0.00270  2038
+1208  28456     0.579     69.3512     67.7051      39.2012        0.96385    0.00274  1954
+1232  28717     0.567     77.0075     75.7948      42.9757        0.97220    0.00257  2166
+1236  1429090   0.562     77.9926     76.7761      43.1482        0.97163    0.00262  2192
+1298  1429091   0.775     78.2011     75.8567      58.7889        0.95792    0.00307  2197
+1302  1427120   0.802     2.3901      2.3716       1.9020         0.99259    0.00689  60
+1330  28487     0.557     80.8919     79.6291      44.3534        0.97193    0.00255  2262
+1332  1428531   1.031     56.4888     55.5315      57.2529        0.96822    0.00330  1605
+Channel livetime averages - All 70.3892  Best 71.5095  HG 70.3892  LG 70.3892
+Channel livetime avg unc -  All 1.6124  Best 2.2835  HG 1.6124  LG 1.6124
+Total average fractional livetime (all channels) : 0.958246
+Total average fractional livetime uncertainty    : 0.00473053
+Deadtime summary (percent, sum deadtime, sum runtime):
+   Hardware HG:       1.2491e+00  5.9880e+06  4.7939e+08
+   Hardware LG:       1.1900e+00  5.7049e+06  4.7939e+08
+   Hardware OR/Best:  9.0458e-01  2.1682e+06  2.3970e+08
+   Pulser HG:         3.4711e-04  1.6640e+03  4.7939e+08
+   Pulser LG:         3.4068e-04  1.6332e+03  4.7939e+08
+   Pulser OR/Best HG: 7.0564e-04  1.6914e+03  2.3970e+08
+   LN Fill HG+LG:     1.1096e+00  5.3194e+06  4.7939e+08
+   LN Fill OR/Best:   1.1096e+00  2.6597e+06  2.3970e+08
+   Muon Veto HG+LG:   3.5761e-02  1.7144e+05  4.7939e+08
+   Muon Veto OR/Best: 3.5761e-02  8.5718e+04  2.3970e+08
+
+All-channel summary (no deadtime corrections) : 
+Chan  DetID     A.M.(kg)  Runtime(d)  RT-Expo(kg-d)
+584   1425730   1.024     77.5786     77.4981      
+585   1425730   1.024     77.5786     78.0943      
+592   1426610   0.632     74.8879     45.9026      
+593   1426610   0.632     74.8879     46.0403      
+598   1425751   0.730     77.5786     55.1595      
+599   1425751   0.730     77.5786     55.6062      
+608   1425381   0.949     77.5786     71.4604      
+609   1425381   0.949     77.5786     70.8696      
+610   1426980   0.886     81.5887     70.5322      
+611   1426980   0.886     81.5887     71.0387      
+614   28469     0.557     81.5887     44.7571      
+615   28469     0.557     81.5887     31.1739      
+624   28455     0.558     77.5786     42.1082      
+625   28455     0.558     77.5786     41.8905      
+626   1425740   0.701     80.0966     54.6586      
+627   1425740   0.701     80.0966     53.8667      
+628   28470     0.564     63.5224     35.1672      
+629   28470     0.564     63.5224     35.1870      
+632   1425742   0.732     77.5786     55.5062      
+633   1425742   0.732     77.5786     55.8013      
+640   1426650   0.659     81.5887     53.0399      
+641   1426650   0.659     81.5887     52.7497      
+648   1426640   0.723     81.5887     58.2899      
+649   1426640   0.723     81.5887     58.1074      
+658   1425380   0.968     81.5887     72.0060      
+659   1425380   0.968     81.5887     74.5785      
+660   1426612   0.811     81.5887     60.5228      
+661   1426612   0.811     81.5887     62.3245      
+662   1425750   0.979     81.5887     71.9968      
+663   1425750   0.979     81.5887     74.7817      
+674   1426621   0.591     81.5887     47.5659      
+675   1426621   0.591     81.5887     47.6409      
+678   1425741   0.710     77.5786     53.2742      
+679   1425741   0.710     77.5786     53.8830      
+680   28482     0.561     77.5786     41.8549      
+681   28482     0.561     77.5786     41.8878      
+688   28463     0.567     63.5224     33.9626      
+689   28463     0.567     63.5224     35.2453      
+690   1426620   0.572     77.5786     42.9556      
+691   1426620   0.572     77.5786     42.7169      
+692   28474     0.560     81.5887     43.9361      
+693   28474     0.560     81.5887     44.4519      
+694   28465     0.545     77.5866     39.8153      
+695   28465     0.545     77.5866     40.3950      
+1106  28594     0.559     64.2196     33.7530      
+1107  28594     0.559     64.2196     34.7839      
+1120  28466     0.566     72.6038     40.2020      
+1121  28466     0.566     72.6038     40.4685      
+1124  28459     0.556     39.2526     20.9960      
+1125  28459     0.556     39.2526     21.1986      
+1128  28576     0.562     72.0016     36.0341      
+1129  28576     0.562     72.0016     39.8546      
+1170  28607     0.558     80.9003     44.2923      
+1171  28607     0.558     80.9003     43.9222      
+1172  1427491   0.852     78.3148     64.7565      
+1173  1427491   0.852     78.3148     65.1211      
+1174  28481     0.581     63.5652     35.7404      
+1175  28481     0.581     63.5652     36.2073      
+1176  1427490   0.872     74.4889     63.5405      
+1177  1427490   0.872     74.4889     64.0736      
+1204  1427480   0.917     72.0362     64.6323      
+1205  1427480   0.917     72.0362     64.9660      
+1208  28456     0.579     69.3512     37.3607      
+1209  28456     0.579     69.3512     39.4953      
+1232  28717     0.567     77.0075     42.2176      
+1233  28717     0.567     77.0075     42.9398      
+1236  1429090   0.562     77.9926     43.1846      
+1237  1429090   0.562     77.9926     42.6353      
+1298  1429091   0.775     78.2011     58.5553      
+1299  1429091   0.775     78.2011     58.7863      
+1302  1427120   0.802     2.3901      1.8988       
+1303  1427120   0.802     2.3901      1.9020       
+1330  28487     0.557     80.8919     44.2062      
+1331  28487     0.557     80.8919     44.3019      
+1332  1428531   1.031     56.4888     57.1686      
+1333  1428531   1.031     56.4888     57.1722      

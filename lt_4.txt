@@ -1,0 +1,105 @@
+Scanning DS-4
+0 % done, run 60000802
+Subset 0, loading DT file:./deadtime/ds4_0.DT
+detInfoProc:  this is GAT branch master, commit 011c0b5
+Subset 11, loading DT file:./deadtime/ds4_1.DT
+10 % done, run 60000993
+Subset 15, loading DT file:./deadtime/ds4_2.DT
+Subset 16, loading DT file:./deadtime/ds4_3.DT
+20 % done, run 60001063
+Subset 17, loading DT file:./deadtime/ds4_4.DT
+Subset 18, loading DT file:./deadtime/ds4_5.DT
+Subset 19, loading DT file:./deadtime/ds4_6.DT
+30 % done, run 60001111
+Subset 20, loading DT file:./deadtime/ds4_7.DT
+Subset 21, loading DT file:./deadtime/ds4_8.DT
+40 % done, run 60001197
+Subset 22, loading DT file:./deadtime/ds4_9.DT
+Subset 1, loading DT file:./deadtime/ds4_10.DT
+50 % done, run 60001388
+Subset 2, loading DT file:./deadtime/ds4_11.DT
+60 % done, run 60001435
+Subset 3, loading DT file:./deadtime/ds4_12.DT
+Subset 4, loading DT file:./deadtime/ds4_13.DT
+70 % done, run 60001504
+Subset 5, loading DT file:./deadtime/ds4_14.DT
+Subset 6, loading DT file:./deadtime/ds4_15.DT
+80 % done, run 60001621
+Subset 7, loading DT file:./deadtime/ds4_16.DT
+Subset 8, loading DT file:./deadtime/ds4_17.DT
+90 % done, run 60001668
+Subset 9, loading DT file:./deadtime/ds4_18.DT
+
+DS 4 Results, 2017/9/8
+	Veto Runtime 0
+	Veto Deadtime 0.0767957
+Module 2:
+	Runtime : 19.1464
+	Number of runs: 470 
+	LN Deadtime : 0.206898 (0.0108061)
+	Active Enr Mass (kg): 5.4712  Active Nat Mass: 3.95
+	Best Enr Exposure : 102.716
+	Best Nat Exposure : 73.9033
+
+Detector summary with best (H or L) gain and deadtime correction : 
+Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d)  AvgLTFrac  AvgLTUnc NRuns
+1106  28594     0.559     19.1464     18.7250      10.4673        0.97318    0.00376  470
+1136  28466     0.566     19.1464     18.5418      10.4946        0.96395    0.00458  470
+1144  28576     0.562     19.1464     18.6711      10.4932        0.97038    0.00374  470
+1170  28607     0.558     19.1464     18.6962      10.4325        0.97175    0.00391  470
+1172  1427491   0.852     19.1464     18.7113      15.9421        0.97253    0.00391  470
+1174  28481     0.581     19.1464     18.7003      10.8649        0.97196    0.00391  470
+1176  1427490   0.872     19.1464     18.7112      16.3162        0.97253    0.00391  470
+1204  1427480   0.917     19.1464     18.7100      17.1570        0.97246    0.00391  470
+1232  28717     0.567     19.1464     18.8023      10.6609        0.97719    0.00375  470
+1236  1429090   0.562     19.1464     18.8258      10.5801        0.97845    0.00374  470
+1296  1235170   0.462     19.1464     18.8353      8.7057         0.97893    0.00374  470
+1298  1429091   0.775     19.1464     18.8362      14.5981        0.97898    0.00374  470
+1330  28487     0.557     19.1464     18.8330      10.4900        0.97882    0.00374  470
+1332  1428531   1.031     19.1464     18.8330      19.4169        0.97882    0.00374  470
+Channel livetime averages - All 18.7165  Best 18.7452  HG 18.7165  LG 18.7165
+Channel livetime avg unc -  All 0.0386  Best 0.0222  HG 0.0386  LG 0.0386
+Total average fractional livetime (all channels) : 0.972701
+Total average fractional livetime uncertainty    : 0.00212093
+Deadtime summary (percent, sum deadtime, sum runtime):
+   Hardware HG:       3.3643e-01  1.5583e+05  4.6319e+07
+   Hardware LG:       4.2675e-01  1.9767e+05  4.6319e+07
+   Hardware OR/Best:  6.1312e-01  1.4200e+05  2.3159e+07
+   Pulser HG:         3.1117e-04  1.4413e+02  4.6319e+07
+   Pulser LG:         3.1119e-04  1.4414e+02  4.6319e+07
+   Pulser OR/Best HG: 6.2239e-04  1.4414e+02  2.3159e+07
+   LN Fill HG+LG:     1.0806e+00  5.0053e+05  4.6319e+07
+   LN Fill OR/Best:   1.0806e+00  2.5026e+05  2.3159e+07
+   Muon Veto HG+LG:   4.0110e-01  1.8578e+05  4.6319e+07
+   Muon Veto OR/Best: 4.0110e-01  9.2892e+04  2.3159e+07
+
+All-channel summary (no deadtime corrections) : 
+Chan  DetID     A.M.(kg)  Runtime(d)  RT-Expo(kg-d)
+1106  28594     0.559     19.1464     10.3665      
+1107  28594     0.559     19.1464     9.9446       
+1136  28466     0.566     19.1464     10.4945      
+1137  28466     0.566     19.1464     10.4964      
+1144  28576     0.562     19.1464     10.4331      
+1145  28576     0.562     19.1464     10.5767      
+1170  28607     0.558     19.1464     10.4332      
+1171  28607     0.558     19.1464     10.4332      
+1172  1427491   0.852     19.1464     15.9533      
+1173  1427491   0.852     19.1464     15.9446      
+1174  28481     0.581     19.1464     10.8776      
+1175  28481     0.581     19.1464     10.8716      
+1176  1427490   0.872     19.1464     16.3237      
+1177  1427490   0.872     19.1464     16.3294      
+1204  1427480   0.917     19.1464     17.1679      
+1205  1427480   0.917     19.1464     17.1686      
+1232  28717     0.567     19.1464     10.6794      
+1233  28717     0.567     19.1464     10.6759      
+1236  1429090   0.562     19.1464     10.5852      
+1237  1429090   0.562     19.1464     10.5819      
+1296  1235170   0.462     19.1464     8.7112       
+1297  1235170   0.462     19.1464     8.7115       
+1298  1429091   0.775     19.1464     14.5998      
+1299  1429091   0.775     19.1464     14.6175      
+1330  28487     0.557     19.1464     10.4915      
+1331  28487     0.557     19.1464     10.4915      
+1332  1428531   1.031     19.1464     19.4288      
+1333  1428531   1.031     19.1464     19.4428      
