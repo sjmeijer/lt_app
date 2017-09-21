@@ -74,16 +74,6 @@ int main()
       else ++ite;
     }
 
-    bool badOrVetoed=false;
-    if ( find(enabledIDs.begin(), enabledIDs.end(), 672) == enabledIDs.end() ) {
-      badOrVetoed=true;
-      this672=false;
-    }
-    if ( find(enabledIDs.begin(), enabledIDs.end(), 672) == enabledIDs.end() ) {
-      badOrVetoed=true;
-      this673=false;
-    }
-
     // chanel selection files
     string chSelPath = GetChannelSelectionPath(dsNum);
     if (FILE *file = fopen(chSelPath.c_str(), "r")) {
@@ -113,15 +103,13 @@ int main()
     bool sel672=false, sel673=false;
     if ( find(enabledIDs.begin(), enabledIDs.end(), 672) == enabledIDs.end() ) {
       sel672=true;
-      this672=false;
     }
     if ( find(enabledIDs.begin(), enabledIDs.end(), 673) == enabledIDs.end() ) {
       sel673=true;
-      this673=false;
     }
 
 
-    cout << Form("%-6i  %-6.1f  672? %i  673? %i  b/v? %i  sel672? %i  sel673? %i\n", run,thisRunTime,this672,this673,badOrVetoed,sel672,sel673);
+    cout << Form("%-6i  %-6.1f  en672? %i  en673? %i  sel672? %i  sel673? %i\n", run,thisRunTime,this672,this673,sel672,sel673);
 
 
     delete bltFile;
