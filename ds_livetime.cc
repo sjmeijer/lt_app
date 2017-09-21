@@ -663,7 +663,11 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         {bestExposure[detID] = activeMass * livetime;}
       else // if this detector has been seen already
         {bestExposure[detID] += activeMass * livetime;}
+    }
 
+    // only add to the final values ONCE for each detector!
+    for (auto &expo : bestExposure) {
+      int detID = expo.first;
       if (detID == -1) continue;
       if (CheckModule(detID)==1 && detIsEnr[detID]==1) m1EnrExpBest += bestExposure[detID];
       if (CheckModule(detID)==1 && detIsEnr[detID]==0) m1NatExpBest += bestExposure[detID];

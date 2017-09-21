@@ -25,7 +25,8 @@ int main()
 
   vector<int> runList;
   GATDataSet ds;
-  for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
+  // for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
+  LoadDataSet(ds, dsNum, 29); // just the bad range, 42
   for (size_t i = 0; i < ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
 
   map<int,bool> detIDIsBad = LoadBadDetectorMap(dsNum);
@@ -41,7 +42,6 @@ int main()
 
     // runtime
     double start=0, stop=0, thisRunTime=0;
-    time_t startUnix=0, stopUnix=0;
     MJTRun *runInfo = (MJTRun*)bltFile->Get("run");
     start = runInfo->GetStartClockTime();
     stop = runInfo->GetStopClockTime();
@@ -49,7 +49,7 @@ int main()
     if(thisRunTime < 0) {
       start = runInfo->GetStartTime();
       stop = runInfo->GetStopTime();
-      thisRunTime = (stopUnix-startUnix);
+      thisRunTime = (stop-start);
       printf("Reverting to the unix timestamps (%.2f) for run %d \n",thisRunTime,run);
     }
 
@@ -58,9 +58,9 @@ int main()
     MJTChannelSettings *chSet = (MJTChannelSettings*)bltFile->Get("ChannelSettings");
     vector<uint32_t> enabledIDs = chSet->GetEnabledIDList();
 
-    bool this672 = false, this673 = false;
-    if ( find(enabledIDs.begin(), enabledIDs.end(), 672) != enabledIDs.end() ) this672=true;
-    if ( find(enabledIDs.begin(), enabledIDs.end(), 673) != enabledIDs.end() ) this673=true;
+    bool en672 = false, en673 = false;
+    if ( find(enabledIDs.begin(), enabledIDs.end(), 672) != enabledIDs.end() ) en672=true;
+    if ( find(enabledIDs.begin(), enabledIDs.end(), 673) != enabledIDs.end() ) en673=true;
 
     // bad/veto-only maps
     vector<uint32_t>::iterator ite = enabledIDs.begin();
@@ -75,6 +75,7 @@ int main()
     }
 
     // chanel selection files
+    bool isVetoDet=false, isBadDet=false;
     string chSelPath = GetChannelSelectionPath(dsNum);
     if (FILE *file = fopen(chSelPath.c_str(), "r")) {
       fclose(file);
@@ -84,11 +85,15 @@ int main()
       {
         int detID = DetIDList[ich];
         pair<int,int> ch_pair = ch_select.GetChannelsFromDetID(detID);
-        bool isVetoDet = (ch_select.GetDetIsVetoOnly(detID));
-        bool isBadDet = (ch_select.GetDetIsBad(detID));
+
+        cout << run << " " << ch_pair.first << " " << ch_pair.second << " " << detID << endl;
+
+        isVetoDet = (ch_select.GetDetIsVetoOnly(detID));
+        isBadDet = (ch_select.GetDetIsBad(detID));
 
         // If the channel is flagged, remove it from the enabledIDs.
         if (isVetoDet || isBadDet) {
+          cout << "True for channel " << ch_pair.first << endl;
           uint32_t hgChan = (uint32_t)ch_pair.first;
           auto it = std::find(enabledIDs.begin(), enabledIDs.end(), hgChan);
           if (it != enabledIDs.end()) enabledIDs.erase(it);
@@ -108,12 +113,15 @@ int main()
       sel673=true;
     }
 
+    cout << Form("%-6i  %-6.1f  en672? %i  en673? %i  sel672? %i  sel673? %i  isVeto %i  isBad %i\n", run,thisRunTime,en672,en673,sel672,sel673,isVetoDet,isBadDet);
 
-    cout << Form("%-6i  %-6.1f  en672? %i  en673? %i  sel672? %i  sel673? %i\n", run,thisRunTime,this672,this673,sel672,sel673);
-
+    if (en672 && !sel672) runTime672 += thisRunTime;
+    if (en673 && !sel673) runTime673 += thisRunTime;
 
     delete bltFile;
   }
+
+  cout << "Runtime results: 672: " << runTime672/86400. << "  673: " << runTime673/86400. << endl;
 
 
 }
