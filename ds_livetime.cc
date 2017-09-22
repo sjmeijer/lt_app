@@ -188,6 +188,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   // ====== Loop over runs ======
   double runTime=0, vetoRunTime=0, vetoDead=0, m1LNDead=0, m2LNDead=0;
   map <int,double> channelRuntime, channelLivetime, channelLivetimeBest;
+  map <int,double> channelRuntimeStd2;
   map <int,int> detChanToDetIDMap;
   map <int,vector<double>> livetimeMap, livetimeMapBest;
   map<string, vector<double>> dtMap;
@@ -271,6 +272,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       start = runInfo->GetStartClockTime();
       stop = runInfo->GetStopClockTime();
       thisRunTime = (stop-start)/1e9;
+      double thisRuntimeUncertainty = 10e-9;  // seconds of uncertainty
       if(thisRunTime < 0) {
         printf("Error, the runtime is negative! %.1f  -  %.1f  = %.2f   \n",start,stop,thisRunTime);
         startUnix = runInfo->GetStartTime();
@@ -279,9 +281,11 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         stop = stopUnix;
         thisRunTime = (stopUnix-startUnix);
         printf("Reverting to the unix timestamps (%.2f) for run %d \n",thisRunTime,run);
-      }
-      runTime += thisRunTime;
+        thisRuntimeUncertainty = 1;
+      }      
 
+      runTime += thisRunTime;
+      
       // still need unix times for LN fill deadtime calculation
       startUnix = runInfo->GetStartTime();
       stopUnix = runInfo->GetStopTime();
@@ -479,7 +483,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       if (detChanToDetIDMap[ch] == -1) continue;  // don't include pulser monitors.
 
       // Runtime
-      channelRuntime[ch] += thisRunTime; // creates new entry if one doesn't exist
+      channelRuntime[ch] += thisRunTime; // creates new entry if one doesn't exist      
+      channelRuntimeStd2[ch] += (thisRuntimeUncertainty*thisRuntimeUncertainty);
+      
       if (noDT) continue;
 
       double thisLiveTime=0;
@@ -731,7 +737,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   if (!noDT)
   {
     cout << "\nDetector summary with best (H or L) gain and deadtime correction : \n"
-         << "Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d)  AvgLTFrac  AvgLTUnc NRuns\n";
+         << "Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d)  AvgLTFrac  AvgLTUnc RTUnc NRuns\n";
     for(auto &live : channelLivetimeBest)
     {
       int chan = live.first;
@@ -743,7 +749,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       double ltAvg = getVectorAverage(livetimeMapBest[chan]);
       double ltUnc = getVectorUncertainty(livetimeMapBest[chan]);
 
-      cout << Form("%-4i  %-8i  %-8.3f  %-10.4f  %-11.4f  %-13.4f  %-9.5f  %.5f  %zu\n", chan,detID,activeMass,channelRuntime[chan],chLive,bestExposure[detID],ltAvg,ltUnc,livetimeMapBest[chan].size());
+      cout << Form("%-4i  %-8i  %-8.3f  %-10.4f  %-11.4f  %-13.4f  %-9.5f  %.5f  %.5f %zu\n", chan,detID,activeMass,channelRuntime[chan],chLive,bestExposure[detID],ltAvg,ltUnc,sqrt(channelRuntimeStd2[chan]) livetimeMapBest[chan].size());
     }
 
     // Now report some average values for "all", "best", HG, and LG channel sets
