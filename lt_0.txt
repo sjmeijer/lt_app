@@ -24,7 +24,7 @@ detInfoProc:  this is GAT branch master, commit 011c0b5
 90.0419 % done, run 5759
 90.0884 % done, run 5760
 
-DS 0 Results, 2017/9/8
+DS 0 Results, 2017/9/22
 	Veto Runtime 45.9081
 	Veto Deadtime 0.0383456
 Module 1:

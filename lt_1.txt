@@ -129,7 +129,7 @@ Reverting to the unix timestamps (3600.00) for run 13719
 Subset 45, loading DT file:./deadtime/ds1_50.DT
 Subset 46, loading DT file:./deadtime/ds1_51.DT
 
-DS 1 Results, 2017/9/8
+DS 1 Results, 2017/9/21
 	Veto Runtime 58.768
 	Veto Deadtime 0.0372605
 Module 1:
@@ -137,7 +137,7 @@ Module 1:
 	Number of runs: 1502 
 	LN Deadtime : 0.590475 (0.0100476)
 	Active Enr Mass (kg): 11.901  Active Nat Mass: 1.121
-	Best Enr Exposure : 700.704
+	Best Enr Exposure : 669.303
 	Best Nat Exposure : 63.3273
 
 Detector summary with best (H or L) gain and deadtime correction : 
