@@ -735,6 +735,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     m2EnrExpBestUnc = sqrt(m2EnrExpBestUnc2);
     m2NatExpBestUnc = sqrt(m2NatExpBestUnc2);   
 
+    cout << "m1EnrExpBestUnc: " << m1EnrExpBestUnc << ", " << m1EnrExpBestUnc2 << endl;
+    cout << "m2EnrExpBestUnc: " << m2EnrExpBestUnc << ", " << m2EnrExpBestUnc2 << endl;
+    
     // find deadtime fractions, 'dtFrac'
     dtFrac[0] = dtfDeadTime[0] / dtfRunTime;     // hardware HG
     dtFrac[1] = dtfDeadTime[1] / dtfRunTime;     // hardware LG
