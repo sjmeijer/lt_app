@@ -34,7 +34,7 @@ Subset 14, loading DT file:./deadtime/ds3_22.DT
 Subset 15, loading DT file:./deadtime/ds3_23.DT
 Subset 16, loading DT file:./deadtime/ds3_24.DT
 
-DS 3 Results, 2017/9/8
+DS 3 Results, 2017/9/21
 	Veto Runtime 29.8788
 	Veto Deadtime 0.012634
 Module 1:

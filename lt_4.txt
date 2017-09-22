@@ -30,7 +30,7 @@ Subset 8, loading DT file:./deadtime/ds4_17.DT
 90 % done, run 60001668
 Subset 9, loading DT file:./deadtime/ds4_18.DT
 
-DS 4 Results, 2017/9/8
+DS 4 Results, 2017/9/21
 	Veto Runtime 0
 	Veto Deadtime 0.0767957
 Module 2:

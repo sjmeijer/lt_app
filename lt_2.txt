@@ -12,7 +12,7 @@ Subset 5, loading DT file:./deadtime/ds2_5.DT
 Subset 6, loading DT file:./deadtime/ds2_6.DT
 Subset 7, loading DT file:./deadtime/ds2_7.DT
 
-DS 2 Results, 2017/9/8
+DS 2 Results, 2017/9/21
 	Veto Runtime 9.57582
 	Veto Deadtime 0.00712612
 Module 1:
