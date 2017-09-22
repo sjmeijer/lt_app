@@ -711,15 +711,11 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
             
       bestExposureUnc[detChanToDetIDMap[chan]]   = channelExposure[chan]*( (activeMassUnc/activeMass)*(activeMassUnc/activeMass)  + (totalLTUnc/livetime)*(totalLTUnc/livetime) ); 
       bestExposureLTUnc[detChanToDetIDMap[chan]] = channelExposure[chan]*(                           0                            + (totalLTUnc/livetime)*(totalLTUnc/livetime) ); 
-      cout << " bestExposureUnc[chan==" << chan << "] = " << bestExposureUnc[detChanToDetIDMap[chan]] << "( " << activeMassUnc << ", " << activeMass << ", " << totalLTUnc << ", " << livetime << endl;
       }
 
     // only add to the final values ONCE for each detector!
     for (auto &expo : bestExposure) {
-      int detID = expo.first;
-
-      cout << "   " << detID << " : " << CheckModule(detID) << ", " << detIsEnr[detID] << endl;
-  
+      int detID = expo.first;  
       if (detID == -1) continue;
       if (CheckModule(detID)==1 && detIsEnr[detID]==1){
         m1EnrExpBest += bestExposure[detID];
@@ -752,10 +748,6 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     m2EnrExpBestLTUnc = sqrt(m2EnrExpBestLTUnc2);
     m2NatExpBestLTUnc = sqrt(m2NatExpBestLTUnc2); 
 
-    cout << "m1EnrExpBestUnc:   " << m1EnrExpBestUnc << ", " << m1EnrExpBestUnc2 << endl;
-    cout << "m2EnrExpBestUnc:   " << m2EnrExpBestUnc << ", " << m2EnrExpBestUnc2 << endl;
-    cout << "m1EnrExpBestLTUnc: " << m1EnrExpBestLTUnc << ", " << m1EnrExpBestLTUnc2 << endl;
-    cout << "m2EnrExpBestLTUnc: " << m2EnrExpBestLTUnc << ", " << m2EnrExpBestLTUnc2 << endl;
     // find deadtime fractions, 'dtFrac'
     dtFrac[0] = dtfDeadTime[0] / dtfRunTime;     // hardware HG
     dtFrac[1] = dtfDeadTime[1] / dtfRunTime;     // hardware LG
