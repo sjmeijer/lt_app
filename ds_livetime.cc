@@ -636,7 +636,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     double ltHWUnc = getVectorUncertainty(livetimeMapBest[chan]);
     double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc);
     
-    channelExposureUnc[chan] = channelExposure[chan]*( (activeMassUnc/activeMass)^2  + (totalLTUnc/livetime)^2 ); 
+    channelExposureUnc[chan] = channelExposure[chan]*( (activeMassUnc/activeMass)*(activeMassUnc/activeMass)  + (totalLTUnc/livetime)*(totalLTUnc/livetime) ); 
 
     // don't double count LG channels or include pulser monitors
     if (chan%2==1 || detID==-1) continue;
@@ -685,7 +685,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       double ltHWUnc = getVectorUncertainty(livetimeMapBest[chan]);
       double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc);
             
-      bestExposureUnc[chan] = channelExposure[chan]*( (activeMassUnc/activeMass)^2  + (totalLTUnc/livetime)^2 ); 
+      bestExposureUnc[chan] = channelExposure[chan]*( (activeMassUnc/activeMass)*(activeMassUnc/activeMass)  + (totalLTUnc/livetime)*(totalLTUnc/livetime) ); 
       }
 
     // only add to the final values ONCE for each detector!
