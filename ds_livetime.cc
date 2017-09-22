@@ -259,7 +259,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
     // Get the runtime for this run.
     // Cover a bunch of stupid edge cases.
-    double start=0, stop=0, thisRunTime=0;
+    double start=0, stop=0, thisRunTime=0, thisRuntimeUncertainty=0;
     time_t startUnix=0, stopUnix=0;
     if (runDB) {
       runTime += times[r].second;
@@ -272,7 +272,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       start = runInfo->GetStartClockTime();
       stop = runInfo->GetStopClockTime();
       thisRunTime = (stop-start)/1e9;
-      double thisRuntimeUncertainty = 10e-9;  // seconds of uncertainty
+      thisRuntimeUncertainty = 10e-9;  // seconds of uncertainty
       if(thisRunTime < 0) {
         printf("Error, the runtime is negative! %.1f  -  %.1f  = %.2f   \n",start,stop,thisRunTime);
         startUnix = runInfo->GetStartTime();
