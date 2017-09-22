@@ -712,6 +712,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     // only add to the final values ONCE for each detector!
     for (auto &expo : bestExposure) {
       int detID = expo.first;
+
+      cout << "   " << detID << " : " << CheckModule(detID) << ", " << detIsEnr[detID] << endl;
+  
       if (detID == -1) continue;
       if (CheckModule(detID)==1 && detIsEnr[detID]==1){
         m1EnrExpBest += bestExposure[detID];
