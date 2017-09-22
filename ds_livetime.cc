@@ -705,8 +705,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       double ltHWUnc = getVectorUncertainty(livetimeMapBest[chan]);
       double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc);
             
-      bestExposureUnc[chan] = channelExposure[chan]*( (activeMassUnc/activeMass)*(activeMassUnc/activeMass)  + (totalLTUnc/livetime)*(totalLTUnc/livetime) ); 
-      cout << " bestExposureUnc[chan==" << chan << "] = " << bestExposureUnc[chan] << "( " << activeMassUnc << ", " << activeMass << ", " << totalLTUnc << ", " << livetime << endl;
+      bestExposureUnc[detChanToDetIDMap[chan]] = channelExposure[chan]*( (activeMassUnc/activeMass)*(activeMassUnc/activeMass)  + (totalLTUnc/livetime)*(totalLTUnc/livetime) ); 
+      cout << " bestExposureUnc[chan==" << chan << "] = " << bestExposureUnc[detChanToDetIDMap[chan]] << "( " << activeMassUnc << ", " << activeMass << ", " << totalLTUnc << ", " << livetime << endl;
       }
 
     // only add to the final values ONCE for each detector!
