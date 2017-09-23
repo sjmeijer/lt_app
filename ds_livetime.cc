@@ -282,7 +282,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         stop = stopUnix;
         thisRunTime = (stopUnix-startUnix);
         printf("Reverting to the unix timestamps (%.2f) for run %d \n",thisRunTime,run);
-        thisRuntimeUncertainty = 1;
+        thisRuntimeUncertainty = 1;   // 1 second of uncertainty with unix timestamps
       }      
 
       runTime += thisRunTime;
@@ -660,23 +660,6 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   }
 
 
-
-  // double totalLTUnc = 0;
-
-  // for(auto &live : channelLivetimeBest)
-  // {
-  //   int chan = live.first;
-  //   double chLive = live.second;
-  //   int detID = detChanToDetIDMap[chan];
-  //   if (detID == -1) continue; // don't print pulser monitor chans
-
-  //   double activeMass = actM4Det_g[detID]/1000;
-  //   double ltAvg = getVectorAverage(livetimeMapBest[chan]);
-  //   double ltHWUnc = getVectorUncertainty(livetimeMapBest[chan]);
-  
-  //   totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc);
-  // }
-
   // Now calculate exposure again for the "best" gain scenario
   // The masses are the same as previous HG calc.
   // Only do this if we have deadtime information.
@@ -707,7 +690,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         {bestExposure[detID] += activeMass * livetime;}
 
       double ltHWUnc = getVectorUncertainty(livetimeMapBest[chan]);
-      double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc);
+      double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/3600*24);
             
       bestExposureUnc[detChanToDetIDMap[chan]]   = channelExposure[chan]*( (activeMassUnc/activeMass)*(activeMassUnc/activeMass)  + (totalLTUnc/livetime)*(totalLTUnc/livetime) ); 
       bestExposureLTUnc[detChanToDetIDMap[chan]] = channelExposure[chan]*(                           0                            + (totalLTUnc/livetime)*(totalLTUnc/livetime) ); 
@@ -816,7 +799,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       double ltAvg = getVectorAverage(livetimeMapBest[chan]);
       double ltHWUnc = getVectorUncertainty(livetimeMapBest[chan]);
     
-      double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc);
+      double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
 
       cout << Form("%-4i  %-8i  %-8.3f  %-10.4f  %-11.4f  %-13.4f  %-13.4f  %-9.5f  %.5f  %.5f %zu\n", chan,detID,activeMass,channelRuntime[chan],chLive,bestExposure[detID],bestExposureUnc[detID],ltAvg,ltHWUnc,totalLTUnc, livetimeMapBest[chan].size());
     }
