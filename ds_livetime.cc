@@ -576,7 +576,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       double thisLNDeadTime = 0;
       GATDetInfoProcessor gp;
       int detID = gp.GetDetIDFromName( chMap->GetString(ch, "kDetectorName") );
-      if (CheckMo dule(detID)==1) thisLNDeadTime = m1LNDeadRun;
+      if (CheckModule(detID)==1) thisLNDeadTime = m1LNDeadRun;
       if (CheckModule(detID)==2) thisLNDeadTime = m2LNDeadRun;
       channelLivetimeBest[ch] -= thisLNDeadTime;
       bestLiveTime -= thisLNDeadTime;
