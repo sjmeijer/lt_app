@@ -21,12 +21,12 @@ using namespace std;
 
 int main()
 {
-  int dsNum = 1;
+  int dsNum = 0;
 
   vector<int> runList;
   GATDataSet ds;
-  // for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
-  LoadDataSet(ds, dsNum, 29); // just the bad range, 42
+  for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
+  // LoadDataSet(ds, dsNum, 29); // just the bad range, 42
   for (size_t i = 0; i < ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
 
   for (auto run: runList)
