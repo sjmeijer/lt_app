@@ -29,6 +29,11 @@ int main()
   LoadDataSet(ds, dsNum, 29); // just the bad range, 42
   for (size_t i = 0; i < ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
 
+  for (auto run: runList)
+    cout << run << ", ";
+  cout << endl;
+  return 0;
+
   map<int,bool> detIDIsBad = LoadBadDetectorMap(dsNum);
   map<int,bool> detIDIsVetoOnly = LoadVetoDetectorMap(dsNum);
   map <int,int> detChanToDetIDMap;
