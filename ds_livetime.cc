@@ -697,11 +697,11 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       // double ltHWUnc = livetime*0.005;
       double ltHWUnc = livetime*getVectorUncertainty(hwDeadtimes[chan]);        
    // double ltHWUnc = livetime*getVectorUncertainty(livetimeMapBest[chan]);
-      double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
+      double totalLTUnc = 0; //sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
       // double totalLTUnc = sqrt(channelRuntimeStd2[chan])/(3600*24);   // no contribution from deadtime uncertainty
       
-      bestExposureUnc[detChanToDetIDMap[chan]]   = sqrt(channelExposure[chan]*channelExposure[chan]*( (activeMassUnc/activeMass)*(activeMassUnc/activeMass)  + (totalLTUnc/livetime)*(totalLTUnc/livetime) )); 
-      bestExposureLTUnc[detChanToDetIDMap[chan]] = sqrt(channelExposure[chan]*channelExposure[chan]*(                           0                            + (totalLTUnc/livetime)*(totalLTUnc/livetime) )); 
+      bestExposureUnc[detID]   = channelExposure[chan]*sqrt(( (activeMassUnc/activeMass)*(activeMassUnc/activeMass)  + (totalLTUnc/livetime)*(totalLTUnc/livetime) )); 
+      bestExposureLTUnc[detID] = channelExposure[chan]*sqrt((                           0                            + (totalLTUnc/livetime)*(totalLTUnc/livetime) )); 
 
       cout << "chan " << chan << ": exp " << channelExposure[chan] << ", mass " << activeMass << " +/- " << activeMassUnc << ", lt " <<  livetime << " +/- " << totalLTUnc << endl;
 
