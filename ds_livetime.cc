@@ -696,7 +696,10 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       
       bestExposureUnc[detChanToDetIDMap[chan]]   = channelExposure[chan]*channelExposure[chan]*( (activeMassUnc/activeMass)*(activeMassUnc/activeMass)  + (totalLTUnc/livetime)*(totalLTUnc/livetime) ); 
       bestExposureLTUnc[detChanToDetIDMap[chan]] = channelExposure[chan]*channelExposure[chan]*(                           0                            + (totalLTUnc/livetime)*(totalLTUnc/livetime) ); 
-      }
+
+      cout << "chan " << chan << ": exp " << channelExposure[chan] << ", mass " << activeMass << " +/- " << activeMassUnc << ", lt " <<  livetime << " +/- " << totalLTUnc << endl;
+
+    }
 
     // only add to the final values ONCE for each detector!
     for (auto &expo : bestExposure) {
