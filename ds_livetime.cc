@@ -700,8 +700,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       double totalLTUnc = 0; //sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
       // double totalLTUnc = sqrt(channelRuntimeStd2[chan])/(3600*24);   // no contribution from deadtime uncertainty
       
-      bestExposureUnc[detID]   = bestExposure[chan]*sqrt( pow( activeMassUnc/activeMass ,2)  + pow( totalLTUnc/livetime,2) ); 
-      bestExposureLTUnc[detID] = bestExposure[chan]*sqrt(               0                    + pow( totalLTUnc/livetime,2) ); 
+      bestExposureUnc[detID]   = bestExposure[detID]*sqrt( pow( activeMassUnc/activeMass ,2)  + pow( totalLTUnc/livetime,2) ); 
+      bestExposureLTUnc[detID] = bestExposure[detID]*sqrt(               0                    + pow( totalLTUnc/livetime,2) ); 
 
       cout << "chan " << chan << ": exp " << channelExposure[chan] << ", mass " << activeMass << " +/- " << activeMassUnc << ", lt " <<  livetime << " +/- " << totalLTUnc << endl;
 
