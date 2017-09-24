@@ -192,6 +192,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   map <int,double> channelRuntimeStd2;
   map <int,int> detChanToDetIDMap;
   map <int,vector<double>> livetimeMap, livetimeMapBest;
+  map <int,vector<double>> hwDeadtimes;
   map<string, vector<double>> dtMap;
   bool firstTimeInSubset=true;     // Allows us to only add in pulser deadtime once per subset
   double dtfRunTime=0;             // dummy runtime for deadtime fraction (hg and lg det's)
@@ -566,6 +567,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         bestLiveTime = thisRunTime * (1 - orDead) - orPulserDT*(firstTimeInSubset?1:0);
         dtfDeadTime[2] += thisRunTime * orDead;
         dtfDeadTime[5] += orPulserDT*(firstTimeInSubset?1:0);
+
+        hwDeadtimes[ch].push_back(orDead);
       }
       else {
         cout << "Warning: Detector " << pos << " not found! Exiting ...\n";
@@ -690,7 +693,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       else // if this detector has been seen already
         {bestExposure[detID] += activeMass * livetime;}
 
-      double ltHWUnc = livetime*getVectorUncertainty(livetimeMapBest[chan]);
+      double ltHWUnc = livetime*getVectorUncertainty(hwDeadtimes[chan]);        
+   // double ltHWUnc = livetime*getVectorUncertainty(livetimeMapBest[chan]);
       double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
       // double totalLTUnc = sqrt(channelRuntimeStd2[chan])/(3600*24);   // no contribution from deadtime uncertainty
       
