@@ -1204,10 +1204,10 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
   {
     uint32_t aChannel = input[i];
 
-	if(std::find(input.begin(), input.end(), aChannel) != input.end()){
-		cout << "That's weird, we already put " << aChannel << " in the array" << endl;
-		continue;
-	}
+	  if(std::find(goodIDs.begin(), goodIDs.end(), aChannel) != goodIDs.end()){
+		  cout << "That's weird, we already put " << aChannel << " in the array" << endl;
+		  continue;
+	  }
 
     if(aChannel%2==1) // if it is LG
     {
@@ -1219,12 +1219,12 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
       }
     }
     else{ 
-		goodIDs.push_back(aChannel); 
-	}
+		  goodIDs.push_back(aChannel); 
+	  }
   }
   
- for (auto i: goodIDs)
-  std::cout << i << ' ';
+  for (auto i: goodIDs)
+    std::cout << i << ' ';
 
-return goodIDs;
+  return goodIDs;
 }
