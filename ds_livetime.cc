@@ -697,7 +697,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       // double ltHWUnc = livetime*0.005;
       double ltHWUnc = livetime*getVectorUncertainty(hwDeadtimes[chan]);        
    // double ltHWUnc = livetime*getVectorUncertainty(livetimeMapBest[chan]);
-      double totalLTUnc = 0; //sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
+      double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
       // double totalLTUnc = sqrt(channelRuntimeStd2[chan])/(3600*24);   // no contribution from deadtime uncertainty
       
       bestExposureUnc[detID]   = bestExposure[detID]*sqrt( pow( activeMassUnc/activeMass ,2)  + pow( totalLTUnc/livetime,2) ); 
