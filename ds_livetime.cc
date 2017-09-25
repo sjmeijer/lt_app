@@ -1200,6 +1200,8 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
   vector<uint32_t> goodIDs;
   int n = input.size();
 
+  cout << "Getting best IDs" << endl;
+
   for(int i=0; i<n; i++)
   {
     uint32_t aChannel = input[i];
@@ -1224,7 +1226,10 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
   }
   
   for (auto i: goodIDs)
+  {
     std::cout << i << ' ';
+  }
+  cout << "\n\n";
 
   return goodIDs;
 }
