@@ -623,6 +623,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   map <int,double> channelExposure;
   map <int,double> channelExposureUnc;
 
+  cout << "Looking at all channels" << endl;
+
   // If we don't have deadtime information, only report RUNTIME-based results
   map <int,double> chanResults;
   if (noDT) chanResults = channelRuntime;
@@ -678,6 +680,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   map <int,double> bestExposureUnc;
   map <int,double> bestExposureLTUnc;   // exposure uncertainty for LT only (no active mass uncertainty is included) 
 
+  cout << "Looking at Best Livetime" << endl;
   if (!noDT) {
     for (auto &live : channelLivetimeBest)
     {
