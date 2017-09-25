@@ -713,29 +713,33 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       if (detID == -1) continue;
       if (CheckModule(detID)==1 && detIsEnr[detID]==1){
         m1EnrExpBest += bestExposure[detID];
-        m1EnrExpBestUnc2   += bestExposureUnc[detID]*bestExposureUnc[detID];
+        m1EnrExpBestUnc   += bestExposureUnc[detID];
+        // m1EnrExpBestUnc2   += bestExposureUnc[detID]*bestExposureUnc[detID];
         m1EnrExpBestLTUnc2 += bestExposureLTUnc[detID]*bestExposureLTUnc[detID];
       }
       if (CheckModule(detID)==1 && detIsEnr[detID]==0){
         m1NatExpBest += bestExposure[detID];
-        m1NatExpBestUnc2 += bestExposureUnc[detID]*bestExposureUnc[detID];  
+        m1NatExpBestUnc += bestExposureUnc[detID];  
+        // m1NatExpBestUnc2 += bestExposureUnc[detID]*bestExposureUnc[detID];  
         m1NatExpBestLTUnc2 += bestExposureLTUnc[detID]*bestExposureLTUnc[detID];        
       }
       if (CheckModule(detID)==2 && detIsEnr[detID]==1){
         m2EnrExpBest += bestExposure[detID];
-        m2EnrExpBestUnc2 += bestExposureUnc[detID]*bestExposureUnc[detID]; 
+        m2EnrExpBestUnc += bestExposureUnc[detID];
+        // m2EnrExpBestUnc2 += bestExposureUnc[detID]*bestExposureUnc[detID]; 
         m2EnrExpBestLTUnc2 += bestExposureLTUnc[detID]*bestExposureLTUnc[detID];
       }
       if (CheckModule(detID)==2 && detIsEnr[detID]==0){
         m2NatExpBest += bestExposure[detID];
-        m2NatExpBestUnc2 += bestExposureUnc[detID]*bestExposureUnc[detID];
+        m2NatExpBestUnc += bestExposureUnc[detID];
+        // m2NatExpBestUnc2 += bestExposureUnc[detID]*bestExposureUnc[detID];
         m2NatExpBestLTUnc2 += bestExposureLTUnc[detID]*bestExposureLTUnc[detID];
       }
     }
-    m1EnrExpBestUnc = sqrt(m1EnrExpBestUnc2);
-    m1NatExpBestUnc = sqrt(m1NatExpBestUnc2);
-    m2EnrExpBestUnc = sqrt(m2EnrExpBestUnc2);
-    m2NatExpBestUnc = sqrt(m2NatExpBestUnc2);   
+    // m1EnrExpBestUnc = sqrt(m1EnrExpBestUnc2);
+    // m1NatExpBestUnc = sqrt(m1NatExpBestUnc2);
+    // m2EnrExpBestUnc = sqrt(m2EnrExpBestUnc2);
+    // m2NatExpBestUnc = sqrt(m2NatExpBestUnc2);   
 
     m1EnrExpBestLTUnc = sqrt(m1EnrExpBestLTUnc2);
     m1NatExpBestLTUnc = sqrt(m1NatExpBestLTUnc2);
