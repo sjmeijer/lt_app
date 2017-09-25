@@ -669,7 +669,6 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   // Only do this if we have deadtime information.
   // Also calculate deadtime fractions.
   double m1EnrExpBest=0, m1NatExpBest=0, m2EnrExpBest=0, m2NatExpBest=0;
-  double m1EnrExpBestUnc2=0, m1NatExpBestUnc2=0, m2EnrExpBestUnc2=0, m2NatExpBestUnc2=0;  // uncertainties squared
   double m1EnrExpBestUnc=0, m1NatExpBestUnc=0, m2EnrExpBestUnc=0, m2NatExpBestUnc=0;      // The actual uncertainties
   double m1EnrExpBestLTUnc2=0, m1NatExpBestLTUnc2=0, m2EnrExpBestLTUnc2=0, m2NatExpBestLTUnc2=0;          // Exposure uncertainty squared with only LT uncertainty, no active mass
   double m1EnrExpBestLTUnc=0, m1NatExpBestLTUnc=0, m2EnrExpBestLTUnc=0, m2NatExpBestLTUnc=0;              // The actual uncertainties, no active mass
