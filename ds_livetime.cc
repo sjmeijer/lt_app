@@ -698,7 +698,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       bestExposureUnc[detID]   = bestExposure[detID]*sqrt( pow( activeMassUnc/activeMass ,2)  + pow( totalLTUnc/livetime,2) ); 
       bestExposureLTUnc[detID] = bestExposure[detID]*sqrt(               0                    + pow( totalLTUnc/livetime,2) );
       
-      cout << "chan " << chan << ": exp " << bestExposure[detID] << " +/- " << bestExposureUnc[detID]  << ", mass " << activeMass << " +/- " << activeMassUnc << ", lt " <<  livetime << " +/- " << totalLTUnc  << endl;
+      cout << "chan " << chan << ": exp " << bestExposure[detID] << " +/- " << bestExposureUnc[detID]  << ", mass " << activeMass << " +/- " << activeMassUnc << ", lt " <<  livetime << " +/- " << totalLTUnc  << "( " << channelRuntimeStd2[chan] << ", " << ltHWUnc << ", " << hwDeadtimes[chan].size() << ") "  << endl;
       
     }
 
@@ -1160,6 +1160,10 @@ double getVectorUncertainty(vector<double> aVector)
   double sum_x = 0;
   double sum_x2 = 0;
   int n = aVector.size();
+  if(n<=0){
+    cout << "ERROR: Trying to take a stdev with n=0" << endl;
+    return 0;
+  }
 
   for (int i=0; i<n; i++)
   {
@@ -1200,6 +1204,11 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
   {
     uint32_t aChannel = input[i];
 
+	if(std::find(input.begin(), input.end(), aChannel) != input.end()){
+		cout << "That's weird, we already put " << aChannel << " in the array" << endl;
+		continue;
+	}
+
     if(aChannel%2==1) // if it is LG
     {
       // check if HG is in input
@@ -1209,7 +1218,13 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
         goodIDs.push_back(aChannel);
       }
     }
-    else{ goodIDs.push_back(aChannel); }
+    else{ 
+		goodIDs.push_back(aChannel); 
+	}
   }
-  return goodIDs;
+  
+ for (auto i: goodIDs)
+  std::cout << i << ' ';
+
+return goodIDs;
 }
