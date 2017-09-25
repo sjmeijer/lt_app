@@ -786,7 +786,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   if (!noDT)
   {
     cout << "\nDetector summary with best (H or L) gain and deadtime correction : \n"
-         << "Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac  LTUnc NRuns\n";
+         << "Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac   LTUnc[s]  NRuns\n";
     for(auto &live : channelLivetimeBest)
     {
       int chan = live.first;
@@ -798,7 +798,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       double ltAvg = getVectorAverage(livetimeMapBest[chan]);
       double ltHWUnc = getVectorUncertainty(livetimeMapBest[chan]);
     
-      double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
+      double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc);
 
       cout << Form("%-4i  %-8i  %-8.3f  %-10.4f  %-11.4f  %-13.4f  %-13.4f  %-9.5f  %.5f %zu\n", chan,detID,activeMass,channelRuntime[chan],chLive,bestExposure[detID],bestExposureUnc[detID],ltAvg,totalLTUnc, livetimeMapBest[chan].size());
     }
