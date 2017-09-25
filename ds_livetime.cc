@@ -637,11 +637,10 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
     channelExposure[chan] = activeMass * livetime;
 
-    double ltHWUnc = livetime*getVectorUncertainty(livetimeMapBest[chan]);
+    double ltHWUnc = livetime*getVectorUncertainty(hwDeadtimes[chan]);  // TODO: This should maybe not use hwDeadtimes
     double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
-    // double totalLTUnc = sqrt(channelRuntimeStd2[chan]);   // no deadtime uncertainty included
     
-    channelExposureUnc[chan] = channelExposure[chan]*( (activeMassUnc/activeMass)*(activeMassUnc/activeMass)  + (totalLTUnc/livetime)*(totalLTUnc/livetime) ); 
+    channelExposureUnc[chan] = channelExposure[chan]*sqrt( pow(activeMassUnc/activeMass,2)  + pow(totalLTUnc/livetime,2) ); 
 
     // don't double count LG channels or include pulser monitors
     if (chan%2==1 || detID==-1) continue;
@@ -694,17 +693,11 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       else // if this detector has been seen already
         {bestExposure[detID] += activeMass * livetime;}
 
-      // double ltHWUnc = livetime*0.005;
       double ltHWUnc = livetime*getVectorUncertainty(hwDeadtimes[chan]);        
-   // double ltHWUnc = livetime*getVectorUncertainty(livetimeMapBest[chan]);
       double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
-      // double totalLTUnc = sqrt(channelRuntimeStd2[chan])/(3600*24);   // no contribution from deadtime uncertainty
       
       bestExposureUnc[detID]   = bestExposure[detID]*sqrt( pow( activeMassUnc/activeMass ,2)  + pow( totalLTUnc/livetime,2) ); 
       bestExposureLTUnc[detID] = bestExposure[detID]*sqrt(               0                    + pow( totalLTUnc/livetime,2) ); 
-
-      cout << "chan " << chan << ": exp " << bestExposure[detID] << " +/- " << bestExposureUnc[detID]  << ", mass " << activeMass << " +/- " << activeMassUnc << ", lt " <<  livetime << " +/- " << totalLTUnc  << endl;
-
     }
 
     // only add to the final values ONCE for each detector!
@@ -714,32 +707,24 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       if (CheckModule(detID)==1 && detIsEnr[detID]==1){
         m1EnrExpBest += bestExposure[detID];
         m1EnrExpBestUnc   += bestExposureUnc[detID];
-        // m1EnrExpBestUnc2   += bestExposureUnc[detID]*bestExposureUnc[detID];
         m1EnrExpBestLTUnc2 += bestExposureLTUnc[detID]*bestExposureLTUnc[detID];
       }
       if (CheckModule(detID)==1 && detIsEnr[detID]==0){
         m1NatExpBest += bestExposure[detID];
         m1NatExpBestUnc += bestExposureUnc[detID];  
-        // m1NatExpBestUnc2 += bestExposureUnc[detID]*bestExposureUnc[detID];  
         m1NatExpBestLTUnc2 += bestExposureLTUnc[detID]*bestExposureLTUnc[detID];        
       }
       if (CheckModule(detID)==2 && detIsEnr[detID]==1){
         m2EnrExpBest += bestExposure[detID];
         m2EnrExpBestUnc += bestExposureUnc[detID];
-        // m2EnrExpBestUnc2 += bestExposureUnc[detID]*bestExposureUnc[detID]; 
         m2EnrExpBestLTUnc2 += bestExposureLTUnc[detID]*bestExposureLTUnc[detID];
       }
       if (CheckModule(detID)==2 && detIsEnr[detID]==0){
         m2NatExpBest += bestExposure[detID];
         m2NatExpBestUnc += bestExposureUnc[detID];
-        // m2NatExpBestUnc2 += bestExposureUnc[detID]*bestExposureUnc[detID];
         m2NatExpBestLTUnc2 += bestExposureLTUnc[detID]*bestExposureLTUnc[detID];
       }
-    }
-    // m1EnrExpBestUnc = sqrt(m1EnrExpBestUnc2);
-    // m1NatExpBestUnc = sqrt(m1NatExpBestUnc2);
-    // m2EnrExpBestUnc = sqrt(m2EnrExpBestUnc2);
-    // m2NatExpBestUnc = sqrt(m2NatExpBestUnc2);   
+    } 
 
     m1EnrExpBestLTUnc = sqrt(m1EnrExpBestLTUnc2);
     m1NatExpBestLTUnc = sqrt(m1NatExpBestLTUnc2);
@@ -802,7 +787,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   if (!noDT)
   {
     cout << "\nDetector summary with best (H or L) gain and deadtime correction : \n"
-         << "Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac  AvgLTUnc RTUnc NRuns\n";
+         << "Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac  AvgLTUnc NRuns\n";
     for(auto &live : channelLivetimeBest)
     {
       int chan = live.first;
@@ -816,7 +801,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     
       double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
 
-      cout << Form("%-4i  %-8i  %-8.3f  %-10.4f  %-11.4f  %-13.4f  %-13.4f  %-9.5f  %.5f  %.5f %zu\n", chan,detID,activeMass,channelRuntime[chan],chLive,bestExposure[detID],bestExposureUnc[detID],ltAvg,ltHWUnc,totalLTUnc, livetimeMapBest[chan].size());
+      cout << Form("%-4i  %-8i  %-8.3f  %-10.4f  %-11.4f  %-13.4f  %-13.4f  %-9.5f  %.5f %zu\n", chan,detID,activeMass,channelRuntime[chan],chLive,bestExposure[detID],bestExposureUnc[detID],ltAvg,ltHWUnc, livetimeMapBest[chan].size());
     }
 
     // Now report some average values for "all", "best", HG, and LG channel sets
