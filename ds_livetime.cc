@@ -1166,26 +1166,37 @@ double getLivetimeAverage(map<int, double> livetimes, string opt)
 
 double getVectorUncertainty(vector<double> aVector)
 {
-  double sum_x = 0;
-  double sum_x2 = 0;
+  // double sum_x = 0;
+  // double sum_x2 = 0;
   int n = aVector.size();
   if(n<=0){
     cout << "ERROR: Trying to take a stdev with n=0" << endl;
     return 0;
   }
 
-  for (int i=0; i<n; i++)
-  {
-    double x = aVector[i];
-    sum_x += x;
-    sum_x2 += x*x;
+  double mean = 0, M2 = 0;
+  size_t n = aVector.size();
+  for(size_t i=0; i<n; ++i) {
+      double delta = aVector[i] - mean;
+      mean += delta/n;
+      M2 += delta*(aVector[i] - mean);
+      variance = M2/(n - 1)
   }
-  double mean = sum_x / n;
-  double stdev = sqrt((sum_x2 / n) - (mean * mean));
-  double stdevN = stdev / sqrt(n);
+
+
+
+  // for (int i=0; i<n; i++)
+  // {
+  //   double x = aVector[i];
+  //   sum_x += x;
+  //   sum_x2 += x*x;
+  // }
+  // double mean = sum_x / n;
+  // double stdev = sqrt((sum_x2 / n) - (mean * mean));
+  double stdevN = sqrt(variance) / sqrt(n);
 
   if(stdevN != stdevN){
-    cout<< "ERROR: stdevN is NaN. Maybe because of " << mean << ", " << stdev << ", " << sum_x << ", " << sum_x2 << ", " << n << ", or " << mean << endl;
+    cout<< "ERROR: stdevN is NaN. Maybe because of " << mean << ", " << M2 << ", " << variance << ", or " << n << endl;
   }
 
   return stdevN;
