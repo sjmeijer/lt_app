@@ -1249,7 +1249,7 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
 }
 
 
-pair<double,double> getTotalExposureWithUncertainty(map<int, double> expMean, map<int, double> expUnc, vector<uint32_t> IDs, int nIterations)
+double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> expUnc, vector<uint32_t> IDs, int nIterations)
 {
   // Uses a Monte Carlo method to estimate the uncertainty.
   // map<int,vector<double>> exposureTrials;   // exposure[det] is a vector of all trial values
@@ -1278,7 +1278,7 @@ pair<double,double> getTotalExposureWithUncertainty(map<int, double> expMean, ma
   for(auto& val: exposureTrials){finalSum += val;}
 
 
-  return make_pair(finalSum/exposureTrials.size(),;
+  return finalSum/exposureTrials.size();
 
 }
 
