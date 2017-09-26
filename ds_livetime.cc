@@ -1182,7 +1182,7 @@ double getVectorUncertainty(vector<double> aVector)
   }
   double mean = sum_x / n;
   double stdev = sqrt((sum_x2 / n) - (mean * mean));
-  double stdevN = stdev / sqrt(n) 
+  double stdevN = stdev / sqrt(n);
 
   if(stdevN != stdevN){
     cout<< "ERROR: stdevN is NaN. Maybe because of " << mean << ", " << stdev << ", " << sum_x << ", or " << sum_x2 << endl;
@@ -1251,7 +1251,7 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
 }
 
 
-double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> expUnc, vector<uint32_t> IDs, int nIterations=1000)
+double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> expUnc, vector<uint32_t> IDs, int nIterations)
 {
   // Uses a Monte Carlo method to estimate the uncertainty.
   // map<int,vector<double>> exposureTrials;   // exposure[det] is a vector of all trial values
