@@ -707,8 +707,6 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       bestExposureUnc[detID]   = bestExposure[detID]*sqrt( pow( activeMassUnc/activeMass ,2)  + pow( totalLTUnc/livetime,2) ); 
       bestExposureLTUnc[detID] = bestExposure[detID]*sqrt(               0                    + pow( totalLTUnc/livetime,2) );
       
-      cout << "chan " << chan << ": exp " << bestExposure[detID] << " +/- " << bestExposureUnc[detID]  << ", mass " << activeMass << " +/- " << activeMassUnc << ", lt " <<  livetime << " +/- " << totalLTUnc  << "( " << channelRuntimeStd2[chan] << ", " << ltHWUnc << ", " << hwDeadtimes[chan].size() << ") "  << endl;
-      
     }
 
     // only add to the final values ONCE for each detector!
@@ -1170,7 +1168,7 @@ double getVectorUncertainty(vector<double> aVector)
   // double sum_x2 = 0;
   int n = aVector.size();
   if(n<=0){
-    cout << "ERROR: Trying to take a stdev with n=0" << endl;
+    // cout << "ERROR: Trying to take a stdev with n=0" << endl;
     return 0;
   }
 
@@ -1216,7 +1214,7 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
   vector<uint32_t> goodIDs;
   int n = input.size();
 
-  cout << "Getting best IDs" << endl;
+  // cout << "Getting best IDs" << endl;
 
   for(int i=0; i<n; i++)
   {
@@ -1241,17 +1239,17 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
 	  }
   }
   
-  for (auto i: goodIDs)
-  {
-    std::cout << i << ' ';
-  }
-  cout << "\n\n";
+  // for (auto i: goodIDs)
+  // {
+  //   std::cout << i << ' ';
+  // }
+  // cout << "\n\n";
 
   return goodIDs;
 }
 
 
-double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> expUnc, vector<uint32_t> IDs, int nIterations)
+pair<double,double> getTotalExposureWithUncertainty(map<int, double> expMean, map<int, double> expUnc, vector<uint32_t> IDs, int nIterations)
 {
   // Uses a Monte Carlo method to estimate the uncertainty.
   // map<int,vector<double>> exposureTrials;   // exposure[det] is a vector of all trial values
@@ -1280,7 +1278,7 @@ double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> ex
   for(auto& val: exposureTrials){finalSum += val;}
 
 
-  return finalSum/exposureTrials.size();
+  return make_pair(finalSum/exposureTrials.size(),;
 
 }
 
