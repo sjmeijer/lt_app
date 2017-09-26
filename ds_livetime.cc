@@ -1263,7 +1263,7 @@ double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> ex
     double sum = 0;
     for(auto i: IDs)  
     {
-      vector<std::normal_distribution<double>> dist(expMean[i],expUnc[i]);
+      std::normal_distribution<double> dist(expMean[i],expUnc[i]);
       double value = dist(generator); // the sampled best value
       
       sum += value;
@@ -1275,7 +1275,12 @@ double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> ex
 
   }
 
-  return -666;
+  // get average
+  double finalSum = 0;
+  for(auto& val: exposureTrials){finalSum += val;}
+
+
+  return finalSum/exposureTrials.size();
 
 }
 
