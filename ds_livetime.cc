@@ -42,6 +42,8 @@ double getLivetimeAverage(map<int, double> livetimes, string opt="");
 double getVectorUncertainty(vector<double> aVector);
 double getVectorAverage(vector<double> aVector);
 vector<uint32_t> getBestIDs(vector<uint32_t> input);
+double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> expUnc, vector<uint32_t> IDs, int nIterations=1000)
+
 
 bool check_num(std::string const &in) {
     char *end;
@@ -639,6 +641,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
     channelExposure[chan] = activeMass * livetime;
 
+    if(hwDeadtimes[chan].size() < 1){
+
+    }
     double ltHWUnc = livetime*getVectorUncertainty(hwDeadtimes[chan]);  // TODO: This should maybe not use hwDeadtimes
     double totalLTUnc = sqrt(channelRuntimeStd2[chan] + ltHWUnc*ltHWUnc)/(3600*24);
     
@@ -1170,12 +1175,19 @@ double getVectorUncertainty(vector<double> aVector)
 
   for (int i=0; i<n; i++)
   {
-    sum_x += aVector[i];
-    sum_x2 += aVector[i]*aVector[i];
+    double x = aVector[i];
+    sum_x += x;
+    sum_x2 += x*x;
   }
   double mean = sum_x / n;
   double stdev = sqrt((sum_x2 / n) - (mean * mean));
-  return stdev / sqrt(n) ;
+  double stdevN = stdev / sqrt(n) 
+
+  if(stdevN != stdevN){
+    cout<< "ERROR: stdevN is NaN. Maybe because of " << mean << ", " << stdev << ", " << sum_x << ", or " << sum_x2 << endl;
+  }
+
+  return stdevN;
 
 }
 
@@ -1236,3 +1248,30 @@ vector<uint32_t> getBestIDs(vector<uint32_t> input)
 
   return goodIDs;
 }
+
+
+double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> expUnc, vector<uint32_t> IDs, int nIterations=1000)
+{
+  // Uses a Monte Carlo method to estimate the uncertainty.
+  // map<int,vector<double>> exposureTrials;   // exposure[det] is a vector of all trial values
+  vector<double> exposureTrials;
+  std::default_random_engine generator;
+
+  for(int trial=0; trial<nIterations; trial++)
+  {
+    exposureTrials[trial] = 0;
+    for(auto i: IDs)  
+    {
+      vector<std::normal_distribution<double>> dist(expMean[i],expUnc[i]);
+      double value = dist(generator); // the sampled best value
+      exposureTrials[trial] += value;
+      
+      // exposureTrials[chan].push_back(value);
+    }
+
+  }
+
+  return -666;
+
+}
+
