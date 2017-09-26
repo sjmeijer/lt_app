@@ -42,7 +42,7 @@ double getLivetimeAverage(map<int, double> livetimes, string opt="");
 double getVectorUncertainty(vector<double> aVector);
 double getVectorAverage(vector<double> aVector);
 vector<uint32_t> getBestIDs(vector<uint32_t> input);
-double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> expUnc, vector<uint32_t> IDs, int nIterations=1000)
+double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> expUnc, vector<uint32_t> IDs, int nIterations=1000);
 
 
 bool check_num(std::string const &in) {
