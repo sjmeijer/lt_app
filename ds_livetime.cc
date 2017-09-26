@@ -1185,7 +1185,7 @@ double getVectorUncertainty(vector<double> aVector)
   double stdevN = stdev / sqrt(n);
 
   if(stdevN != stdevN){
-    cout<< "ERROR: stdevN is NaN. Maybe because of " << mean << ", " << stdev << ", " << sum_x << ", or " << sum_x2 << endl;
+    cout<< "ERROR: stdevN is NaN. Maybe because of " << mean << ", " << stdev << ", " << sum_x << ", " << sum_x2 << ", " << n << ", or " << mean << endl;
   }
 
   return stdevN;
