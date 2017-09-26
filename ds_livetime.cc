@@ -1174,14 +1174,14 @@ double getVectorUncertainty(vector<double> aVector)
     return 0;
   }
 
-  double mean = 0, M2 = 0;
+  double mean = 0, M2 = 0, variance =0;
   for(int i=0; i<n; ++i) {
       double delta = aVector[i] - mean;
       mean += delta/n;
       M2 += delta*(aVector[i] - mean);
       variance = M2/(n - 1);
   }
-  
+
   double stdevN = sqrt(variance) / sqrt(n);
 
   if(stdevN != stdevN){
