@@ -1167,7 +1167,7 @@ double getVectorUncertainty(vector<double> aVector)
   // double sum_x = 0;
   // double sum_x2 = 0;
   int n = aVector.size();
-  if(n<=0){
+  if(n<=1){
     // cout << "ERROR: Trying to take a stdev with n=0" << endl;
     return 0;
   }
