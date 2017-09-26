@@ -12,6 +12,7 @@
 #include <sstream>
 #include <iterator>
 #include <array>
+#include <random>
 #include "TFile.h"
 #include "TChain.h"
 #include "TTreeReader.h"
@@ -1259,15 +1260,18 @@ double getTotalExposureUncertainty(map<int, double> expMean, map<int, double> ex
 
   for(int trial=0; trial<nIterations; trial++)
   {
-    exposureTrials[trial] = 0;
+    double sum = 0;
     for(auto i: IDs)  
     {
       vector<std::normal_distribution<double>> dist(expMean[i],expUnc[i]);
       double value = dist(generator); // the sampled best value
-      exposureTrials[trial] += value;
+      
+      sum += value;
       
       // exposureTrials[chan].push_back(value);
     }
+
+    exposureTrials.push_back(sum);
 
   }
 
