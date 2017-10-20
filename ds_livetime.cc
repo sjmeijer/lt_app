@@ -243,11 +243,10 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
             >> det >> p1 >> p2 >> p3 >> p4 >> p5 >> p6;
         // cout << Form("%i %i %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %.2f %s %.0f %.0f %.0f %.0f %.0f %.0f\n" ,id,pos,hgFWHM,hgNeg,hgPos,hgDead,lgFWHM,lgNeg,lgPos,lgDead,orDead,det.c_str(),p1,p2,p3,p4,p5,p6);
 
-        // Check if anything is nan.  We'll take it to mean 100% dead.
-        // This is maximally conservative, as it could be 100% live.
-        if(hgDead != hgDead) hgDead = 100.0;
-        if(lgDead != lgDead) lgDead = 100.0;
-        if(orDead != orDead) orDead = 100.0;
+        // Check if anything is nan.  We'll set its value to -9.99 (bad) and deal with it later in the calculation.
+        if(hgDead != hgDead) hgDead = -9.99;
+        if(lgDead != lgDead) lgDead = -9.99;
+        if(orDead != orDead) orDead = -9.99;
 
         // fill the deadtime map
         dtMap[det] = {hgDead,lgDead,orDead,p1,p2,p3,p4};
@@ -508,6 +507,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
       if (noDT) continue;
 
+      cout << ch << endl;
+
       double thisLiveTime=0;
 
       string pos = chMap->GetDetectorPos(ch);
@@ -518,7 +519,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         double lgDead = dtMap[pos][1]/100.0;
         if (hgDead < 0 && lgDead > 0) hgDead = lgDead;
         if (lgDead < 0 && hgDead > 0) lgDead = hgDead;
-        if (lgDead < 0 && hgDead > 0) { hgDead = hgDeadAvg; lgDead = lgDeadAvg; }
+        if (lgDead < 0 && hgDead < 0) { hgDead = hgDeadAvg; lgDead = lgDeadAvg; }
 
         // The following assumes only DS2 uses presumming, and may not always be true
         // Takes out 62 or 100 us per pulser as deadtime.
@@ -567,11 +568,15 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       dtfRunTime += thisRunTime;
     }
 
+    cout << "Now best\n";
+
     // Add to "Best" Livetime:  One entry per detector (loops over 'best' channel list)
     for (auto ch : bestIDs)
     {
       if (detChanToDetIDMap[ch] == -1) continue;
       if (noDT) continue;
+
+      cout << "chan " << ch << endl;
 
       double bestLiveTime = 0;
       string pos = chMap->GetDetectorPos(ch);
@@ -582,7 +587,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         double lgDead = dtMap[pos][1]/100.0;
         if (hgDead < 0 && lgDead > 0) hgDead = lgDead;
         if (lgDead < 0 && hgDead > 0) lgDead = hgDead;
-        if (lgDead < 0 && hgDead > 0) { hgDead = hgDeadAvg; lgDead = lgDeadAvg; }
+        if (lgDead < 0 && hgDead < 0) { hgDead = hgDeadAvg; lgDead = lgDeadAvg; }
 
         // calculate the "or" deadtime, correctly handling edge cases w/ no pulser counts
         double p1=dtMap[pos][3], p2=dtMap[pos][4], p3=dtMap[pos][5], p4=dtMap[pos][6];
@@ -602,7 +607,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
           else if (hgGuess && lgGuess) orDead = hgDead;
           else if (hgGuess && lgBad) orDead = hgDead;
           else if (hgBad && (lgGood || lgGuess)) orDead = lgDead;
-          else orDead = orDeadAvg;
+          else orDead = orDeadAvg; // punt.  will be 0 if there are somehow no good entries in the whole subset.
         }
 
         // calculate pulser deadtime only if we have a nonzero number of OR pulsers
@@ -638,6 +643,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
       dtfRunTimeBest += thisRunTime;
     }
+    return;
 
     // Only subtract out the pulser deadtimes for each channel (for the entire subset)
     // if this is the first run in the subset.
