@@ -5,23 +5,30 @@ def main():
 
     matchCt, noMatchCt = 0,0
 
-    # for dtFile in glob.glob("./deadtime/*.DT"):
-    for dtFile in glob.glob("./deadtime/DS2*.DT"):
+    for dtFile in glob.glob("./deadtime/*.DT"):
+    # for dtFile in glob.glob("./deadtime/DS2*.DT"):
+    # for dtFile in ["./deadtime/ds3_0.DT"]:
 
         print dtFile
         deadTab = getDeadTab(dtFile)
+
+        hgDeadAvg, lgDeadAvg, orDeadAvg = 0., 0., 0.
+        hgCount, lgCount, orCount = 0., 0., 0.
+
         for det in range(len(deadTab)):
 
             detID = deadTab[det][0]
-            dtHG = deadTab[det][5]
-            dtLG = deadTab[det][9]
-            dtOR = deadTab[det][10]
+            hgDead = deadTab[det][5]
+            lgDead = deadTab[det][9]
+            orDead = deadTab[det][10]
             p1 = float(deadTab[det][12])
             p2 = float(deadTab[det][13])
             p3 = float(deadTab[det][14])
             p4 = float(deadTab[det][15])
 
-            dtHGTrue, dtLGTrue = False, False
+            if p4==0: print "det %d, p4 is 0" % (detID)
+
+            hgDeadTrue, lgDeadTrue = False, False
             pctHG, pctLG, pctOR = 0., 0., 0.
             if p4 != 0:
                 pctHG = (1 - p1/p4) * 100 if p1!=0 else -9.99
@@ -30,16 +37,32 @@ def main():
             else:
                 pctHG, pctLG, pctOR = -9.99, -9.99, -9.99
 
-            if abs(dtHG - pctHG) < 0.01: dtHGTrue = True
-            if abs(dtLG - pctLG) < 0.01: dtLGTrue = True
+            if abs(hgDead - pctHG) < 0.01: hgDeadTrue = True
+            if abs(lgDead - pctLG) < 0.01: lgDeadTrue = True
 
-            if dtLGTrue and not dtHGTrue:
-                print "HG bad", "%d  HG %.2f %.2f  LG %.2f %.2f  OR %.2f %.2f" % (detID, dtHG, pctHG, dtLG, pctLG, dtOR, pctOR)
-            if dtHGTrue and not dtLGTrue:
-                print "LG bad", "%d  HG %.2f %.2f  LG %.2f %.2f  OR %.2f %.2f" % (detID, dtHG, pctHG, dtLG, pctLG, dtOR, pctOR)
-            if not dtHGTrue and not dtLGTrue:
-                print "Both bad", "%d  HG %.2f %.2f  LG %.2f %.2f  OR %.2f %.2f" % (detID, dtHG, pctHG, dtLG, pctLG, dtOR, pctOR)
+            # if lgDeadTrue and not hgDeadTrue:
+            #     print "HG bad", "%d  HG %.2f %.2f  LG %.2f %.2f  OR %.2f %.2f" % (detID, hgDead, pctHG, lgDead, pctLG, orDead, pctOR)
+            # if hgDeadTrue and not lgDeadTrue:
+            #     print "LG bad", "%d  HG %.2f %.2f  LG %.2f %.2f  OR %.2f %.2f" % (detID, hgDead, pctHG, lgDead, pctLG, orDead, pctOR)
+            # if not hgDeadTrue and not lgDeadTrue:
+            #     print "Both bad", "%d  HG %.2f %.2f  LG %.2f %.2f  OR %.2f %.2f" % (detID, hgDead, pctHG, lgDead, pctLG, orDead, pctOR)
 
+            # calculate average dt's
+            if hgDead > 0:
+                hgDeadAvg += hgDead
+                hgCount += 1
+            if lgDead > 0:
+                lgDeadAvg += lgDead
+                lgCount += 1
+            if orDead > 0:
+                orDeadAvg += orDead
+                orCount += 1
+
+        hgDeadAvg /= hgCount
+        lgDeadAvg /= lgCount
+        orDeadAvg /= orCount
+
+        print "hgDeadAvg %.2f  lgDeadAvg %.2f  orDeadAvg %.2f" % (hgDeadAvg, lgDeadAvg, orDeadAvg)
         # return
 
 

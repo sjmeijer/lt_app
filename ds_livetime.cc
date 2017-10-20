@@ -258,18 +258,15 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       for (auto &dt : dtMap) {
         string det = dt.first;
         vector<double> vals = dt.second;
-        for (auto val: vals){
-          if (hgDead > 0) { hgDeadAvg += hgDead; goodHG++; }
-          if (lgDead > 0) { lgDeadAvg += lgDead; goodLG++; }
-          if (orDead > 0) { orDeadAvg += orDead; goodOR++; }
-        }
+        double hgDead=vals[0], lgDead=vals[1], orDead=vals[2];
+        if (hgDead > 0) { hgDeadAvg += hgDead; goodHG++; }
+        if (lgDead > 0) { lgDeadAvg += lgDead; goodLG++; }
+        if (orDead > 0) { orDeadAvg += orDead; goodOR++; }
       }
       hgDeadAvg /= (double)goodHG;
       lgDeadAvg /= (double)goodLG;
       orDeadAvg /= (double)goodOR;
-
-      return;
-
+      // cout << Form("hgDeadAvg %.2f  lgDeadAvg %.2f  orDeadAvg %.2f\n", hgDeadAvg,lgDeadAvg,orDeadAvg);
 
       // Save the subset number
       prevSubSet = runInSet;
@@ -439,9 +436,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     }
 
     // Now try and load a channel selection object and pop any other bad detectors
-    // NOTE: future versions of this code should use the 'official version' argument in GetChannelSelectionPath.
-    //       but as of 9/8/17 for the 0nbb paper, that directory is empty.  If the 0nbb dataset deadtime needs
-    //       to be recalculated, this change must be made, so that the channel selection files are the same.
+    // NOTE: this code uses the 'official version' argument (1) in GetChannelSelectionPath, which points to the
+    //       channel selection files stored in $MJDDATADIR/surfmjd/analysis/channelselection .
     string chSelPath = GetChannelSelectionPath(dsNum,1);
     if (FILE *file = fopen(chSelPath.c_str(), "r")) {
       fclose(file);
@@ -517,12 +513,12 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       string pos = chMap->GetDetectorPos(ch);
       if (dtMap.find(pos) != dtMap.end())
       {
+        // calculate hardware deadtime and handle bad values (val<0)
         double hgDead = dtMap[pos][0]/100.0; // value is in percent, divide by 100
         double lgDead = dtMap[pos][1]/100.0;
-
-        // Convert any negative fraction into a 1% deadtime. (David Radford says that's a safe assumption)
-        if (hgDead < 0) hgDead = 0.01;
-        if (lgDead < 0) lgDead = 0.01;
+        if (hgDead < 0 && lgDead > 0) hgDead = lgDead;
+        if (lgDead < 0 && hgDead > 0) lgDead = hgDead;
+        if (lgDead < 0 && hgDead > 0) { hgDead = hgDeadAvg; lgDead = lgDeadAvg; }
 
         // The following assumes only DS2 uses presumming, and may not always be true
         // Takes out 62 or 100 us per pulser as deadtime.
@@ -581,10 +577,36 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       string pos = chMap->GetDetectorPos(ch);
       if (dtMap.find(pos) != dtMap.end())
       {
-        double orDead = dtMap[pos][2]/100.0;
-        if (orDead < 0) orDead = 0.01;
+        // calculate hardware deadtime and handle bad values (val<0)
+        double hgDead = dtMap[pos][0]/100.0; // value is in percent, divide by 100
+        double lgDead = dtMap[pos][1]/100.0;
+        if (hgDead < 0 && lgDead > 0) hgDead = lgDead;
+        if (lgDead < 0 && hgDead > 0) lgDead = hgDead;
+        if (lgDead < 0 && hgDead > 0) { hgDead = hgDeadAvg; lgDead = lgDeadAvg; }
 
-        double orPulsers = dtMap[pos][5];
+        // calculate the "or" deadtime, correctly handling edge cases w/ no pulser counts
+        double p1=dtMap[pos][3], p2=dtMap[pos][4], p3=dtMap[pos][5], p4=dtMap[pos][6];
+        double orDead = 0;
+        if (p3 > 0 && p4 > 0) orDead = (1 - p3/p4)*100; // normal case
+        else {
+          bool hgGood=false, lgGood=false, hgGuess=false, lgGuess=false, hgBad=false, lgBad=false;
+          if (p1 > 0 && p4 > 0) hgGood=true;
+          if (p2 > 0 && p4 > 0) lgGood=true;
+          if (p1 == 0 && hgDead >= 0.) hgGuess=true;
+          if (p2 == 0 && lgDead >= 0.) lgGuess=true;
+          if (p1 == 0 && hgDead < 0) hgBad=true;
+          if (p2 == 0 && lgDead < 0) lgBad=true;
+
+          if (hgGood) orDead = hgDead;
+          else if (hgGuess && lgGood) orDead = lgDead;
+          else if (hgGuess && lgGuess) orDead = hgDead;
+          else if (hgGuess && lgBad) orDead = hgDead;
+          else if (hgBad && (lgGood || lgGuess)) orDead = lgDead;
+          else orDead = orDeadAvg;
+        }
+
+        // calculate pulser deadtime only if we have a nonzero number of OR pulsers
+        double orPulsers = p3;
         double orPulserDT = orPulsers*(dsNum==2 || dsNum==6 ? 100e-6 : 62e-6);
         bestLiveTime = thisRunTime * (1 - orDead) - orPulserDT*(firstTimeInSubset?1:0);
         dtfDeadTime[2] += thisRunTime * orDead;
