@@ -5,9 +5,9 @@ def main():
 
     matchCt, noMatchCt = 0,0
 
-    for dtFile in glob.glob("./deadtime/*.DT"):
+    # for dtFile in glob.glob("./deadtime/*.DT"):
     # for dtFile in glob.glob("./deadtime/DS2*.DT"):
-    # for dtFile in ["./deadtime/ds3_0.DT"]:
+    for dtFile in ["./deadtime/ds3_0.DT"]:
 
         print dtFile
         deadTab = getDeadTab(dtFile)
@@ -40,7 +40,6 @@ def main():
         hgDeadAvg /= hgCount
         lgDeadAvg /= lgCount
         orDeadAvg /= orCount
-
         print "hgDeadAvg %.2f  lgDeadAvg %.2f  orDeadAvg %.2f" % (hgDeadAvg, lgDeadAvg, orDeadAvg)
 
         # duplicate the ds_livetime algorithm for calculating orDead
@@ -55,41 +54,33 @@ def main():
             p3 = float(deadTab[det][14])
             p4 = float(deadTab[det][15])
 
+            if hgDead < 0 and lgDead >= 0: hgDead = lgDead
+            if lgDead < 0 and hgDead >= 0: lgDead = hgDead
+            if lgDead < 0 and hgDead < 0:
+                hgDead = hgDeadAvg
+                lgDead = lgDeadAvg
 
+            orDead = 0.
+            if p3 > 0 and p4 > 0: orDead = (1 - p3/p4)*100 # to make it in PERCENT (ds_livetime leaves it as a fraction)
+            else:
+                hgGood, lgGood, hgGuess, lgGuess, hgBad, lgBad = False, False, False, False, False, False
+                if p1 > 0 and p4 > 0: hgGood = True
+                if p2 > 0 and p4 > 0: lgGood = True
+                if p1==0 and hgDead >=0.: hgGuess = True
+                if p2==0 and lgDead >=0.: lgGuess = True
+                if p1==0 and hgDead < 0.: hgBad = True
+                if p2==0 and lgDead < 0.: lgBad = True
 
+                if hgGood: orDead = hgDead
+                elif hgGuess and lgGood: orDead = lgDead
+                elif hgGuess and lgGuess: orDead = hgDead
+                elif hgGuess and lgBad: orDead = hgDead
+                elif hgBad and (lgGood or lgGuess): orDead = lgDead
+                else: orDead = orDeadAvg
 
-
-
-
-        #
-        # // calculate hardware deadtime and handle bad values (val<0)
-        # double hgDead = dtMap[pos][0]/100.0; // value is in percent, divide by 100
-        # double lgDead = dtMap[pos][1]/100.0;
-        # if (hgDead < 0 && lgDead >= 0) hgDead = lgDead;
-        # if (lgDead < 0 && hgDead >= 0) lgDead = hgDead;
-        # if (lgDead < 0 && hgDead < 0) { hgDead = hgDeadAvg; lgDead = lgDeadAvg; }
-        #
-        # // calculate the "or" deadtime, correctly handling edge cases w/ no pulser counts
-        # double p1=dtMap[pos][3], p2=dtMap[pos][4], p3=dtMap[pos][5], p4=dtMap[pos][6];
-        # double orDead = 0;
-        # if (p3 > 0 && p4 > 0) orDead = (1 - p3/p4); // normal case
-        # else {
-        # bool hgGood=false, lgGood=false, hgGuess=false, lgGuess=false, hgBad=false, lgBad=false;
-        # if (p1 > 0 && p4 > 0) hgGood=true;
-        # if (p2 > 0 && p4 > 0) lgGood=true;
-        # if (p1 == 0 && hgDead >= 0.) hgGuess=true;
-        # if (p2 == 0 && lgDead >= 0.) lgGuess=true;
-        # if (p1 == 0 && hgDead < 0) hgBad=true;
-        # if (p2 == 0 && lgDead < 0) lgBad=true;
-        #
-        # if (hgGood) orDead = hgDead;
-        # else if (hgGuess && lgGood) orDead = lgDead;
-        # else if (hgGuess && lgGuess) orDead = hgDead;
-        # else if (hgGuess && lgBad) orDead = hgDead;
-        # else if (hgBad && (lgGood || lgGuess)) orDead = lgDead;
-        # else orDead = orDeadAvg; // punt.  will be 0 if there are somehow no good entries in the whole subset.
-        # }
-
+            # when is the OR deadtime larger than the HG or LG?
+            if orDead > hgDead or orDead > lgDead:
+                print "det %d  hgDead %.2f  lgDead %.2f  orDead %.2f" % (det, hgDead, lgDead, orDead)
 
 
 def getDeadTab(fileName):
