@@ -525,7 +525,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         double hgPulserDT = hgPulsers * (dsNum==2 || dsNum==6 ? 100e-6 : 62e-6);
         double lgPulserDT = lgPulsers * (dsNum==2 || dsNum==6 ? 100e-6 : 62e-6);
 
-        // cout << Form("ch %d  runTime %.2f  hgDead %.2f  lgDead %.2f\n",ch,thisRunTime,hgDead,lgDead);
+        cout << Form("ch %d  runTime %.2f  hgDead %.2f  lgDead %.2f\n",ch,thisRunTime,hgDead,lgDead);
 
         // Get livetime for this channel.  Subtract off the pulser deadtime from the entire subset only once.
         if (ch%2 == 0) {
@@ -566,6 +566,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       livetimeMap[ch].push_back(thisLiveTime/thisRunTime);
 
     }
+    cout << "Now best\n";
 
     // Add to "Best" Livetime:  One entry per detector (loops over 'best' channel list)
     for (auto ch : bestIDs)
@@ -604,7 +605,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
           else if (hgBad && (lgGood || lgGuess)) orDead = lgDead;
           else orDead = orDeadAvg; // punt.  will be 0 if there are somehow no good entries in the whole subset.
         }
-        // cout << Form("ch %d  runTime %.2f  hgDead %.2f  lgDead %.2f  orDead %.2f \n",ch,thisRunTime,hgDead,lgDead,orDead);
+        cout << Form("ch %d  runTime %.2f  hgDead %.2f  lgDead %.2f  orDead %.2f \n",ch,thisRunTime,hgDead,lgDead,orDead);
 
         // calculate pulser deadtime only if we have a nonzero number of OR pulsers
         double orPulsers = p3;
@@ -639,9 +640,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
       dtfRunTimeBest += thisRunTime;
     }
-
-    // cout << "dtfRunTimeBest is " << dtfRunTimeBest << endl;
-    // return;
+    cout << "dtfRunTimeBest is " << dtfRunTimeBest << endl;
+    return;
 
     // Only subtract out the pulser deadtimes for each channel (for the entire subset)
     // if this is the first run in the subset.
