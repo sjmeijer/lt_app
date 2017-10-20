@@ -21,15 +21,6 @@ def main():
             p3 = float(deadTab[det][14])
             p4 = float(deadTab[det][15])
 
-            isHG, isLG = False, False
-            if abs(dtHG - dtOR) < 0.01: isHG = True
-            if abs(dtLG - dtOR) < 0.01: isLG = True
-            if isHG or isLG:
-                matchCt += 1
-            if not isHG and not isLG:
-                noMatchCt += 1
-                # print detID, dtHG, dtLG, dtOR
-
             dtHGTrue, dtLGTrue = False, False
             pctHG, pctLG, pctOR = 0., 0., 0.
             if p4 != 0:
@@ -50,10 +41,6 @@ def main():
                 print "Both bad", "%d  HG %.2f %.2f  LG %.2f %.2f  OR %.2f %.2f" % (detID, dtHG, pctHG, dtLG, pctLG, dtOR, pctOR)
 
         # return
-
-
-
-    print "matchCt %d  noMatchCt %d" % (matchCt, noMatchCt)
 
 
 def getDeadTab(fileName):
