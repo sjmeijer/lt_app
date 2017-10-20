@@ -265,6 +265,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       hgDeadAvg /= (double)goodHG;
       lgDeadAvg /= (double)goodLG;
       orDeadAvg /= (double)goodOR;
+      hgDeadAvg /= 100.;
+      lgDeadAvg /= 100.;
+      orDeadAvg /= 100.;
       // cout << Form("hgDeadAvg %.2f  lgDeadAvg %.2f  orDeadAvg %.2f\n", hgDeadAvg,lgDeadAvg,orDeadAvg);
 
       // Save the subset number
