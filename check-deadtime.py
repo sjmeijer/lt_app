@@ -7,25 +7,16 @@ def main():
 
     # for dtFile in glob.glob("./deadtime/*.DT"):
     for dtFile in ["./deadtime/ds4_18.DT"]:
-
         print dtFile
         deadTab = getDeadTab(dtFile)
 
+        # calculate deadtime averages for this subset
         hgDeadAvg, lgDeadAvg, orDeadAvg = 0., 0., 0.
         hgCount, lgCount, orCount = 0., 0., 0.
-
         for det in range(len(deadTab)):
-
-            detID = deadTab[det][0]
             hgDead = deadTab[det][5]
             lgDead = deadTab[det][9]
             orDead = deadTab[det][10]
-            p1 = float(deadTab[det][12])
-            p2 = float(deadTab[det][13])
-            p3 = float(deadTab[det][14])
-            p4 = float(deadTab[det][15])
-
-            # calculate average dt's
             if hgDead >= 0:
                 hgDeadAvg += hgDead
                 hgCount += 1
@@ -35,13 +26,16 @@ def main():
             if orDead >= 0:
                 orDeadAvg += orDead
                 orCount += 1
-
         if hgCount > 0: hgDeadAvg /= hgCount
         if lgCount > 0: lgDeadAvg /= lgCount
         if orCount > 0: orDeadAvg /= orCount
+        if hgDeadAvg == 0.: hgDeadAvg = 1. # set to a 1 PERCENT deadtime if the average completely fails
+        if lgDeadAvg == 0.: lgDeadAvg = 1.
+        if orDeadAvg == 0.: orDeadAvg = 1.
         print "hgDeadAvg %.2f  lgDeadAvg %.2f  orDeadAvg %.2f" % (hgDeadAvg, lgDeadAvg, orDeadAvg)
 
-        # duplicate the ds_livetime algorithm for calculating orDead
+
+        # armed w/ averages, duplicate the ds_livetime algorithm for calculating orDead
         for det in range(len(deadTab)):
 
             detID = deadTab[det][0]
