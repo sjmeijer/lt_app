@@ -197,10 +197,10 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
   map <int,vector<double>> livetimeMap, livetimeMapBest;
   map <int,vector<double>> hwDeadtimes;
   map<string, vector<double>> dtMap;
-  bool firstTimeInSubset=true;     // Allows us to only add in pulser deadtime once per subset
-  double dtfRunTime=0;             // dummy runtime for deadtime fraction (hg and lg det's)
-  double dtfRunTimeBest=0;         // dummy runtime for deadtime fraction ('best' det's)
-  vector<double> dtfDeadTime(10,0); // individual deadtimes
+  bool firstTimeInSubset=true;            // Allows us to only add in pulser deadtime once per subset
+  double dtfRunTimeHG=0, dtfRunTimeLG=0;  // dummy runtimes for deadtime fraction (hg and lg det's)
+  double dtfRunTimeBest=0;                // dummy runtime for deadtime fraction ('best' det's)
+  vector<double> dtfDeadTime(10,0);       // individual deadtimes
   time_t prevStop=0;
   int prevSubSet=-1;
   for (size_t r = 0; r < runList.size(); r++)
@@ -275,7 +275,6 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     GATDataSet ds;
     string bltPath = ds.GetPathToRun(run,GATDataSet::kBuilt);
     TFile *bltFile = new TFile(bltPath.c_str());
-
 
     // Get the runtime for this run.
     // Cover a bunch of stupid edge cases.
@@ -507,8 +506,6 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
       if (noDT) continue;
 
-      cout << ch << endl;
-
       double thisLiveTime=0;
 
       string pos = chMap->GetDetectorPos(ch);
@@ -528,16 +525,20 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         double hgPulserDT = hgPulsers * (dsNum==2 || dsNum==6 ? 100e-6 : 62e-6);
         double lgPulserDT = lgPulsers * (dsNum==2 || dsNum==6 ? 100e-6 : 62e-6);
 
+        // cout << Form("ch %d  runTime %.2f  hgDead %.2f  lgDead %.2f\n",ch,thisRunTime,hgDead,lgDead);
+
         // Get livetime for this channel.  Subtract off the pulser deadtime from the entire subset only once.
         if (ch%2 == 0) {
           thisLiveTime = thisRunTime * (1 - hgDead) - hgPulserDT*(firstTimeInSubset?1:0);
           dtfDeadTime[0] += thisRunTime * hgDead;
           dtfDeadTime[3] += hgPulserDT*(firstTimeInSubset?1:0);
+          dtfRunTimeHG += thisRunTime;
         }
         if (ch%2 == 1) {
           thisLiveTime = thisRunTime * (1 - lgDead) - lgPulserDT*(firstTimeInSubset?1:0);
           dtfDeadTime[1] += thisRunTime * lgDead;
           dtfDeadTime[4] += lgPulserDT*(firstTimeInSubset?1:0);
+          dtfRunTimeLG += thisRunTime;
         }
       }
       else {
@@ -564,19 +565,13 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       // Used for averages and uncertainty
       livetimeMap[ch].push_back(thisLiveTime/thisRunTime);
 
-      // increment runtime for deadtime fraction
-      dtfRunTime += thisRunTime;
     }
-
-    cout << "Now best\n";
 
     // Add to "Best" Livetime:  One entry per detector (loops over 'best' channel list)
     for (auto ch : bestIDs)
     {
       if (detChanToDetIDMap[ch] == -1) continue;
       if (noDT) continue;
-
-      cout << "chan " << ch << endl;
 
       double bestLiveTime = 0;
       string pos = chMap->GetDetectorPos(ch);
@@ -592,7 +587,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         // calculate the "or" deadtime, correctly handling edge cases w/ no pulser counts
         double p1=dtMap[pos][3], p2=dtMap[pos][4], p3=dtMap[pos][5], p4=dtMap[pos][6];
         double orDead = 0;
-        if (p3 > 0 && p4 > 0) orDead = (1 - p3/p4)*100; // normal case
+        if (p3 > 0 && p4 > 0) orDead = (1 - p3/p4); // normal case
         else {
           bool hgGood=false, lgGood=false, hgGuess=false, lgGuess=false, hgBad=false, lgBad=false;
           if (p1 > 0 && p4 > 0) hgGood=true;
@@ -609,6 +604,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
           else if (hgBad && (lgGood || lgGuess)) orDead = lgDead;
           else orDead = orDeadAvg; // punt.  will be 0 if there are somehow no good entries in the whole subset.
         }
+        // cout << Form("ch %d  runTime %.2f  hgDead %.2f  lgDead %.2f  orDead %.2f \n",ch,thisRunTime,hgDead,lgDead,orDead);
 
         // calculate pulser deadtime only if we have a nonzero number of OR pulsers
         double orPulsers = p3;
@@ -643,7 +639,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
       dtfRunTimeBest += thisRunTime;
     }
-    return;
+
+    // cout << "dtfRunTimeBest is " << dtfRunTimeBest << endl;
+    // return;
 
     // Only subtract out the pulser deadtimes for each channel (for the entire subset)
     // if this is the first run in the subset.
@@ -788,15 +786,15 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     m2NatExpBestLTUnc = sqrt(m2NatExpBestLTUnc2);
 
     // find deadtime fractions, 'dtFrac'
-    dtFrac[0] = dtfDeadTime[0] / dtfRunTime;     // hardware HG
-    dtFrac[1] = dtfDeadTime[1] / dtfRunTime;     // hardware LG
+    dtFrac[0] = dtfDeadTime[0] / dtfRunTimeHG;   // hardware HG
+    dtFrac[1] = dtfDeadTime[1] / dtfRunTimeLG;   // hardware LG
     dtFrac[2] = dtfDeadTime[2] / dtfRunTimeBest; // hardware OR/best
-    dtFrac[3] = dtfDeadTime[3] / dtfRunTime;     // pulser HG
-    dtFrac[4] = dtfDeadTime[4] / dtfRunTime;     // pulser LG
+    dtFrac[3] = dtfDeadTime[3] / dtfRunTimeHG;   // pulser HG
+    dtFrac[4] = dtfDeadTime[4] / dtfRunTimeLG;   // pulser LG
     dtFrac[5] = dtfDeadTime[5] / dtfRunTimeBest; // pulser OR/best
-    dtFrac[6] = dtfDeadTime[6] / dtfRunTime;     // LN HG/LG
+    dtFrac[6] = dtfDeadTime[6] / dtfRunTimeHG;   // LN HG/LG (just use HG)
     dtFrac[7] = dtfDeadTime[7] / dtfRunTimeBest; // LN OR/best
-    dtFrac[8] = dtfDeadTime[8] / dtfRunTime;     // muon veto HG/LG
+    dtFrac[8] = dtfDeadTime[8] / dtfRunTimeHG;   // muon veto HG/LG (just use HG)
     dtFrac[9] = dtfDeadTime[9] / dtfRunTimeBest; // muon veto OR/best
   }
 
@@ -884,15 +882,15 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
 
     // Now report deadtime fractions
     cout << "Deadtime summary (percent, sum deadtime, sum runtime):"
-         << Form("\n   Hardware HG:       %.4e  %.4e  %.4e",dtFrac[0]*100,dtfDeadTime[0],dtfRunTime)
-         << Form("\n   Hardware LG:       %.4e  %.4e  %.4e",dtFrac[1]*100,dtfDeadTime[1],dtfRunTime)
+         << Form("\n   Hardware HG:       %.4e  %.4e  %.4e",dtFrac[0]*100,dtfDeadTime[0],dtfRunTimeHG)
+         << Form("\n   Hardware LG:       %.4e  %.4e  %.4e",dtFrac[1]*100,dtfDeadTime[1],dtfRunTimeLG)
          << Form("\n   Hardware OR/Best:  %.4e  %.4e  %.4e",dtFrac[2]*100,dtfDeadTime[2],dtfRunTimeBest)
-         << Form("\n   Pulser HG:         %.4e  %.4e  %.4e",dtFrac[3]*100,dtfDeadTime[3],dtfRunTime)
-         << Form("\n   Pulser LG:         %.4e  %.4e  %.4e",dtFrac[4]*100,dtfDeadTime[4],dtfRunTime)
+         << Form("\n   Pulser HG:         %.4e  %.4e  %.4e",dtFrac[3]*100,dtfDeadTime[3],dtfRunTimeHG)
+         << Form("\n   Pulser LG:         %.4e  %.4e  %.4e",dtFrac[4]*100,dtfDeadTime[4],dtfRunTimeLG)
          << Form("\n   Pulser OR/Best HG: %.4e  %.4e  %.4e",dtFrac[5]*100,dtfDeadTime[5],dtfRunTimeBest)
-         << Form("\n   LN Fill HG+LG:     %.4e  %.4e  %.4e",dtFrac[6]*100,dtfDeadTime[6],dtfRunTime)
+         << Form("\n   LN Fill HG:        %.4e  %.4e  %.4e",dtFrac[6]*100,dtfDeadTime[6],dtfRunTimeHG)
          << Form("\n   LN Fill OR/Best:   %.4e  %.4e  %.4e",dtFrac[7]*100,dtfDeadTime[7],dtfRunTimeBest)
-         << Form("\n   Muon Veto HG+LG:   %.4e  %.4e  %.4e",dtFrac[8]*100,dtfDeadTime[8],dtfRunTime)
+         << Form("\n   Muon Veto HG:      %.4e  %.4e  %.4e",dtFrac[8]*100,dtfDeadTime[8],dtfRunTimeHG)
          << Form("\n   Muon Veto OR/Best: %.4e  %.4e  %.4e\n",dtFrac[9]*100,dtfDeadTime[9],dtfRunTimeBest);
   }
 

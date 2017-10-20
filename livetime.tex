@@ -1,0 +1,1287 @@
+% -- doc setup --
+\documentclass[notitlepage,rmp,aps,10pt]{revtex4-1}
+\usepackage{soul}
+\newcommand{\hlc}[2][yellow]{ {\sethlcolor{#1} \hl{#2}} }
+\usepackage{url}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\setcitestyle{numbers,square}
+
+% -- make the very pretty and totally essential unidoc header --
+\usepackage{fancyhdr}
+\newcommand{\docno}{2017-016}
+\definecolor{blue}{RGB}{50,0,255}
+\definecolor{orange}{RGB}{255,128,0}
+\colorlet{blueh}{blue!30}
+\fancypagestyle{uniheader}
+{
+\fancyhf{}
+\fancyhead[L]{Unidoc \#-\docno}
+  \fancyfoot[C]{-\thepage-}
+  \renewcommand{\headrulewidth}{2pt}
+  \renewcommand{\headheight}{52pt}
+  \renewcommand{\headrule}{\hbox to\headwidth{
+    \color{orange}\leaders\hrule height \headrulewidth\hfill}}
+  \renewcommand{\footrulewidth}{0pt}
+  \rhead{\includegraphics[width=1cm]{figs/MJD}}
+}
+
+% -- some mjd stuff --
+\def\MJ{{\sc Majorana}}
+\def\DEM{{\sc Demonstrator}}
+\def\MJDEMbf{\textbf{\sc{Majorana Demonstrator}}}
+\def\MJbf{\bfseries{\sc{Majorana}}}
+\def\MJDEMit{\itshape{\sc{Majorana Demonstrator}}}
+\newcommand{\lanl}{Los Alamos National Laboratory, Los Alamos, NM, USA}
+\newcommand{\ornl}{Oak Ridge National Laboratory, Oak Ridge, TN, USA}
+\newcommand{\unc}{University of North Carolina at Chapel Hill, Chapel Hill, NC, USA}
+\newcommand{\usc}{University of South Carolina, Columbia, SC, USA}
+\def\nuc#1#2{${}^{#1}$#2}
+
+% -- custom environs --
+\newenvironment{itemize_nospace}
+{ \begin{itemize}
+    \setlength{\itemsep}{3pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}     }
+{ \end{itemize}                  }
+\newcommand{\tty}{\texttt}
+
+
+% ---------------------------
+% -- ok, let's go to work. --
+\begin{document}
+
+\title{Livetime and Exposure for \MJDEMbf\ Data Sets 0-5}
+\author{C. Wiseman}\affiliation{\usc}
+\author{S. Meijer} \author{A. Reine} \author{T. Caldwell} \author{T. Gilliss} \author{C. Haufe} \affiliation{\unc}
+\author{D. Radford}\affiliation{\ornl}
+
+\pagestyle{uniheader}
+\maketitle
+\vspace*{-1.5cm}
+\tableofcontents
+\thispagestyle{uniheader}
+
+\section{Overview of Exposure Calculation} \label{sec:intro}
+
+It is important that the methods used to generate MJD skim data (\tty{GAT/Apps/skim\_mjd\_data.cc}) and the methods used to calculate the corresponding exposure of a dataset are completely consistent.
+The GAT app \tty{GAT/Apps/ds\_livetime.cc} was developed primarily by Clint Wiseman and Sam Meijer to provide an accurate and robust means of performing this calculation for all datasets.
+
+The Run Selection and Data Cleaning (RSDC) working group has made a significant effort to provide a ``good run list'' in \tty{GAT/Apps/DataSetInfo.hh}, and to mark specific detector channels as bad on a run-by-run, channel-by-channel basis.
+Their methods and results are in the unidocs for each dataset (\cite{RSDC_DS0} \cite{RSDC_DS1} \cite{RSDC_DS2} \cite{RSDC_DS3} \cite{RSDC_DS4} \cite{RSDC_DS5}), and they provide ``channel selection files'' in the ROOT format, allowing a channel to be flagged as ``bad'' or ``veto-only,'' removing it from the final spectra in \tty{skim\_mjd\_data} and discounting its contribution to the final exposure in \tty{ds\_livetime}.
+
+This removal of individual detectors for certain periods corresponds to a decrease in \textit{runtime} for each detector in the dataset.
+Adding to this reduction in overall exposure is \textit{deadtime} from different sources.  Generally, a channel is ``dead'' if it is not sensitive to an event in the $0\nu\beta\beta$ ROI for any reason.  We can define the \textit{livetime} of an individual detector $i$ to be the difference of its runtime (usually measured in days) with the various deadtime reductions $k$:
+\begin{equation} \label{eqn:livetime}
+  LT_i = RT_i - \sum_k^{type} DT_{ik}
+\end{equation}
+
+By default in \tty{ds\_livetime}, the runtime is calculated by reading the Gretina trigger card times at the beginning and end of each run, producing a value accurate to the 10ns sampling period.  When these clock packets are not available (in earlier datasets while the \texttt{OrcaScripts} were still being updated, the UNIX start and stop time packets (accurate to 1 second) are used to calculate the runtime.
+Equation \ref{eqn:livetime} also implicitly assumes the different deadtime types $k$ do not overlap and are not double-counted, which will be addressed below.  The expression for the exposure (in kg-y or kg-d) is then broken down in a per-detector, per-run basis:
+\begin{equation} \label{eqn:exposure}
+\begin{split}
+  E\ & = \sum_{i,j}^{det,run} m_i\ LT_{ij} \\
+    & =\ \ \sum_{i,j}\ m_i\ (RT_{ij} - DT_{ij})
+\end{split}
+\end{equation}
+
+Here, the sum $i$ is over detectors, $j$ over runs, and the masses $m_i$ are the ``active masses'' as calculated by Micah Buuck in \cite{Buuck2016}.
+The factors $RT_{ij}$ and $DT_{ij}$ are determined from each run's raw runtime, the removal of channels for specific runs, and the individual deadtime contributions from each channel.  Many sources of deadtime have been discussed by the collaboration, and our analysis indicates that the following deadtimes play the largest role:
+\begin{equation}
+  DT_{ij} = DT_{\mathrm{hardware}} + DT_{\mathrm{pulser}} + DT_{\mathrm{LN\ fill}} + DT_{\mathrm{\mu\ veto}}
+\end{equation}
+\begin{itemize}
+    \item \textbf{Hardware deadtime:} For very brief periods, the digitizer hardware is at times unable to trigger and record an event. Due to the low data rate, it is also possible that the DAQ could stop taking data for a period of time without an obvious effect. To calculate the extent of this deadtime, for run subsets defined between instances of running the threshold finder, the pulser period of each channel is measured. The expected number of pulser events is compared with the actual number found in each channel.  Events are ``lost'' when they occur within a digitizer dead period, as when the GRETINA card has already triggered - most likely on a noise event or a ``phantom trigger'' (see Section \ref{sec:phantoms}).  The deadtime is then
+    \begin{equation}
+      DT_{ij,\mathrm{hardware}} = RT_{ij}\ N_{\mathrm{found}} / N_{\mathrm{expected}}
+    \end{equation}
+    Detectors without working pulsers are assumed to be 100\% live unless flagged by channel selection.
+
+    \item \textbf{Pulser deadtime:} The pulser input signal is a square wave, producing an equal number of positive and negative triggers. Every signal that is tagged as a pulser event comes from the positive-going part of the waveform, and there is a corresponding deadtime $DT_{\mathrm{retrigger}}$ of $62\mu$s or $100\mu$s (depending on multisampling being active - see Section \ref{sec:retrigger}) from the negative-going component.  Typically the pulser period on each controller card is 8.388608 seconds.  This deadtime is calculated in each run, for each channel, multiplying by the number of found pulser events:
+    \begin{equation}
+      DT_{ij,\mathrm{pulser}} = N_{\mathrm{found}}\ DT_{\mathrm{retrigger}}
+    \end{equation}
+    For this analysis, both the hardware and pulser deadtimes were calculated using inputs from the ORNL code, where the number of pulsers were tracked in each subset of background runs, and stored in the folder \texttt{GAT/Apps/deadtime/} for future reference.
+
+    \item \textbf{LN fill deadtime:} The automatic LN fill system is known to produce large amounts of microphonic noise while a fill is taking place, potentially affecting the energy estimation of events in the $0\nu\beta\beta$ region of interest, or increasing the hardware deadtime.  When a module fills, a veto period of 15-20 minutes is applied to its detectors.  The UNIX times of these LN fills are tagged by \tty{GAT/Apps/ln\_fill\_tag.cc} based on the derivative of the LN fill level recorded in the slow controls database, and stored in \tty{DataSetInfo.hh} \cite{Wiseman2016}. To ensure the full fill window is vetoed, the app sometimes reports multiple ``tags'' for a single fill, and \tty{ds\_livetime} calculates a dead time for each run of approximately ``15 minutes before, 5 minutes after,'' without double-counting overlapping intervals, and applies it to all channels in the appropriate module.
+
+    \item \textbf{Muon veto deadtime:} Simulations by Ralph Massarczyk \cite{ralph} have shown that the energy spectrum from muon shower events passing through (or near) the modules is mostly ``prompt'', occuring 1 second or less after the initial event.  When the muon veto analysis code, located in \tty{GAT/mjd-veto} \cite{Wiseman2015} and run during data production, identifies a muon candidate event, a veto period of approximately 1 second is applied globally to both modules, using exactly the same algorithm in \tty{skim\_mjd\_data} and \tty{ds\_livetime} to generate the candidate list.
+
+\end{itemize}
+
+It is also important to mention that \tty{skim\_mjd\_data} uses a ``hit skipping'' algorithm to merge events in the high-gain (HG) and low-gain (LG) channels into a single energy spectrum, since this has an effect on the livetime.  During the skimming process, for each event the code preferentially keeps the HG hit and discards the LG hit unless one of the following conditions are met and the LG hit is kept instead:
+\begin{itemize_nospace}
+  \item A HG hit does not exist for this event
+  \item The HG channel has been marked ``bad'' or ``veto-only'' by the RSDC group (and the LG is unmarked)
+  \item The HG hit is saturated (usually above 3 MeV)
+  \item The HG hit is marked as ``late trigger'' by the \tty{GAT} data cleaning processor.
+\end{itemize_nospace}
+
+With this scheme in mind, David Radford independently calculated (using \tty{GAT/ORNLCode}) the number of pulsers in each channel, dividing each dataset into subsets delineated by threshold finder runs.  The corresponding hardware and pulser deadtimes were then calculated in three modes - HG hits only, LG hits only, and an ``OR'' mode which finds the deadtime of the final merged spectrum.  The results of this calculation were then directly applied in \tty{ds\_livetime} to find the hardware and pulser deadtimes for each mode, channel, and run in every subset.
+In DS0, the pulsers were often run in a non-continuous mode (and in some runs not at all), so a single file was created with deadtime values determined by a ``time-difference'' method (see Section \ref{sec:timeDiff}).  These values are generally comparable to the pulser-tagging method used by David Radford for the other datasets, though it is believed this method is less precise.
+
+The impact of each deadtime can be quantified either in terms of its effect on exposure, or its effect on livetime.  The accounting by exposure requires that each deadtime type is independently tracked for each detector, and while this is in principle not difficult, a simpler method is to look at the ``deadtime fraction'' for each type $k$:
+\begin{equation}
+  F_k = \frac{\sum_{ij}^{run,chan}\ DT_{kij}}{\sum_{ij}RT_{ij}}
+\end{equation}
+
+Here the fraction $F_k$ is calculated by summing the deadtime for each channel $j$ in every run $i$, and dividing by the sum of each channel's runtime for every run.  Although the sum of runtimes for each channel is significantly larger than the true runtime, it is easy to see that if a channel is 100\% dead, its fraction $F_k$ will equal 1, as expected.  The results of this method are given for each dataset in Table \ref{tab:DeadtimeFrac}.  It can be seen that the deadtimes from each contribution are on the order of 1\% or much less, and any double-counting arising from overlapping periods (e.g. a pulser event during a muon veto dead period) in the current calculation is negligible.
+
+(It should be noted that in previous calculations \cite{Meijer2016} \cite{Meijer2016b} for DS0 and DS1 used at Neutrino2016 \cite{neutrino2016}, the livetime was given as a constant fraction of the runtime, 99.96\%.  This was before run-by-run channel selection was implemented by the RSDC group.)
+
+\begin{table*}[htb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+DS & Hardware HG & Hardware LG & Hardware OR & Pulser HG & Pulser LG & Pulser OR & LN Fill & Muon Veto & Total (OR)\\
+\hline
+DS0 & 2.5005     & 1.4787     & 2.8887     & 8.3323e-03 & 8.2548e-03 & 1.6666e-02 & 0.9503  & 8.4574e-02 & 3.94 \\
+DS1 & 1.6140     & 1.5191     & 1.8021     & 3.4503e-04 & 3.2899e-04 & 6.8727e-04 & 1.0059  & 6.2564e-02 & 2.87 \\
+DS2 & 1.1297     & 1.7050     & 1.7373     & 5.9177e-04 & 5.4564e-04 & 1.1537e-03 & 0.1888  & 7.4418e-02 & 2.00 \\
+DS3 & 0.6053     & 0.6640     & 1.3462     & 3.5905e-04 & 3.0544e-04 & 7.0103e-04 & 0.9379  & 4.2284e-02 & 2.33 \\
+DS4 & 0.3364     & 0.4268     & 0.6131     & 3.1117e-04 & 3.1119e-04 & 6.2239e-04 & 1.0806  & 4.011e-01 & 2.10 \\
+DS5 & 0.9284     & 0.8662     & 0.7537     & 3.2170e-04 & 3.1492e-04 & 6.5105e-04 & 1.1776  & 4.9047e-02 & 1.98 \\
+DS5A & 1.2491    & 1.1900     & 0.9046     & 3.4711e-04 & 3.4068e-04 & 7.0564e-04 & 1.1096  & 3.5761e-02 & 2.05 \\
+DS5B & 0.3258    & 0.2576     & 0.4703     & 3.5923e-04 & 3.4983e-04 & 7.2020e-04 & 1.3054  & 7.4045e-02 & 1.85 \\
+\hline
+Average & 1.0862 & 1.0134 & 1.3145 & 0.0014 & 0.0013 & 0.0027 & 0.9695 & 0.1030  &\\
+\hline
+\end{tabular}
+\caption{Deadtime percentage for each type, given as the value that each given deadtime reduces the raw livetime in each dataset.  Muon veto and LN fill deadtimes are calculated for HG/LG and OR mode separately, but the results are nearly identical and only the OR mode is reported here (See Section \ref{sec:completeResults}). Total deadtimes by dataset are also given for the OR mode, as well as averages for each type.}
+\label{tab:DeadtimeFrac}
+\end{center}
+\end{table*}
+
+
+
+The uncertainty of the exposure has several important contributions, which we include.
+Since the exposure calculation for an individual channel (as in Equation \ref{eqn:exposure}) is the product of an active mass and a livetime factors, we expect the uncertainty for a single channel to be expressible as:
+\begin{equation}
+    \sigma_{exp}^{i} = (m_i LT_i)\ \sqrt{\left(\frac{\sigma_{m_i}}{m_i}\right)^2 + \left(\frac{\sigma_{LT_i}}{LT_i}\right)^2}
+\end{equation}
+The total exposure uncertainty for the full dataset can then be expressed as:
+\begin{equation}
+    \sigma_{exp}^{tot} = \sum_i^{dets}(\sigma_{exp}^{i})
+\end{equation}
+The linear sum of the uncertainties is required here because the uncertainties of the active masses are highly correlated; the uncertainty is statistical and not random.
+Additionally, the livetime uncertainty is at least 3 orders of magnitude smaller than the active mass uncertainty, so it is subdominant regardless of whether it is added linearly or in quadrature.
+
+The uncertainty on the active masses, $\sigma_{m}$ have been calculated in the past, and their contributions have been hardcoded into \texttt{DataSetInfo.hh}. The uncertainties on the total active mass for each detector are highly correlated.  It is not obvious that adding them linearly to produce a total active mass uncertainty is the correct decision, so a total uncertainty has been omitted from Table \ref{tab:FinalTable}.
+The uncertainty on the livetime is more complicated to express, and depends on contributions from the runtime uncertainty and the hardware deadtime uncertainty, but is a negligible contribution to the error in the exposure, as the active mass uncertainties dominate.
+Table \ref{tab:FinalTable} reports the final exposures, taking all channel selection, uncertainty, and deadtime contributions into account.  This analysis used the same \tty{mjsw201706Prod} dataset, tagged GAT revision \tty{GAT-v01-07} and channel selection information as the rest of the zero-neutrino analysis.
+
+\begin{table*}[htb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+DS & Runtime & Avg. Livetime           & Total Active  & \textbf{Final Enriched}   & \textbf{Final Natural} & Enr. Exposure \\
+   & (d)     & (OR mode)(d)            & Enr Mass (kg) & \textbf{Exposure (kg-d)}  & \textbf{Exposure}      & Reduction (\%) \\
+\hline
+DS0 & 45.919 & 43.217 $\pm$ 0.661      & 10.695        & 460.052 $\pm$ 6.959       & 171.021 $\pm$ 3.941    & 6.323 \\
+DS1 & 58.768 & 52.992 $\pm$ 2.883      & 11.901        & 669.303 $\pm$ 9.802       &  63.327 $\pm$ 1.469    & 4.303 \\
+DS2 & 9.576  & 9.384 $\pm$ 0.080       & 11.310        & 106.089 $\pm$ 1.551       &  10.672 $\pm$ 0.248    & 2.046 \\
+DS3 & 29.879 & 29.183 $\pm$ 0.107      & 12.631        & 367.797 $\pm$ 5.400       &  81.516 $\pm$ 1.876    & 2.545 \\
+DS4 & 19.146 & 18.745 $\pm$ 0.022      & 5.471         & 102.716 $\pm$ 1.472       &  73.903 $\pm$ 1.703    & 1.940 \\
+DS5-M1 & 121.082 & 106.829 $\pm$ 3.138 & 12.631        & 1397.64 $\pm$ 20.60       & 424.526 $\pm$ 9.766    & 8.614 \\
+DS5-M2 & 121.082 & 106.829 $\pm$ 3.138 & 5.811         & 537.804 $\pm$ 7.588       & 541.428 $\pm$ 12.46    & 23.565 \\
+DS5A-M1 & 81.589 & 71.510 $\pm$ 2.284  & 11.667        & 905.487 $\pm$ 13.378      & 286.241 $\pm$ 6.587    & 4.876 \\
+DS5A-M2 & 81.589 & 71.510 $\pm$ 2.284  & 5.811         & 355.616 $\pm$ 5.003       & 343.828 $\pm$ 7.910    & 24.994 \\
+DS5B-M1 & 39.493 & 37.153 $\pm$ 1.143  & 12.631        & 492.149 $\pm$ 7.224       & 138.285 $\pm$ 3.178    & 1.341 \\
+DS5B-M2 & 39.493 & 37.153 $\pm$ 1.143  & 5.811         & 182.187 $\pm$ 2.585       & 197.600 $\pm$ 4.547    & 20.614 \\
+\hline
+\textbf{Totals} &  &  &  & 9.98 (kg-y) & 3.74 (kg-y) &  \\
+\hline
+\end{tabular}
+\caption{\textbf{Runtime and final exposure summary for all datasets.} The average livetime is given, and the last column calculates the exposure ``reduction'' from the raw runtime times the total active enriched mass, taking into account all livetime reductions including run selection.}
+\label{tab:FinalTable}
+\end{center}
+\end{table*}
+
+
+\newpage
+\section{Additional Deadtime Studies} \label{sec:deadtimeDetails}
+The following sections give further details for several deadtime factors, including some whose impact has been determined to be negligible and are omitted from the final \tty{ds\_livetime} calculation in Table \ref{tab:FinalTable}.
+
+
+\subsection{External Events: Veto and LN Cuts} \label{sec:externalEvents}
+
+Analysis of the muon veto system is performed largely automatically, on a run-by-run basis using the tools developed in \tty{GATDIR/mjd-veto} \cite{Wiseman2015}.  The veto runtime is calculated independently of the germanium runtime (since the two systems can be operated independently), using the ORCA run-start and run-stop packets which give UNIX times accurate to 1 second.  Since the veto data uses these unix packets exclusively, the veto runtime can slightly differ from the germanium.
+
+Muon candidate events are identified by the veto system based on their energy deposition and hit pattern \cite{Wiseman2015}.  They are assigned a timestamp by a CAEN V830 latching scaler card, which counts the clock ticks of the 100MHz GRETINA trigger card.  The veto data is processed by \tty{GAT/mjd-veto/auto-veto.cc} and is accessible to both the \tty{ds\_livetime} and \tty{skim\_mjd\_data} routines to apply the veto coincidence window and calculate its deadtime.
+
+The germanium veto period is automatically determined by three main factors:
+\begin{itemize}
+  \item From a physics standpoint, the majority of excited isotopes in Pb, Cu, and Ge decay after approximately 1 second.
+
+  \item The Veto working group has analyzed high-energy muon events impacting both arrays, and shown that there is minimum $50\mu$s delay between the two systems, but the germanium events always occur \textit{after} the veto events.
+
+  \item Synchronization of the timestamps between the veto scaler card and the gretina trigger card is performed on a run-by-run basis, and any timing uncertainty in the synchronization is calculated and recorded for each event.  The muon coincidence window is then dynamically adjusted to account for this uncertainty, $\sigma_{\mu}$.  For the majority of events, $\sigma_{\mu}$ is 10ns, but can be on the order of ms when rare problems with the synchronization occur.
+\end{itemize}
+
+A germanium event is flagged by the data cleaning variable \texttt{muVeto} if it occurs within this coincidence window:
+\begin{equation}
+  -1 * \sigma_{\mu} \leq  \Delta t_{\mu} \leq (1 \mathrm{sec}\ +\ \sigma_{\mu})
+\end{equation}
+
+It should also be noted that in DS4 the coincidence window was broadened to $-3 * \sigma_{\mu}$ before and $4 + \sigma_{\mu}$ after a muon candidate, since Module 1 (DS3) was being run with the veto system on a different DAQ than Module 2 (DS4).  The Module 1 muon times had to be converted to Module 2 times through the use of the unix timestamps, which introduced a multiple-second uncertainty on each event.  Once the modules were combined into a single DAQ for DS5, this adjustment was no longer necessary.
+
+LN fills take place in each module approximately every 35 hours.
+The array's low thresholds cause a large number of spurious low energy signals to be recorded during the fill period, caused by microphonic pickup.  The LN level is recorded to the Feresa monitoring database, and analyzed by the app \tty{GAT/Apps/ln\_fill\_tag}.
+This app identifies the unix timestamp of an LN fill based on the derivative of the fill level, and outputs a list of unix timestamps. Germanium events occuring between 15 minutes before the tagged fill time and 5 minutes after are marked as in coincidence with the LN fill and removed by the module-specific data cleaning variables \texttt{isLNFill1} and \texttt{isLNFill2}.
+
+The deadtimes associated with the muon veto and LN fill cuts are calculated for each dataset using the \tty{ds\_livetime} app and are reported in Table \ref{tab:ClintsTable}.
+
+\begin{table*}[htb]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline
+DS  &  $RT_{\mathrm{veto}} $ & $DT_{\mathrm{veto}}$ & VetoDT\% & $RT_{\mathrm{Ge}}$ & LN Deadtime & LN-DT\% \\
+\hline
+DS0 & 45.908               & 0.038                & 0.083    & 45.919           & 0.436       & 0.949 \\
+DS1 & 58.768               & 0.037                & 0.063    & 58.768           & 0.590       & 1.004 \\
+DS2 & 9.575                & 0.007                & 0.073    & 9.575            & 0.018       & 0.188 \\
+DS3 & 29.879               & 0.013                & 0.044    & 29.879           & 0.280       & 0.937 \\
+DS4 & 0                    & 0.077                & 0.402    & 19.146           & 0.206       & 1.076 \\
+DS5-M1 & 121.082           & 0.059                & 0.049    & 121.082          & 1.276       & 1.054 \\
+DS5-M2 & -                 & -                    & -        & -                & 1.641       & 1.355 \\
+DS5A-M1 & 81.587           & 0.029                & 0.036    & 81.589           & 0.778       & 0.954 \\
+DS5A-M2 & -                & -                    & -        & -                & 1.096       & 1.343 \\
+DS5B-M1 & 39.493           & 0.029                & 0.073    & 39.493           & 0.498       & 1.261 \\
+DS5B-M2 & -                & -                    & -        & -                & 0.544       & 1.377 \\
+\hline
+\end{tabular}
+\caption{Summary of veto and LN deadtime reductions, in days.  Veto runtime is reported for each dataset (it is calculated slightly differently, see below).  Values that are ``same as above'' are marked with a dash.  Note that the veto deadtime is global - it applies to both M1 and M2.  The LN cut is specific to each module.  Percentages of each dead time w/r/t the total runtime are also reported.  Also note that DS4 veto deadtime is calculated w/r/t the Ge DS4 runtime reported in Table \ref{tab:FinalTable}.}
+\label{tab:ClintsTable}
+\end{center}
+\end{table*}
+
+
+\subsection{Granularity Cut}
+
+A key assumption for $0\nu\beta\beta$ events in the ROI is that they occur as a \textit{single hit in a single detector}; events with hits in multiple detectors are automatically discarded by the analysis cut \tty{"mHL==1"}.
+When one channel triggers (say, on a noise event), any other channel that triggers within the event builder window period (even on a $0\nu\beta\beta$ event) increases the total number of detectors hit to \textit{two}, and both hits (the event) must be thrown away in the analysis.
+The event builder window for grouping hits in different channels together is $4\mu$s, and all events occuring with multiplicity or ``granularity'' $>1$ must be removed, causing a global dead time in the array.
+These multiple-detector events are most frequently pulsers (whose deadtime is already accounted for) and multiple-scatter gamma events, whose rate is exceedingly low during background data taking.
+The deadtime from this cut is proportional to the number of multiple-detector gamma events and is therefore quite small.  An analysis by Chris Haufe showed that granularity typically introduces a correction of less than 1 second per dataset, and has been declared negligible in the final calculation.
+
+
+\subsection{SSTC Cut}
+
+The Single-Site Time Correlation (SSTC) cut was considered to be an important method of reducing one potential background in the $0\nu\beta\beta$ ROI.
+When \nuc{68}{Ge} captures an electron, it forms \nuc{68}{Ga} and can emit a K-shell 10 keV x-ray.
+A short time later, the \nuc{68}{Ga} $\beta^+$ decays, which annihilates and produces two pair-production gammas.
+It is then possible for one gamma to escape the detector and the other to deposit its energy with the $\beta^+$ in the ROI.
+This event can then be rejected by looking for the 10 keV K-shell event followed by a high-energy event in the same detector within a few  \nuc{68}{Ga} half-lives.
+
+Fortunately, due to the extensive exposure control of the enriched MJD detectors, the \nuc{68}{Ge} peak is small enough, and the background in the ROI is low enough, that it has been determined by Tom Gilliss that implementing the SSTC cut was likely to negatively affect the $0\nu\beta\beta$ sensitivity \cite{Gilliss2016}.
+Therefore no SSTC cut has been applied and no subsequent deadtime is created.
+
+
+\subsection{Burst Cut}
+
+High voltage breakdowns and intermittent electronics noise can cause periods of high rate in the array, during which time the raw rates and deadtime are elevated and the energy estimation of events is unreliable.  It is known that anomalous periods of high rate have occurred during background data taking due to these causes.  In the Neutrino2016 \cite{neutrino2016} result, several periods were removed from the skim file spectra using a timestamp-based cut, which introduced a new source of global deadtime.
+
+Since that time, two main factors have almost completely mitigated the effect of these bursts.
+The run and channel selection by the RSDC group has removed events where breakdowns are suspected, and since most burst events appear as a large excess of low energy triggers, raising the skim file energy threshold to $>5$ keV eliminated them from the final spectra.
+In the remaining dataset, no set of runs show a concerning excess of events, and no additional runs or channels needed to be removed.
+
+Finally, we note that the \texttt{ds\_livetime} app does not use the skim files to calculate any of its deadtimes, opting to loop through individual run files, applying run and channel selection as necessary.
+Only these runs are considered when calculating the hardware deadtime, and if a burst causes an excess of low energy triggers, then the hardware deadtime for that channel (in that subset) will be increased, as one should expect.
+
+
+\subsection{Phantom Triggers} \label{sec:phantoms}
+
+The digitizers can be set to trigger on positive-going signals, negative-going, or both.
+The vast majority of data in DS0-5 has been taken in the ``positive'' mode because it results in more stable energy thresholds for each detector between instances of running the threshold finder.
+Due to an unresolved error in the LBL firmware for the digitizer, even in positive-trigger mode, the system still triggers on negative-going signals even though they are not recorded or written to the datastream.
+This results in a ``phantom trigger,'' where a channel experiences the trigger deadtime due to having triggered on a negative-going signal, but without producing any readout.
+This is a difficult deadtime to directly calculate, because the rate of negative triggers cannot be known when the system is only recording positive triggers.
+The phantom-trigger deadtime is a contributor (perhaps even the primary contributor) to the hardware deadtime, and has not been directly measured. It is assumed that the negative rate is on the same order of magnitude as the positive-trigger noise rate, though it has been shown by Brian Zhu to vary.
+
+The advantage of the ``pulser-tagging'' hardware deadtime calculation is that phantom triggers can cause pulsers to be ``lost'' in exactly the way described in Section \ref{sec:intro}.  Their contribution to deadtime is then added together with any other effects causing hardware deadtime.
+
+
+\subsection{Pulser Tagging vs. Time-Difference Methods} \label{sec:timeDiff}
+
+Two main approaches for calculating hardware deadtimes have been investigated.
+As described in Section \ref{sec:intro}, the ``pulser tagging'' method used in the final \tty{ds\_livetime} analysis calculates the expected number of pulsers in a run from the pulser period, and then compares with the number of ``found'' pulsers to get the total deadtime from hardware.
+This method of course depends on the pulser being active in a detector, which is the case except for a small subset of detectors and runs in DS1-5.  In DS0, the pulsers were run intermittently or sometimes not at all, making an alternative calculation of the hardware deadtime necessary.
+
+In a normal background run (with or without pulsers), there is an expected statistical distribution for the time between events.  For every channel, the ``time since last event'' $\Delta t$ can be calculated.  For an ideal channel when the pulser is active, the maximum time between events is equal to the pulser period $T$.  For a real channel, a pulser may occasionally be lost, making it possible for this time difference to exceed the pulser period ($\Delta t > T$).  One can then determine the total time that a channel may have been ``dropped out'' (deadtime from being unable to trigger) by summing the value of $\Delta t$ for all values greater than the pulser period.  This potentially over-estimates the deadtime for an individual dead period by as much as a factor of two; it is unknown if the channel was active for times between the initial event, the missed pulser, and the final event.  In addition, it is also possible that a short dead period would not inhibit the measurement of a pulser at all, and would not be detectable by this method; this can act to even out the over-estimates.
+
+The pulser tagging code written by David Radford (\tty{GAT/ORNLCode}) was unable to run in DS0.  The pulsers were generally on for the first five minutes of a run and then deactivated, and for some runs were not run at all.  The time-difference approach was employed for each run, using the data from the first five minutes to estimate the hardware deadtime fraction for each channel, generalizing this value to the whole run.  The dataset was treated as a single block for each channel, and a sufficient number of pulser events were collected for each channel to provide a reasonable estimate of the dead time, resulting only in a slightly higher uncertainty on the DS0 deadtime values.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{|c|c|c|c|}
+    \hline
+    DS  &Time Diff& Time Diff Mod. &  Pulser Tag \\
+    \hline
+    0   & 10.4  & 3.84      & 2.5005 \\
+    1   & 0.9   & 0.9       & 1.6140 \\
+    2   & 0.01  & 0.01      & 1.1297 \\
+    3   & 1.2   & 0         & 0.6053 \\
+    4   & 3.5   & 0.01      & 0.3364 \\
+    5   & --    & 3.10      & 0.9284 \\
+    \hline
+\end{tabular}
+\caption{Time Diff column gives the percent dropout fraction as found over the whole dataset. The Time Diff Mod column gives the percent dropout fraction as given by a selected runlist, usually omitting those runs without pulsers or with other bad behavior (not done for DS1 or DS2). Pulser tag gives the total hardware deadtime percent (including dropout fraction) for the dataset as found by pulser tagging methods. Values indicated in all columns are for High Gain channels. }
+\label{tab:dtcomparison}
+\end{table}
+
+While it is possible to use the time-difference methods to obtain a measurement of the channel dropout fraction, the pulser tagging method gives a total hardware deadtime (including channel dropout).
+If the digitizer is unable to trigger for any reason, the pulser tagging should give a statistically valid representation of how often this occured.
+The time difference method, on the other hand, requires more statistics (to determine the poisson nature of a channel's event distribution) and would not typically be sensitive to deadtimes such as trigger deadtime, which would need to be accounted for separately.
+
+
+\subsection{Retrigger Deadtime} \label{sec:retrigger}
+
+If the time-difference method is used to estimate the hardware deadtime, a second contribution must be considered, known as ``retrigger deadtime.''   As described in previous sections, each trigger of a channel is followed by a small deadtime during which that channel cannot trigger again (retrigger), $\Delta t_R$.  For each channel, the total retrigger deadtime is
+\begin{equation}
+  DT_{\mathrm{retrigger}} = \Delta t_R\ N_{\mathrm{all\ events}}
+\end{equation}
+
+The retrigger deadtime was measured by performing a time-difference analysis on calibration data, during which the physics event rate is high enough that many pairs of events in a channel occur faster than the hardware can trigger.
+The retrigger deadtime is the minimum time between events in a channel in this high-rate environment, and is a measurement of the hardware deadtime after every event in normal background running.
+For datasets without multisampling, the retrigger deadtime was found to be $62\ \mu$s for all channels.  With multisampling, the waveform trace is longer, and a longer deadtime of $100\ \mu$s results.  It should also be noted that in the studies by both Sam Meijer and Chris Haufe, the $62\ \mu$s value showed no apparent channel dependence.
+The retrigger time is due to the GRETINA hardware and the particular settings chosen, and is very uniform between channels.
+
+The pulser deadtime values used in \tty{ds\_livetime} in Section \ref{sec:intro} were calculated from this study.
+
+\newpage
+\section{Complete \tty{ds\_livetime} Results} \label{sec:completeResults}
+The results in the following subsections are the output of the \texttt{ds\_livetime} app.
+For each dataset, there is a ``best gain'' (OR-mode) result, and a summary of all channels.
+In situations where both a high and low gain channel are in the best gain table, it is due to channel selection limiting availability of HG during some parts of the dataset.
+
+\small
+\subsection{DS0 Results}
+\begin{verbatim}
+DS 0 Results, 2017/9/25
+	Veto Runtime 45.9081
+	Veto Deadtime 0.0383456
+Module 1:
+	Runtime : 45.9185
+	Number of runs: 2149
+	LN Deadtime : 0.436076 (0.00949674)
+	Active Enr Mass (kg): 10.6948  Active Nat Mass: 3.905
+	Best Enr Exposure : 460.052 +/- 6.95858 ( 1.54431e-11 w/o active mass unc)
+	Best Nat Exposure : 171.021 +/- 3.94117 ( 7.9197e-12 w/o active mass unc)
+
+Detector summary with best (H or L) gain and deadtime correction :
+Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac   LTUnc[s]  NRuns
+576   1426650   0.659     45.9185     44.8617      29.5639        0.4935         0.97678    0.01396 2149
+592   28469     0.557     45.9185     44.8571      24.9854        0.5831         0.97668    0.01396 2149
+594   28465     0.545     45.9185     45.0729      24.5647        0.5409         0.98138    0.01402 2149
+598   28470     0.564     45.9185     44.9898      25.3743        0.5849         0.97957    0.01400 2149
+600   28463     0.567     45.9185     39.6446      22.4785        0.5154         0.86317    0.01236 2149
+608   28455     0.558     45.9185     44.8388      25.0200        0.5829         0.97628    0.01395 2149
+610   1425730   1.024     45.9185     44.6872      45.7597        0.6256         0.97298    0.01391 2149
+624   1425740   0.701     45.9185     43.9556      30.8129        0.4835         0.95705    0.01368 2149
+626   1426611   0.675     45.9185     45.0722      30.4238        0.5409         0.98137    0.01402 2149
+640   1425380   0.968     45.9185     44.9120      43.4748        0.5839         0.97788    0.01398 2149
+642   1426621   0.591     45.9185     44.8892      26.5206        0.4040         0.97738    0.01397 2149
+644   1425741   0.710     45.9185     45.0735      32.0022        0.4958         0.98140    0.01402 2149
+646   28482     0.561     45.9185     44.8893      25.1829        0.5836         0.97738    0.01397 2149
+656   1426610   0.632     45.9185     44.6226      28.2015        0.4908         0.97158    0.01389 2149
+662   1425751   0.730     45.9185     44.2653      32.3137        0.4869         0.96380    0.01378 2149
+664   28477     0.553     45.9185     42.3414      23.4148        0.5504         0.92190    0.01319 2149
+674   1426640   0.723     45.9185     45.0638      32.5811        0.4957         0.98118    0.01402 2149
+688   1426612   0.811     41.0436     40.4183      32.7792        0.4850         0.98443    0.01468 1974
+690   1425750   0.979     41.0436     40.2007      39.3565        0.5226         0.97913    0.01461 1974
+692   1426981   0.510     41.0436     32.4844      16.5670        0.3248         0.79112    0.01185 1974
+696   1425731   0.982     41.0436     40.4224      39.6948        0.5255         0.98453    0.01469 1974
+Channel livetime averages - All 42.7267  Best 43.2173  HG 42.7267  LG 42.7267
+Channel livetime avg unc -  All 0.5882  Best 0.6609  HG 0.5882  LG 0.5882
+Total average fractional livetime (all channels) : 0.949143
+Total average fractional livetime uncertainty    : 0.0976903
+Deadtime summary (percent, sum deadtime, sum runtime):
+   Hardware HG:       2.5005e+00  4.0823e+06  1.6326e+08
+   Hardware LG:       1.4787e+00  2.4140e+06  1.6326e+08
+   Hardware OR/Best:  2.8887e+00  2.3580e+06  8.1630e+07
+   Pulser HG:         8.3323e-03  1.3603e+04  1.6326e+08
+   Pulser LG:         8.2548e-03  1.3477e+04  1.6326e+08
+   Pulser OR/Best HG: 1.6666e-02  1.3604e+04  8.1630e+07
+   LN Fill HG+LG:     9.5025e-01  1.5514e+06  1.6326e+08
+   LN Fill OR/Best:   9.5025e-01  7.7569e+05  8.1630e+07
+   Muon Veto HG+LG:   8.4574e-02  1.3808e+05  1.6326e+08
+   Muon Veto OR/Best: 8.4574e-02  6.9038e+04  8.1630e+07
+
+All-channel summary (no deadtime corrections) :
+Chan  DetID     A.M.(kg)  Runtime(d)  RT-Expo(kg-d)
+576   1426650   0.659     45.9185     29.4610
+577   1426650   0.659     45.9185     29.5639
+592   28469     0.557     45.9185     24.9854
+593   28469     0.557     45.9185     24.9368
+594   28465     0.545     45.9185     24.3921
+595   28465     0.545     45.9185     24.5648
+598   28470     0.564     45.9185     25.3380
+599   28470     0.564     45.9185     25.3745
+600   28463     0.567     45.9185     16.0737
+601   28463     0.567     45.9185     22.4785
+608   28455     0.558     45.9185     25.0200
+609   28455     0.558     45.9185     24.9790
+610   1425730   1.024     45.9185     45.7597
+611   1425730   1.024     45.9185     45.7268
+624   1425740   0.701     45.9185     26.7153
+625   1425740   0.701     45.9185     30.8130
+626   1426611   0.675     45.9185     30.4145
+627   1426611   0.675     45.9185     30.4240
+640   1425380   0.968     45.9185     43.4748
+641   1425380   0.968     45.9185     43.3772
+642   1426621   0.591     45.9185     26.4690
+643   1426621   0.591     45.9185     26.5206
+644   1425741   0.710     45.9185     31.9924
+645   1425741   0.710     45.9185     32.0022
+646   28482     0.561     45.9185     25.1339
+647   28482     0.561     45.9185     25.1829
+656   1426610   0.632     45.9185     28.2015
+657   1426610   0.632     45.9185     28.1609
+662   1425751   0.730     45.9185     30.9595
+663   1425751   0.730     45.9185     32.3137
+664   28477     0.553     45.9185     23.3995
+665   28477     0.553     45.9185     23.4148
+674   1426640   0.723     45.9185     32.5811
+675   1426640   0.723     45.9185     32.5911
+688   1426612   0.811     41.0436     32.7792
+689   1426612   0.811     41.0436     32.7792
+690   1425750   0.979     41.0436     39.3565
+691   1425750   0.979     41.0436     39.0592
+692   1426981   0.510     41.0436     16.4959
+693   1426981   0.510     41.0436     16.5670
+696   1425731   0.982     41.0436     39.6424
+697   1425731   0.982     41.0436     39.6948
+\end{verbatim}
+
+\subsection{DS1 Results}
+\begin{verbatim}
+DS 1 Results, 2017/9/25
+	Veto Runtime 58.768
+	Veto Deadtime 0.0372605
+Module 1:
+	Runtime : 58.7676
+	Number of runs: 1502
+	LN Deadtime : 0.590475 (0.0100476)
+	Active Enr Mass (kg): 11.901  Active Nat Mass: 1.121
+	Best Enr Exposure : 669.303 +/- 9.80195 ( 0.000566869 w/o active mass unc)
+	Best Nat Exposure : 63.3273 +/- 1.46881 ( 5.04897e-05 w/o active mass unc)
+
+Detector summary with best (H or L) gain and deadtime correction :
+Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac   LTUnc[s]  NRuns
+578   1425380   0.968     58.7676     57.6083      55.7648        0.7489         0.97939    5.47725 1502
+580   1426612   0.811     58.7676     57.5588      46.6802        0.6907         0.97821    5.47725 1502
+582   1425750   0.979     58.7676     57.8811      56.6656        0.7525         0.98365    5.47725 1502
+592   1425370   0.964     56.1303     54.3741      52.4167        0.7069         0.96838    5.47725 1437
+594   1426621   0.591     48.1066     47.1323      27.8458        0.4242         0.97881    5.47726 1221
+598   1425741   0.710     58.7676     57.7479      41.0010        0.6352         0.98141    5.47725 1502
+600   28482     0.561     58.7676     55.4454      31.1049        0.7208         0.94350    5.47725 1502
+608   1425381   0.949     58.7676     57.5954      54.6580        0.7487         0.97821    5.47725 1502
+610   1426980   0.886     58.7676     57.3639      50.8245        0.6884         0.97424    5.47725 1502
+626   1425740   0.701     58.7676     58.1395      40.7558        0.6395         0.98808    5.47725 1502
+632   1425742   0.732     58.7676     53.6976      39.3066        0.5907         0.91411    5.47725 1502
+640   1426650   0.659     58.7676     57.9557      38.1928        0.6375         0.98491    5.47725 1502
+648   1426640   0.723     58.7676     56.4238      40.7944        0.6207         0.95911    5.47725 1502
+664   1425730   1.024     58.7676     56.2178      57.5671        0.7870         0.95348    5.47725 1502
+672   1426610   0.632     50.9516     49.6847      33.9574        0.5910         0.97332    5.47725 1311
+673   1426610   0.632     55.0751     4.0454       33.9574        0.5910         0.98029    5.47761 100
+690   1426620   0.572     58.7676     57.4498      32.8728        0.5400         0.97607    5.47725 1502
+692   28474     0.560     58.7676     57.5400      32.2224        0.7480         0.97752    5.47725 1502
+Channel livetime averages - All 54.2979  Best 52.9923  HG 54.2979  LG 54.2979
+Channel livetime avg unc -  All 0.9687  Best 2.8827  HG 0.9687  LG 0.9687
+Total average fractional livetime (all channels) : 0.95765
+Total average fractional livetime uncertainty    : 0.109269
+Deadtime summary (percent, sum deadtime, sum runtime):
+   Hardware HG:       1.6140e+00  2.6873e+06  1.6650e+08
+   Hardware LG:       1.5191e+00  2.5293e+06  1.6650e+08
+   Hardware OR/Best:  1.8021e+00  1.5291e+06  8.4850e+07
+   Pulser HG:         3.4503e-04  5.7447e+02  1.6650e+08
+   Pulser LG:         3.2899e-04  5.4777e+02  1.6650e+08
+   Pulser OR/Best HG: 6.8727e-04  5.8315e+02  8.4850e+07
+   LN Fill HG+LG:     1.0042e+00  1.6721e+06  1.6650e+08
+   LN Fill OR/Best:   1.0059e+00  8.5347e+05  8.4850e+07
+   Muon Veto HG+LG:   6.2429e-02  1.0394e+05  1.6650e+08
+   Muon Veto OR/Best: 6.2564e-02  5.3086e+04  8.4850e+07
+
+All-channel summary (no deadtime corrections) :
+Chan  DetID     A.M.(kg)  Runtime(d)  RT-Expo(kg-d)
+578   1425380   0.968     58.7676     53.6836
+579   1425380   0.968     58.7676     55.6684
+580   1426612   0.811     58.7676     46.8877
+581   1426612   0.811     58.7676     46.6802
+582   1425750   0.979     58.7676     56.5136
+583   1425750   0.979     46.8256     45.2225
+592   1425370   0.964     56.1303     51.5866
+593   1425370   0.964     56.1303     51.3046
+594   1426621   0.591     48.1066     27.9207
+595   1426621   0.591     27.1308     15.7395
+598   1425741   0.710     58.7676     40.6925
+599   1425741   0.710     58.7676     40.4176
+600   28482     0.561     58.7676     30.8322
+601   28482     0.561     58.7676     30.4430
+608   1425381   0.949     58.7676     53.2354
+609   1425381   0.949     58.7676     54.3945
+610   1426980   0.886     58.7676     50.3904
+611   1426980   0.886     58.7676     49.4565
+626   1425740   0.701     58.7676     40.6824
+627   1425740   0.701     58.7676     40.7418
+632   1425742   0.732     58.7676     38.4873
+633   1425742   0.732     58.7676     38.4923
+640   1426650   0.659     58.7676     37.9793
+641   1426650   0.659     58.7676     37.9651
+648   1426640   0.723     58.7676     38.6866
+649   1426640   0.723     58.7676     39.0059
+664   1425730   1.024     58.7676     54.8752
+665   1425730   1.024     58.7676     56.4599
+672   1426610   0.632     50.9516     31.3354
+673   1426610   0.632     55.0751     33.1327
+690   1426620   0.572     58.7676     32.7700
+691   1426620   0.572     58.7676     32.7873
+692   28474     0.560     58.7676     32.0103
+693   28474     0.560     58.7676     32.0217
+\end{verbatim}
+
+
+\subsection{DS2 Results}
+\begin{verbatim}
+DS 2 Results, 2017/9/25
+	Veto Runtime 9.57582
+	Veto Deadtime 0.00712612
+Module 1:
+	Runtime : 9.57577
+	Number of runs: 233
+	LN Deadtime : 0.0180787 (0.00188796)
+	Active Enr Mass (kg): 11.3102  Active Nat Mass: 1.121
+	Best Enr Exposure : 106.089 +/- 1.5508 ( 1.02464e-05 w/o active mass unc)
+	Best Nat Exposure : 10.6722 +/- 0.247527 ( 2.7438e-07 w/o active mass unc)
+
+Detector summary with best (H or L) gain and deadtime correction :
+Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac   LTUnc[s]  NRuns
+578   1425380   0.968     9.5758      9.5108       9.2065         0.1236         0.99331    0.04284 233
+580   1426612   0.811     9.5758      9.4547       7.6678         0.1135         0.98739    0.04263 233
+582   1425750   0.979     9.5758      9.4547       9.2561         0.1229         0.98739    0.04263 233
+592   1425370   0.964     9.5758      9.4172       9.0782         0.1224         0.98352    0.04257 233
+598   1425741   0.710     9.5758      9.5442       6.7764         0.1050         0.99674    0.04303 233
+600   28482     0.561     9.5758      9.5071       5.3335         0.1236         0.99292    0.04282 233
+608   1425381   0.949     9.5758      9.5501       9.0630         0.1242         0.99735    0.04306 233
+610   1426980   0.886     9.5758      9.5378       8.4505         0.1145         0.99609    0.04299 233
+626   1425740   0.701     9.5758      9.5505       6.6949         0.1051         0.99739    0.04306 233
+632   1425742   0.732     9.5758      8.2947       6.0717         0.0912         0.86806    0.04202 233
+640   1426650   0.659     9.5758      9.5505       6.2937         0.1051         0.99739    0.04306 233
+648   1426640   0.723     9.5758      8.9402       6.4638         0.0983         0.93455    0.04100 233
+664   1425730   1.024     9.5758      9.5255       9.7541         0.1334         0.99480    0.04295 233
+672   1426610   0.632     9.5758      9.5332       6.0250         0.1049         0.99557    0.04299 233
+690   1426620   0.572     9.5758      9.2410       5.2877         0.0869         0.96462    0.04218 233
+692   28474     0.560     9.5758      9.5335       5.3387         0.1239         0.99559    0.04299 233
+Channel livetime averages - All 9.2790  Best 9.3841  HG 9.2790  LG 9.2790
+Channel livetime avg unc -  All 0.0763  Best 0.0801  HG 0.0763  LG 0.0763
+Total average fractional livetime (all channels) : 0.969288
+Total average fractional livetime uncertainty    : 0.116076
+Deadtime summary (percent, sum deadtime, sum runtime):
+   Hardware HG:       1.1297e+00  2.8974e+05  2.5648e+07
+   Hardware LG:       1.7050e+00  4.3730e+05  2.5648e+07
+   Hardware OR/Best:  1.7373e+00  2.2998e+05  1.3238e+07
+   Pulser HG:         5.9177e-04  1.5178e+02  2.5648e+07
+   Pulser LG:         5.4564e-04  1.3995e+02  2.5648e+07
+   Pulser OR/Best HG: 1.1537e-03  1.5272e+02  1.3238e+07
+   LN Fill HG+LG:     1.8880e-01  4.8422e+04  2.5648e+07
+   LN Fill OR/Best:   1.8880e-01  2.4992e+04  1.3238e+07
+   Muon Veto HG+LG:   7.4418e-02  1.9087e+04  2.5648e+07
+   Muon Veto OR/Best: 7.4418e-02  9.8512e+03  1.3238e+07
+
+All-channel summary (no deadtime corrections) :
+Chan  DetID     A.M.(kg)  Runtime(d)  RT-Expo(kg-d)
+578   1425380   0.968     9.5758      9.2019
+579   1425380   0.968     9.5758      8.4973
+580   1426612   0.811     9.5758      7.7356
+581   1426612   0.811     9.5758      7.6678
+582   1425750   0.979     9.5758      9.3486
+592   1425370   0.964     9.5758      8.8733
+593   1425370   0.964     9.5758      8.9900
+598   1425741   0.710     9.5758      6.7262
+599   1425741   0.710     9.5758      6.7720
+600   28482     0.561     9.5758      5.1778
+601   28482     0.561     9.5758      5.2838
+608   1425381   0.949     9.5758      9.0584
+609   1425381   0.949     9.5758      8.8903
+610   1426980   0.886     9.5758      8.4596
+611   1426980   0.886     9.5758      8.4503
+626   1425740   0.701     9.5758      6.6890
+627   1425740   0.701     9.5758      6.6945
+632   1425742   0.732     9.5758      6.0699
+633   1425742   0.732     9.5758      5.5905
+640   1426650   0.659     9.5758      6.2935
+641   1426650   0.659     9.5758      6.2937
+648   1426640   0.723     9.5758      6.4634
+649   1426640   0.723     9.5758      6.4637
+664   1425730   1.024     9.5758      9.7365
+665   1425730   1.024     9.5758      9.1605
+672   1426610   0.632     9.5758      6.0326
+673   1426610   0.632     9.5758      6.0326
+690   1426620   0.572     9.5758      5.1144
+691   1426620   0.572     9.5758      5.1994
+692   28474     0.560     9.5758      5.3444
+693   28474     0.560     9.5758      5.3308
+\end{verbatim}
+
+\subsection{DS3 Results}
+\begin{verbatim}
+DS 3 Results, 2017/9/25
+	Veto Runtime 29.8788
+	Veto Deadtime 0.012634
+Module 1:
+	Runtime : 29.8787
+	Number of runs: 733
+	LN Deadtime : 0.28022 (0.0093786)
+	Active Enr Mass (kg): 12.631  Active Nat Mass: 2.781
+	Best Enr Exposure : 367.797 +/- 5.40018 ( 2.03572e-05 w/o active mass unc)
+	Best Nat Exposure : 81.5157 +/- 1.87583 ( 5.29111e-06 w/o active mass unc)
+
+Detector summary with best (H or L) gain and deadtime correction :
+Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac   LTUnc[s]  NRuns
+578   1425380   0.968     29.8787     29.5656      28.6195        0.3844         0.98678    0.02412 733
+580   1426612   0.811     29.8787     28.5761      23.1752        0.3429         0.95368    0.02382 733
+582   1425750   0.979     29.8787     29.2868      28.6718        0.3807         0.97745    0.02390 733
+592   1425370   0.964     29.8787     29.5845      28.5194        0.3846         0.98741    0.02414 733
+594   1426621   0.591     29.8787     29.2868      17.3026        0.2636         0.97745    0.02390 733
+598   1425741   0.710     29.8787     29.5814      21.0028        0.3254         0.98731    0.02414 733
+600   28482     0.561     29.8787     28.6368      16.0653        0.3723         0.95571    0.02388 733
+608   1425381   0.949     29.8787     28.5858      27.1280        0.3716         0.95433    0.02416 733
+610   1426980   0.886     29.8787     28.5856      25.3268        0.3430         0.95432    0.02416 733
+614   28469     0.557     29.8787     29.2868      16.3128        0.3807         0.97745    0.02390 733
+624   28455     0.558     29.8787     29.5849      16.5084        0.3846         0.98742    0.02414 733
+626   1425740   0.701     29.8787     29.5856      20.7395        0.3254         0.98745    0.02414 733
+632   1425742   0.732     29.8787     29.4943      21.5899        0.3244         0.98425    0.02407 733
+640   1426650   0.659     29.8787     28.8838      19.0344        0.3177         0.96375    0.02378 733
+648   1426640   0.723     29.8787     27.9359      20.1977        0.3073         0.93204    0.02350 733
+664   1425730   1.024     29.8787     28.5857      29.2718        0.4002         0.95432    0.02416 733
+672   1426610   0.632     29.8787     29.5846      18.6975        0.3254         0.98741    0.02414 733
+678   1425751   0.730     29.8787     29.5776      21.5916        0.3254         0.98716    0.02414 733
+690   1426620   0.572     29.8787     29.5843      16.9282        0.2781         0.98740    0.02414 733
+692   28474     0.560     29.8787     29.5286      16.5360        0.3839         0.98554    0.02409 733
+694   28465     0.545     29.8787     29.5290      16.0933        0.3543         0.98556    0.02409 733
+Channel livetime averages - All 29.2064  Best 29.1834  HG 29.2064  LG 29.2064
+Channel livetime avg unc -  All 0.0789  Best 0.1067  HG 0.0789  LG 0.0789
+Total average fractional livetime (all channels) : 0.97478
+Total average fractional livetime uncertainty    : 0.100938
+Deadtime summary (percent, sum deadtime, sum runtime):
+   Hardware HG:       6.0525e-01  6.4061e+05  1.0584e+08
+   Hardware LG:       6.6398e-01  7.0277e+05  1.0584e+08
+   Hardware OR/Best:  1.3462e+00  7.2982e+05  5.4212e+07
+   Pulser HG:         3.5905e-04  3.8003e+02  1.0584e+08
+   Pulser LG:         3.0544e-04  3.2329e+02  1.0584e+08
+   Pulser OR/Best HG: 7.0103e-04  3.8004e+02  5.4212e+07
+   LN Fill HG+LG:     9.3786e-01  9.9265e+05  1.0584e+08
+   LN Fill OR/Best:   9.3786e-01  5.0843e+05  5.4212e+07
+   Muon Veto HG+LG:   4.2284e-02  4.4755e+04  1.0584e+08
+   Muon Veto OR/Best: 4.2284e-02  2.2923e+04  5.4212e+07
+
+All-channel summary (no deadtime corrections) :
+Chan  DetID     A.M.(kg)  Runtime(d)  RT-Expo(kg-d)
+578   1425380   0.968     29.8787     28.6316
+579   1425380   0.968     29.8787     28.6321
+580   1426612   0.811     29.8787     23.2204
+581   1426612   0.811     29.8787     23.1751
+582   1425750   0.979     29.8787     28.9583
+583   1425750   0.979     29.8787     28.6720
+592   1425370   0.964     29.8787     28.5185
+593   1425370   0.964     29.8787     28.5188
+594   1426621   0.591     29.8787     17.4763
+598   1425741   0.710     29.8787     21.0012
+599   1425741   0.710     29.8787     21.0025
+600   28482     0.561     29.8787     16.0646
+601   28482     0.561     29.8787     16.0650
+608   1425381   0.949     29.8787     27.1266
+609   1425381   0.949     29.8787     27.1280
+610   1426980   0.886     29.8787     25.3260
+611   1426980   0.886     29.8787     25.3265
+614   28469     0.557     29.8787     16.4718
+615   28469     0.557     29.8787     16.3129
+624   28455     0.558     29.8787     16.5076
+625   28455     0.558     29.8787     16.5082
+626   1425740   0.701     29.8787     20.7379
+627   1425740   0.701     29.8787     20.7391
+632   1425742   0.732     29.8787     21.5890
+633   1425742   0.732     29.8787     21.5897
+640   1426650   0.659     29.8787     19.0341
+641   1426650   0.659     29.8787     19.0344
+648   1426640   0.723     29.8787     20.1972
+649   1426640   0.723     29.8787     20.1977
+664   1425730   1.024     29.8787     29.2709
+665   1425730   1.024     29.8787     29.2714
+672   1426610   0.632     29.8787     18.6970
+673   1426610   0.632     29.8787     18.6970
+678   1425751   0.730     29.8787     21.5903
+679   1425751   0.730     29.8787     21.5962
+690   1426620   0.572     29.8787     16.9274
+691   1426620   0.572     29.8787     16.9281
+692   28474     0.560     29.8787     16.5664
+693   28474     0.560     29.8787     16.5359
+694   28465     0.545     29.8787     16.1235
+695   28465     0.545     29.8787     16.0931
+\end{verbatim}
+
+
+\subsection{DS4 Results}
+\begin{verbatim}
+DS 4 Results, 2017/9/25
+	Veto Runtime 0
+	Veto Deadtime 0.0767957
+Module 2:
+	Runtime : 19.1464
+	Number of runs: 470
+	LN Deadtime : 0.206898 (0.0108061)
+	Active Enr Mass (kg): 5.4712  Active Nat Mass: 3.95
+	Best Enr Exposure : 102.716 +/- 1.47222 ( 2.33647e-06 w/o active mass unc)
+	Best Nat Exposure : 73.9033 +/- 1.70261 ( 2.0041e-06 w/o active mass unc)
+
+Detector summary with best (H or L) gain and deadtime correction :
+Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac   LTUnc[s]  NRuns
+1106  28594     0.559     19.1464     18.7250      10.4673        0.2434         0.97318    0.02978 470
+1136  28466     0.566     19.1464     18.5418      10.4946        0.2410         0.96395    0.02954 470
+1144  28576     0.562     19.1464     18.6711      10.4932        0.2427         0.97038    0.02970 470
+1170  28607     0.558     19.1464     18.6962      10.4325        0.2431         0.97175    0.02976 470
+1172  1427491   0.852     19.1464     18.7113      15.9421        0.2058         0.97253    0.02978 470
+1174  28481     0.581     19.1464     18.7003      10.8649        0.2431         0.97196    0.02977 470
+1176  1427490   0.872     19.1464     18.7112      16.3162        0.2245         0.97253    0.02978 470
+1204  1427480   0.917     19.1464     18.7100      17.1570        0.2245         0.97246    0.02978 470
+1232  28717     0.567     19.1464     18.8023      10.6609        0.2444         0.97719    0.02991 470
+1236  1429090   0.562     19.1464     18.8258      10.5801        0.1883         0.97845    0.02994 470
+1296  1235170   0.462     19.1464     18.8353      8.7057         0.1582         0.97893    0.02995 470
+1298  1429091   0.775     19.1464     18.8362      14.5981        0.2260         0.97898    0.02995 470
+1330  28487     0.557     19.1464     18.8330      10.4900        0.2448         0.97882    0.02995 470
+1332  1428531   1.031     19.1464     18.8330      19.4169        0.2448         0.97882    0.02995 470
+Channel livetime averages - All 18.7165  Best 18.7452  HG 18.7165  LG 18.7165
+Channel livetime avg unc -  All 0.0386  Best 0.0222  HG 0.0386  LG 0.0386
+Total average fractional livetime (all channels) : 0.972701
+Total average fractional livetime uncertainty    : 0.122182
+Deadtime summary (percent, sum deadtime, sum runtime):
+   Hardware HG:       3.3643e-01  1.5583e+05  4.6319e+07
+   Hardware LG:       4.2675e-01  1.9767e+05  4.6319e+07
+   Hardware OR/Best:  6.1312e-01  1.4200e+05  2.3159e+07
+   Pulser HG:         3.1117e-04  1.4413e+02  4.6319e+07
+   Pulser LG:         3.1119e-04  1.4414e+02  4.6319e+07
+   Pulser OR/Best HG: 6.2239e-04  1.4414e+02  2.3159e+07
+   LN Fill HG+LG:     1.0806e+00  5.0053e+05  4.6319e+07
+   LN Fill OR/Best:   1.0806e+00  2.5026e+05  2.3159e+07
+   Muon Veto HG+LG:   4.0110e-01  1.8578e+05  4.6319e+07
+   Muon Veto OR/Best: 4.0110e-01  9.2892e+04  2.3159e+07
+
+All-channel summary (no deadtime corrections) :
+Chan  DetID     A.M.(kg)  Runtime(d)  RT-Expo(kg-d)
+1106  28594     0.559     19.1464     10.3665
+1107  28594     0.559     19.1464     9.9446
+1136  28466     0.566     19.1464     10.4945
+1137  28466     0.566     19.1464     10.4964
+1144  28576     0.562     19.1464     10.4331
+1145  28576     0.562     19.1464     10.5767
+1170  28607     0.558     19.1464     10.4332
+1171  28607     0.558     19.1464     10.4332
+1172  1427491   0.852     19.1464     15.9533
+1173  1427491   0.852     19.1464     15.9446
+1174  28481     0.581     19.1464     10.8776
+1175  28481     0.581     19.1464     10.8716
+1176  1427490   0.872     19.1464     16.3237
+1177  1427490   0.872     19.1464     16.3294
+1204  1427480   0.917     19.1464     17.1679
+1205  1427480   0.917     19.1464     17.1686
+1232  28717     0.567     19.1464     10.6794
+1233  28717     0.567     19.1464     10.6759
+1236  1429090   0.562     19.1464     10.5852
+1237  1429090   0.562     19.1464     10.5819
+1296  1235170   0.462     19.1464     8.7112
+1297  1235170   0.462     19.1464     8.7115
+1298  1429091   0.775     19.1464     14.5998
+1299  1429091   0.775     19.1464     14.6175
+1330  28487     0.557     19.1464     10.4915
+1331  28487     0.557     19.1464     10.4915
+1332  1428531   1.031     19.1464     19.4288
+1333  1428531   1.031     19.1464     19.4428
+\end{verbatim}
+
+
+
+\newpage
+\subsection{DS5 Full Results}
+\begin{verbatim}
+DS 5 Results, 2017/9/25
+	Veto Runtime 121.08
+	Veto Deadtime 0.0586017
+Module 1:
+	Runtime : 121.082
+	Number of runs: 3284
+	LN Deadtime : 1.27593 (0.0105377)
+	Active Enr Mass (kg): 12.631  Active Nat Mass: 3.912
+	Best Enr Exposure : 1397.64 +/- 20.6016 ( 1.45345e-05 w/o active mass unc)
+	Best Nat Exposure : 424.526 +/- 9.76568 ( 8.58272e-06 w/o active mass unc)
+Module 2:
+	Runtime : 121.082
+	Number of runs: 3284
+	LN Deadtime : 1.64134 (0.0135557)
+	Active Enr Mass (kg): 5.811  Active Nat Mass: 5.085
+	Best Enr Exposure : 537.804 +/- 7.58807 ( 1.21634e-05 w/o active mass unc)
+	Best Nat Exposure : 541.428 +/- 12.4568 ( 3.97123e-06 w/o active mass unc)
+
+Detector summary with best (H or L) gain and deadtime correction :
+Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac   LTUnc[s]  NRuns
+584   1425730   1.024     117.0716    115.2877     118.0546       1.6140         0.98205    0.01156 3166
+592   1426610   0.632     114.3808    112.4515     71.0693        1.2370         0.98083    0.01167 3101
+598   1425751   0.730     117.0716    115.5079     84.3207        1.2706         0.98448    0.01159 3166
+608   1425381   0.949     117.0716    115.4428     109.5552       1.5008         0.98392    0.01158 3166
+610   1426980   0.886     121.0816    119.4253     105.8108       1.4331         0.98406    0.01138 3284
+614   28469     0.557     121.0816    118.5466     66.0305        1.5411         0.97689    0.01130 3284
+624   28455     0.558     117.0716    115.1898     64.2759        1.4975         0.98116    0.01156 3166
+626   1425740   0.701     119.5896    117.9451     82.6795        1.2974         0.98408    0.01147 3230
+628   28470     0.564     103.0154    101.5282     57.2619        1.3199         0.98415    0.01230 2814
+632   1425742   0.732     117.0716    115.5189     84.5598        1.2707         0.98474    0.01159 3166
+640   1426650   0.659     121.0816    119.6117     78.8241        1.3157         0.98560    0.01140 3284
+648   1426640   0.723     121.0816    119.6445     86.5030        1.3161         0.98590    0.01140 3284
+658   1425380   0.968     121.0816    116.2103     112.4916       1.5107         0.94916    0.01111 3284
+660   1426612   0.811     121.0816    116.5485     94.5209        1.3986         0.95351    0.01111 3284
+662   1425750   0.979     121.0816    115.9785     113.5430       1.5077         0.94852    0.01106 3284
+672   1425370   0.964     39.4929     38.9649      37.5622        0.5065         0.98346    0.02060 1004
+674   1426621   0.591     121.0816    119.5451     70.6273        1.0759         0.98497    0.01138 3284
+678   1425741   0.710     117.0716    115.4228     81.9502        1.2697         0.98379    0.01159 3166
+680   28482     0.561     117.0716    114.7801     64.3916        1.4921         0.97875    0.01153 3166
+688   28463     0.567     103.0154    101.2368     57.4013        1.3161         0.98129    0.01227 2814
+690   1426620   0.572     117.0716    114.5827     65.5642        1.0771         0.97719    0.01155 3166
+692   28474     0.560     95.8677     94.4874      52.9129        1.2283         0.98240    0.01266 2644
+694   28465     0.545     117.0795    114.2238     62.2519        1.3707         0.97458    0.01152 3167
+1106  28594     0.559     103.7126    101.3680     56.6647        1.3178         0.96173    0.01213 2826
+1120  28466     0.566     112.0967    110.4250     62.5005        1.4355         0.97301    0.01182 3029
+1124  28459     0.556     78.7456     77.4476      43.0609        1.0068         0.97026    0.01447 2016
+1128  28576     0.562     111.4946    109.7270     61.6666        1.4265         0.97178    0.01182 3023
+1170  28607     0.558     120.3932    118.4412     66.0902        1.5397         0.97096    0.01137 3267
+1172  1427491   0.852     117.8077    115.8061     98.6668        1.2739         0.97079    0.01149 3198
+1174  28481     0.581     103.0581    101.3209     58.8674        1.3172         0.96949    0.01234 2769
+1176  1427490   0.872     113.9818    112.2730     97.9020        1.3473         0.97350    0.01171 3086
+1204  1427480   0.917     111.5292    109.8377     100.7212       1.3181         0.97213    0.01179 3042
+1208  28456     0.579     108.8441    106.2288     61.5065        1.3810         0.96342    0.01186 2958
+1232  28717     0.567     116.5004    114.7121     65.0417        1.4913         0.97231    0.01155 3170
+1236  1429090   0.562     117.4856    115.6809     65.0126        1.1568         0.97181    0.01150 3196
+1298  1429091   0.775     117.6940    108.8504     84.3590        1.3062         0.91582    0.01138 3201
+1302  1427120   0.802     41.8831     41.2878      33.1128        0.4542         0.97353    0.01998 1064
+1330  28487     0.557     120.3848    118.5454     66.0298        1.5411         0.97205    0.01138 3266
+1332  1428531   1.031     57.2426     56.2846      58.0294        0.7317         0.96858    0.01613 1624
+Channel livetime averages - All 105.6942  Best 106.8286  HG 105.6942  LG 105.6942
+Channel livetime avg unc -  All 2.2003  Best 3.1376  HG 2.2003  LG 2.2003
+Total average fractional livetime (all channels) : 0.963088
+Total average fractional livetime uncertainty    : 0.072104
+Deadtime summary (percent, sum deadtime, sum runtime):
+   Hardware HG:       9.2842e-01  6.8191e+06  7.3449e+08
+   Hardware LG:       8.6619e-01  6.3621e+06  7.3449e+08
+   Hardware OR/Best:  7.5373e-01  2.7680e+06  3.6725e+08
+   Pulser HG:         3.2170e-04  2.3629e+03  7.3449e+08
+   Pulser LG:         3.1492e-04  2.3130e+03  7.3449e+08
+   Pulser OR/Best HG: 6.5105e-04  2.3910e+03  3.6725e+08
+   LN Fill HG+LG:     1.1776e+00  8.6494e+06  7.3449e+08
+   LN Fill OR/Best:   1.1776e+00  4.3247e+06  3.6725e+08
+   Muon Veto HG+LG:   4.9047e-02  3.6024e+05  7.3449e+08
+   Muon Veto OR/Best: 4.9047e-02  1.8012e+05  3.6725e+08
+
+All-channel summary (no deadtime corrections) :
+Chan  DetID     A.M.(kg)  Runtime(d)  RT-Expo(kg-d)
+584   1425730   1.024     117.0716    117.3550
+585   1425730   1.024     117.0716    117.9943
+592   1426610   0.632     114.3808    70.5216
+593   1426610   0.632     114.3808    70.6313
+598   1425751   0.730     117.0716    83.5996
+599   1425751   0.730     117.0716    84.0468
+608   1425381   0.949     117.0716    108.4351
+609   1425381   0.949     117.0716    107.8448
+610   1426980   0.886     121.0816    105.0254
+611   1426980   0.886     121.0816    105.5600
+614   28469     0.557     121.0816    66.4172
+615   28469     0.557     121.0816    52.8135
+624   28455     0.558     117.0716    63.8309
+625   28455     0.558     117.0716    63.6044
+626   1425740   0.701     119.5896    81.9322
+627   1425740   0.701     119.5896    81.1558
+628   28470     0.564     103.0154    57.1406
+629   28470     0.564     103.0154    57.1623
+632   1425742   0.732     117.0716    84.0157
+633   1425742   0.732     117.0716    84.3182
+640   1426650   0.659     121.0816    78.7106
+641   1426650   0.659     121.0816    78.3949
+648   1426640   0.723     121.0816    86.4274
+649   1426640   0.723     121.0816    86.2557
+658   1425380   0.968     121.0816    109.7049
+659   1425380   0.968     121.0816    112.2089
+660   1426612   0.811     121.0816    92.1189
+661   1426612   0.811     121.0816    93.9175
+662   1425750   0.979     121.0816    110.1333
+663   1425750   0.979     121.0816    112.9170
+672   1425370   0.964     39.4929     37.5499
+673   1425370   0.964     39.4929     37.4243
+674   1426621   0.591     121.0816    70.3413
+675   1426621   0.591     121.0816    70.6570
+678   1425741   0.710     117.0716    80.9314
+679   1425741   0.710     117.0716    81.5383
+680   28482     0.561     117.0716    63.6920
+681   28482     0.561     117.0716    63.7458
+688   28463     0.567     103.0154    55.9874
+689   28463     0.567     103.0154    57.3206
+690   1426620   0.572     117.0716    65.2477
+691   1426620   0.572     117.0716    65.0048
+692   28474     0.560     95.8677     51.8348
+693   28474     0.560     95.8677     52.3544
+694   28465     0.545     117.0795    61.0442
+695   28465     0.545     117.0795    61.6301
+1106  28594     0.559     103.7126    55.4864
+1107  28594     0.559     103.7126    56.5323
+1120  28466     0.566     112.0967    62.2193
+1121  28466     0.566     112.0967    62.4855
+1124  28459     0.556     78.7456     42.6166
+1125  28459     0.556     78.7456     42.8150
+1128  28576     0.562     111.4946    57.8994
+1129  28576     0.562     111.4946    61.7259
+1170  28607     0.558     120.3932    65.9715
+1171  28607     0.558     120.3932    65.6052
+1172  1427491   0.852     117.8077    97.9074
+1173  1427491   0.852     117.8077    98.2764
+1174  28481     0.581     103.0581    58.2552
+1175  28481     0.581     103.0581    58.7943
+1176  1427490   0.872     113.9818    97.3514
+1177  1427490   0.872     113.9818    98.0006
+1204  1427480   0.917     111.5292    100.2452
+1205  1427480   0.917     111.5292    100.6374
+1208  28456     0.579     108.8441    59.8029
+1209  28456     0.579     108.8441    61.9737
+1232  28717     0.567     116.5004    64.2736
+1233  28717     0.567     116.5004    64.9887
+1236  1429090   0.562     117.4856    65.0359
+1237  1429090   0.562     117.4856    64.4364
+1298  1429091   0.775     117.6940    83.0317
+1299  1429091   0.775     117.6940    83.9949
+1302  1427120   0.802     41.8831     33.0644
+1303  1427120   0.802     41.8831     33.1092
+1330  28487     0.557     120.3848    65.6607
+1331  28487     0.557     120.3848    65.9608
+1332  1428531   1.031     57.2426     57.9450
+1333  1428531   1.031     57.2426     57.9487
+\end{verbatim}
+
+
+\newpage
+\subsection{DS-5A Results}
+\begin{verbatim}
+DS 5 Results, 2017/9/25
+	Veto Runtime 81.5872
+	Veto Deadtime 0.0292362
+Module 1:
+	Runtime : 81.5887
+	Number of runs: 2280
+	LN Deadtime : 0.778345 (0.00953986)
+	Active Enr Mass (kg): 11.667  Active Nat Mass: 3.912
+	Best Enr Exposure : 905.487 +/- 13.3777 ( 1.27515e-05 w/o active mass unc)
+	Best Nat Exposure : 286.241 +/- 6.58725 ( 7.52452e-06 w/o active mass unc)
+Module 2:
+	Runtime : 81.5887
+	Number of runs: 2280
+	LN Deadtime : 1.09641 (0.0134383)
+	Active Enr Mass (kg): 5.811  Active Nat Mass: 5.085
+	Best Enr Exposure : 355.616 +/- 5.00332 ( 1.11243e-05 w/o active mass unc)
+	Best Nat Exposure : 343.828 +/- 7.91012 ( 3.34854e-06 w/o active mass unc)
+
+Detector summary with best (H or L) gain and deadtime correction :
+Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac   LTUnc[s]  NRuns
+584   1425730   1.024     77.5786     76.3225      78.1542        1.0685         0.98140    0.01397 2162
+592   1426610   0.632     74.8879     73.4860      46.4432        0.8083         0.97956    0.01417 2097
+598   1425751   0.730     77.5786     76.5423      55.8758        0.8420         0.98494    0.01402 2162
+608   1425381   0.949     77.5786     76.4772      72.5769        0.9942         0.98412    0.01401 2162
+610   1426980   0.886     81.5887     80.4599      71.2874        0.9655         0.98432    0.01365 2280
+614   28469     0.557     81.5887     79.9758      44.5465        1.0397         0.97838    0.01356 2280
+624   28455     0.558     77.5786     76.2381      42.5409        0.9911         0.98024    0.01397 2162
+626   1425740   0.701     80.0966     78.9914      55.3730        0.8689         0.98450    0.01381 2226
+628   28470     0.564     63.5224     62.5629      35.2855        0.8133         0.98454    0.01533 1810
+632   1425742   0.732     77.5786     76.5609      56.0426        0.8422         0.98543    0.01403 2162
+640   1426650   0.659     81.5887     80.6462      53.1459        0.8871         0.98653    0.01368 2280
+648   1426640   0.723     81.5887     80.6788      58.3308        0.8875         0.98696    0.01368 2280
+658   1425380   0.968     81.5887     77.2467      74.7748        1.0042         0.93407    0.01323 2280
+660   1426612   0.811     81.5887     77.5829      62.9198        0.9310         0.94031    0.01323 2280
+662   1425750   0.979     81.5887     77.0169      75.3995        1.0012         0.93317    0.01314 2280
+674   1426621   0.591     81.5887     80.5803      47.6068        0.7252         0.98563    0.01366 2280
+678   1425741   0.710     77.5786     76.4611      54.2874        0.8411         0.98398    0.01401 2162
+680   28482     0.561     77.5786     75.8145      42.5319        0.9856         0.97655    0.01391 2162
+688   28463     0.567     63.5224     62.2797      35.3126        0.8096         0.98019    0.01528 1810
+690   1426620   0.572     77.5786     75.6178      43.2685        0.7108         0.97429    0.01396 2162
+692   28474     0.560     81.5887     80.3713      45.0079        1.0448         0.98251    0.01363 2280
+694   28465     0.545     77.5866     75.2584      41.0158        0.9031         0.97045    0.01390 2163
+1106  28594     0.559     64.2196     62.4636      34.9172        0.8120         0.95594    0.01504 1822
+1120  28466     0.566     72.6038     71.5177      40.4790        0.9297         0.97341    0.01446 2025
+1124  28459     0.556     39.2526     38.5520      21.4349        0.5012         0.96881    0.02038 1012
+1128  28576     0.562     72.0016     70.8092      39.7948        0.9205         0.97139    0.01445 2019
+1170  28607     0.558     80.9003     79.5608      44.3950        1.0343         0.97083    0.01365 2263
+1172  1427491   0.852     78.3148     76.8878      65.5084        0.8458         0.96997    0.01385 2194
+1174  28481     0.581     63.5652     62.4381      36.2766        0.8117         0.96846    0.01544 1765
+1176  1427490   0.872     74.4889     73.3618      63.9715        0.8803         0.97403    0.01425 2082
+1204  1427480   0.917     72.0362     70.9315      65.0442        0.8512         0.97211    0.01440 2038
+1208  28456     0.579     69.3512     67.7051      39.2012        0.8802         0.96385    0.01459 1954
+1232  28717     0.567     77.0075     75.7948      42.9757        0.9853         0.97220    0.01396 2166
+1236  1429090   0.562     77.9926     76.7761      43.1482        0.7678         0.97163    0.01388 2192
+1298  1429091   0.775     78.2011     75.8567      58.7889        0.9103         0.95792    0.01378 2197
+1302  1427120   0.802     2.3901      2.3716       1.9020         0.0261         0.99259    0.08493 60
+1330  28487     0.557     80.8919     79.6291      44.3534        1.0352         0.97193    0.01367 2262
+1332  1428531   1.031     56.4888     55.5315      57.2529        0.7219         0.96822    0.01622 1605
+Channel livetime averages - All 70.3892  Best 71.5095  HG 70.3892  LG 70.3892
+Channel livetime avg unc -  All 1.6124  Best 2.2835  HG 1.6124  LG 1.6124
+Total average fractional livetime (all channels) : 0.958246
+Total average fractional livetime uncertainty    : 0.0727272
+Deadtime summary (percent, sum deadtime, sum runtime):
+   Hardware HG:       1.2491e+00  5.9880e+06  4.7939e+08
+   Hardware LG:       1.1900e+00  5.7049e+06  4.7939e+08
+   Hardware OR/Best:  9.0458e-01  2.1682e+06  2.3970e+08
+   Pulser HG:         3.4711e-04  1.6640e+03  4.7939e+08
+   Pulser LG:         3.4068e-04  1.6332e+03  4.7939e+08
+   Pulser OR/Best HG: 7.0564e-04  1.6914e+03  2.3970e+08
+   LN Fill HG+LG:     1.1096e+00  5.3194e+06  4.7939e+08
+   LN Fill OR/Best:   1.1096e+00  2.6597e+06  2.3970e+08
+   Muon Veto HG+LG:   3.5761e-02  1.7144e+05  4.7939e+08
+   Muon Veto OR/Best: 3.5761e-02  8.5718e+04  2.3970e+08
+
+All-channel summary (no deadtime corrections) :
+Chan  DetID     A.M.(kg)  Runtime(d)  RT-Expo(kg-d)
+584   1425730   1.024     77.5786     77.4981
+585   1425730   1.024     77.5786     78.0943
+592   1426610   0.632     74.8879     45.9026
+593   1426610   0.632     74.8879     46.0403
+598   1425751   0.730     77.5786     55.1595
+599   1425751   0.730     77.5786     55.6062
+608   1425381   0.949     77.5786     71.4604
+609   1425381   0.949     77.5786     70.8696
+610   1426980   0.886     81.5887     70.5322
+611   1426980   0.886     81.5887     71.0387
+614   28469     0.557     81.5887     44.7571
+615   28469     0.557     81.5887     31.1739
+624   28455     0.558     77.5786     42.1082
+625   28455     0.558     77.5786     41.8905
+626   1425740   0.701     80.0966     54.6586
+627   1425740   0.701     80.0966     53.8667
+628   28470     0.564     63.5224     35.1672
+629   28470     0.564     63.5224     35.1870
+632   1425742   0.732     77.5786     55.5062
+633   1425742   0.732     77.5786     55.8013
+640   1426650   0.659     81.5887     53.0399
+641   1426650   0.659     81.5887     52.7497
+648   1426640   0.723     81.5887     58.2899
+649   1426640   0.723     81.5887     58.1074
+658   1425380   0.968     81.5887     72.0060
+659   1425380   0.968     81.5887     74.5785
+660   1426612   0.811     81.5887     60.5228
+661   1426612   0.811     81.5887     62.3245
+662   1425750   0.979     81.5887     71.9968
+663   1425750   0.979     81.5887     74.7817
+674   1426621   0.591     81.5887     47.5659
+675   1426621   0.591     81.5887     47.6409
+678   1425741   0.710     77.5786     53.2742
+679   1425741   0.710     77.5786     53.8830
+680   28482     0.561     77.5786     41.8549
+681   28482     0.561     77.5786     41.8878
+688   28463     0.567     63.5224     33.9626
+689   28463     0.567     63.5224     35.2453
+690   1426620   0.572     77.5786     42.9556
+691   1426620   0.572     77.5786     42.7169
+692   28474     0.560     81.5887     43.9361
+693   28474     0.560     81.5887     44.4519
+694   28465     0.545     77.5866     39.8153
+695   28465     0.545     77.5866     40.3950
+1106  28594     0.559     64.2196     33.7530
+1107  28594     0.559     64.2196     34.7839
+1120  28466     0.566     72.6038     40.2020
+1121  28466     0.566     72.6038     40.4685
+1124  28459     0.556     39.2526     20.9960
+1125  28459     0.556     39.2526     21.1986
+1128  28576     0.562     72.0016     36.0341
+1129  28576     0.562     72.0016     39.8546
+1170  28607     0.558     80.9003     44.2923
+1171  28607     0.558     80.9003     43.9222
+1172  1427491   0.852     78.3148     64.7565
+1173  1427491   0.852     78.3148     65.1211
+1174  28481     0.581     63.5652     35.7404
+1175  28481     0.581     63.5652     36.2073
+1176  1427490   0.872     74.4889     63.5405
+1177  1427490   0.872     74.4889     64.0736
+1204  1427480   0.917     72.0362     64.6323
+1205  1427480   0.917     72.0362     64.9660
+1208  28456     0.579     69.3512     37.3607
+1209  28456     0.579     69.3512     39.4953
+1232  28717     0.567     77.0075     42.2176
+1233  28717     0.567     77.0075     42.9398
+1236  1429090   0.562     77.9926     43.1846
+1237  1429090   0.562     77.9926     42.6353
+1298  1429091   0.775     78.2011     58.5553
+1299  1429091   0.775     78.2011     58.7863
+1302  1427120   0.802     2.3901      1.8988
+1303  1427120   0.802     2.3901      1.9020
+1330  28487     0.557     80.8919     44.2062
+1331  28487     0.557     80.8919     44.3019
+1332  1428531   1.031     56.4888     57.1686
+1333  1428531   1.031     56.4888     57.1722
+\end{verbatim}
+
+
+\newpage
+\subsection{DS-5B Results}
+\begin{verbatim}
+DS 5 Results, 2017/9/25
+	Veto Runtime 39.493
+	Veto Deadtime 0.0293776
+Module 1:
+	Runtime : 39.4929
+	Number of runs: 1004
+	LN Deadtime : 0.497581 (0.0125992)
+	Active Enr Mass (kg): 12.631  Active Nat Mass: 3.912
+	Best Enr Exposure : 492.149 +/- 7.22384 ( 5.03263e-07 w/o active mass unc)
+	Best Nat Exposure : 138.285 +/- 3.17842 ( 1.65346e-06 w/o active mass unc)
+Module 2:
+	Runtime : 39.4929
+	Number of runs: 1004
+	LN Deadtime : 0.544931 (0.0137982)
+	Active Enr Mass (kg): 5.811  Active Nat Mass: 5.085
+	Best Enr Exposure : 182.187 +/- 2.58475 ( 9.83584e-06 w/o active mass unc)
+	Best Nat Exposure : 197.6 +/- 4.54668 ( 7.19072e-07 w/o active mass unc)
+
+Detector summary with best (H or L) gain and deadtime correction :
+Chan  DetID     A.M.(kg)  Runtime(d)  Livetime(d)  LT-Expo(kg-d) LT-Expo-Unc   AvgLTFrac   LTUnc[s]  NRuns
+584   1425730   1.024     39.4929     38.9651      39.9003        0.5455         0.98347    0.02060 1004
+592   1426610   0.632     39.4929     38.9654      24.6261        0.4286         0.98348    0.02060 1004
+598   1425751   0.730     39.4929     38.9655      28.4448        0.4286         0.98348    0.02060 1004
+608   1425381   0.949     39.4929     38.9655      36.9782        0.5066         0.98348    0.02060 1004
+610   1426980   0.886     39.4929     38.9653      34.5233        0.4676         0.98348    0.02060 1004
+614   28469     0.557     39.4929     38.5708      21.4839        0.5014         0.97348    0.02040 1004
+624   28455     0.558     39.4929     38.9517      21.7350        0.5064         0.98312    0.02060 1004
+626   1425740   0.701     39.4929     38.9536      27.3065        0.4285         0.98315    0.02060 1004
+628   28470     0.564     39.4929     38.9652      21.9764        0.5065         0.98344    0.02060 1004
+632   1425742   0.732     39.4929     38.9580      28.5172        0.4285         0.98326    0.02060 1004
+640   1426650   0.659     39.4929     38.9654      25.6782        0.4286         0.98348    0.02060 1004
+648   1426640   0.723     39.4929     38.9656      28.1721        0.4286         0.98348    0.02060 1004
+658   1425380   0.968     39.4929     38.9635      37.7167        0.5065         0.98343    0.02060 1004
+660   1426612   0.811     39.4929     38.9655      31.6010        0.4676         0.98348    0.02060 1004
+662   1425750   0.979     39.4929     38.9615      38.1433        0.5065         0.98338    0.02060 1004
+672   1425370   0.964     39.4929     38.9648      37.5621        0.5065         0.98346    0.02060 1004
+674   1426621   0.591     39.4929     38.9648      23.0204        0.3507         0.98346    0.02060 1004
+678   1425741   0.710     39.4929     38.9616      27.6627        0.4286         0.98338    0.02060 1004
+680   28482     0.561     39.4929     38.9655      21.8597        0.5066         0.98348    0.02060 1004
+688   28463     0.567     39.4929     38.9570      22.0886        0.5064         0.98326    0.02060 1004
+690   1426620   0.572     39.4929     38.9648      22.2957        0.3663         0.98345    0.02060 1004
+692   28474     0.560     14.2790     14.1160      7.9049         0.1835         0.98170    0.03419 364
+694   28465     0.545     39.4929     38.9652      21.2361        0.4676         0.98346    0.02060 1004
+1106  28594     0.559     39.4929     38.9043      21.7475        0.5058         0.97224    0.02055 1004
+1120  28466     0.566     39.4929     38.9072      22.0215        0.5058         0.97218    0.02055 1004
+1124  28459     0.556     39.4929     38.8955      21.6259        0.5056         0.97173    0.02055 1004
+1128  28576     0.562     39.4929     38.9177      21.8718        0.5059         0.97257    0.02056 1004
+1170  28607     0.558     39.4929     38.8803      21.6952        0.5054         0.97124    0.02054 1004
+1172  1427491   0.852     39.4929     38.9182      33.1583        0.4281         0.97258    0.02056 1004
+1174  28481     0.581     39.4929     38.8827      22.5908        0.5055         0.97131    0.02054 1004
+1176  1427490   0.872     39.4929     38.9110      33.9304        0.4669         0.97239    0.02056 1004
+1204  1427480   0.917     39.4929     38.9062      35.6769        0.4669         0.97217    0.02055 1004
+1208  28456     0.579     39.4929     38.5237      22.3052        0.5008         0.96259    0.02036 1004
+1232  28717     0.567     39.4929     38.9172      22.0660        0.5059         0.97256    0.02056 1004
+1236  1429090   0.562     39.4929     38.9046      21.8644        0.3890         0.97219    0.02055 1004
+1298  1429091   0.775     39.4929     32.9937      25.5701        0.3959         0.82369    0.01903 1004
+1302  1427120   0.802     39.4929     38.9161      31.2107        0.4281         0.97239    0.02056 1004
+1330  28487     0.557     39.4929     38.9162      21.6763        0.5059         0.97233    0.02056 1004
+1332  1428531   1.031     0.7539      0.7531       0.7764         0.0098         0.99900    0.15335 19
+Channel livetime averages - All 37.1099  Best 37.1527  HG 37.1099  LG 37.1099
+Channel livetime avg unc -  All 0.8092  Best 1.1426  HG 0.8092  LG 0.8092
+Total average fractional livetime (all channels) : 0.974001
+Total average fractional livetime uncertainty    : 0.0729817
+Deadtime summary (percent, sum deadtime, sum runtime):
+   Hardware HG:       3.2580e-01  8.3112e+05  2.5510e+08
+   Hardware LG:       2.5762e-01  6.5719e+05  2.5510e+08
+   Hardware OR/Best:  4.7025e-01  5.9981e+05  1.2755e+08
+   Pulser HG:         3.5923e-04  9.1640e+02  2.5510e+08
+   Pulser LG:         3.4983e-04  8.9241e+02  2.5510e+08
+   Pulser OR/Best HG: 7.2020e-04  9.1861e+02  1.2755e+08
+   LN Fill HG+LG:     1.3054e+00  3.3300e+06  2.5510e+08
+   LN Fill OR/Best:   1.3054e+00  1.6650e+06  1.2755e+08
+   Muon Veto HG+LG:   7.4045e-02  1.8889e+05  2.5510e+08
+   Muon Veto OR/Best: 7.4045e-02  9.4444e+04  1.2755e+08
+
+All-channel summary (no deadtime corrections) :
+Chan  DetID     A.M.(kg)  Runtime(d)  RT-Expo(kg-d)
+584   1425730   1.024     39.4929     39.8568
+585   1425730   1.024     39.4929     39.8999
+592   1426610   0.632     39.4929     24.6189
+593   1426610   0.632     39.4929     24.5909
+598   1425751   0.730     39.4929     28.4400
+599   1425751   0.730     39.4929     28.4405
+608   1425381   0.949     39.4929     36.9746
+609   1425381   0.949     39.4929     36.9752
+610   1426980   0.886     39.4929     34.4932
+611   1426980   0.886     39.4929     34.5212
+614   28469     0.557     39.4929     21.6601
+615   28469     0.557     39.4929     21.6396
+624   28455     0.558     39.4929     21.7226
+625   28455     0.558     39.4929     21.7139
+626   1425740   0.701     39.4929     27.2735
+627   1425740   0.701     39.4929     27.2890
+628   28470     0.564     39.4929     21.9734
+629   28470     0.564     39.4929     21.9753
+632   1425742   0.732     39.4929     28.5095
+633   1425742   0.732     39.4929     28.5169
+640   1426650   0.659     39.4929     25.6707
+641   1426650   0.659     39.4929     25.6452
+648   1426640   0.723     39.4929     28.1375
+649   1426640   0.723     39.4929     28.1482
+658   1425380   0.968     39.4929     37.6988
+659   1425380   0.968     39.4929     37.6304
+660   1426612   0.811     39.4929     31.5960
+661   1426612   0.811     39.4929     31.5928
+662   1425750   0.979     39.4929     38.1364
+663   1425750   0.979     39.4929     38.1352
+672   1425370   0.964     39.4929     37.5499
+673   1425370   0.964     39.4929     37.4242
+674   1426621   0.591     39.4929     22.7753
+675   1426621   0.591     39.4929     23.0161
+678   1425741   0.710     39.4929     27.6572
+679   1425741   0.710     39.4929     27.6553
+680   28482     0.561     39.4929     21.8370
+681   28482     0.561     39.4929     21.8579
+688   28463     0.567     39.4929     22.0248
+689   28463     0.567     39.4929     22.0753
+690   1426620   0.572     39.4929     22.2921
+691   1426620   0.572     39.4929     22.2878
+692   28474     0.560     14.2790     7.8987
+693   28474     0.560     14.2790     7.9025
+694   28465     0.545     39.4929     21.2289
+695   28465     0.545     39.4929     21.2351
+1106  28594     0.559     39.4929     21.7333
+1107  28594     0.559     39.4929     21.7484
+1120  28466     0.566     39.4929     22.0173
+1121  28466     0.566     39.4929     22.0170
+1124  28459     0.556     39.4929     21.6206
+1125  28459     0.556     39.4929     21.6164
+1128  28576     0.562     39.4929     21.8653
+1129  28576     0.562     39.4929     21.8713
+1170  28607     0.558     39.4929     21.6791
+1171  28607     0.558     39.4929     21.6830
+1172  1427491   0.852     39.4929     33.1508
+1173  1427491   0.852     39.4929     33.1552
+1174  28481     0.581     39.4929     22.5148
+1175  28481     0.581     39.4929     22.5870
+1176  1427490   0.872     39.4929     33.8108
+1177  1427490   0.872     39.4929     33.9269
+1204  1427480   0.917     39.4929     35.6128
+1205  1427480   0.917     39.4929     35.6714
+1208  28456     0.579     39.4929     22.4422
+1209  28456     0.579     39.4929     22.4784
+1232  28717     0.567     39.4929     22.0560
+1233  28717     0.567     39.4929     22.0488
+1236  1429090   0.562     39.4929     21.8513
+1237  1429090   0.562     39.4929     21.8011
+1298  1429091   0.775     39.4929     24.4763
+1299  1429091   0.775     39.4929     25.2086
+1302  1427120   0.802     39.4929     31.1655
+1303  1427120   0.802     39.4929     31.2071
+1330  28487     0.557     39.4929     21.4545
+1331  28487     0.557     39.4929     21.6589
+1332  1428531   1.031     0.7539      0.7764
+1333  1428531   1.031     0.7539      0.7764
+\end{verbatim}
+
+\newpage
+\bibliography{livetime}
+\end{document}
