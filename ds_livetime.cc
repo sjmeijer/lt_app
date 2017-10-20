@@ -258,9 +258,9 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
         string det = dt.first;
         vector<double> vals = dt.second;
         double hgDead=vals[0], lgDead=vals[1], orDead=vals[2];
-        if (hgDead > 0) { hgDeadAvg += hgDead; goodHG++; }
-        if (lgDead > 0) { lgDeadAvg += lgDead; goodLG++; }
-        if (orDead > 0) { orDeadAvg += orDead; goodOR++; }
+        if (hgDead >= 0) { hgDeadAvg += hgDead; goodHG++; }
+        if (lgDead >= 0) { lgDeadAvg += lgDead; goodLG++; }
+        if (orDead >= 0) { orDeadAvg += orDead; goodOR++; }
       }
       hgDeadAvg /= (double)goodHG;
       lgDeadAvg /= (double)goodLG;

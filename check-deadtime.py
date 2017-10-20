@@ -6,8 +6,7 @@ def main():
     matchCt, noMatchCt = 0,0
 
     # for dtFile in glob.glob("./deadtime/*.DT"):
-    # for dtFile in glob.glob("./deadtime/DS2*.DT"):
-    for dtFile in ["./deadtime/ds3_0.DT"]:
+    for dtFile in ["./deadtime/ds4_18.DT"]:
 
         print dtFile
         deadTab = getDeadTab(dtFile)
@@ -27,19 +26,19 @@ def main():
             p4 = float(deadTab[det][15])
 
             # calculate average dt's
-            if hgDead > 0:
+            if hgDead >= 0:
                 hgDeadAvg += hgDead
                 hgCount += 1
-            if lgDead > 0:
+            if lgDead >= 0:
                 lgDeadAvg += lgDead
                 lgCount += 1
-            if orDead > 0:
+            if orDead >= 0:
                 orDeadAvg += orDead
                 orCount += 1
 
-        hgDeadAvg /= hgCount
-        lgDeadAvg /= lgCount
-        orDeadAvg /= orCount
+        if hgCount > 0: hgDeadAvg /= hgCount
+        if lgCount > 0: lgDeadAvg /= lgCount
+        if orCount > 0: orDeadAvg /= orCount
         print "hgDeadAvg %.2f  lgDeadAvg %.2f  orDeadAvg %.2f" % (hgDeadAvg, lgDeadAvg, orDeadAvg)
 
         # duplicate the ds_livetime algorithm for calculating orDead
@@ -53,6 +52,7 @@ def main():
             p2 = float(deadTab[det][13])
             p3 = float(deadTab[det][14])
             p4 = float(deadTab[det][15])
+            errorCode = deadTab[det][17]
 
             if hgDead < 0 and lgDead >= 0: hgDead = lgDead
             if lgDead < 0 and hgDead >= 0: lgDead = hgDead
@@ -61,7 +61,9 @@ def main():
                 lgDead = lgDeadAvg
 
             orDead = 0.
-            if p3 > 0 and p4 > 0: orDead = (1 - p3/p4)*100 # to make it in PERCENT (ds_livetime leaves it as a fraction)
+            if p3 > 0 and p4 > 0:
+                orDead = (1 - p3/p4)*100 # to make it in PERCENT (ds_livetime leaves it as a fraction)
+                orDead = float("%.2f" % orDead) # truncate to 2 decimals
             else:
                 hgGood, lgGood, hgGuess, lgGuess, hgBad, lgBad = False, False, False, False, False, False
                 if p1 > 0 and p4 > 0: hgGood = True
@@ -79,8 +81,8 @@ def main():
                 else: orDead = orDeadAvg
 
             # when is the OR deadtime larger than the HG or LG?
-            if orDead > hgDead or orDead > lgDead:
-                print "det %d  hgDead %.2f  lgDead %.2f  orDead %.2f" % (det, hgDead, lgDead, orDead)
+            if orDead > hgDead and orDead > lgDead and errorCode!=-999:
+                print "det %d  hgDead %.2f  lgDead %.2f  orDead %.2f  p3 %d  p4 %d orDeadCalc %.3f  err %d" % (detID, hgDead, lgDead, deadTab[det][10], p3, p4, orDead, errorCode)
 
 
 def getDeadTab(fileName):
