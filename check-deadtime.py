@@ -6,7 +6,8 @@ def main():
     matchCt, noMatchCt = 0,0
 
     # for dtFile in glob.glob("./deadtime/*.DT"):
-    for dtFile in ["./deadtime/ds4_18.DT"]:
+    # for dtFile in ["./deadtime/ds4_18.DT"]:
+    for dtFile in ["./deadtime/ds2_1.DT"]:
         print dtFile
         deadTab = getDeadTab(dtFile)
 
@@ -77,6 +78,7 @@ def main():
             # when is the OR deadtime larger than the HG or LG?
             if orDead > hgDead and orDead > lgDead and errorCode!=-999:
                 print "det %d  hgDead %.2f  lgDead %.2f  orDead %.2f  p3 %d  p4 %d orDeadCalc %.3f  err %d" % (detID, hgDead, lgDead, deadTab[det][10], p3, p4, orDead, errorCode)
+                # MORAL: don't manually calculate orDead.  just use David's orDead.
 
 
 def getDeadTab(fileName):

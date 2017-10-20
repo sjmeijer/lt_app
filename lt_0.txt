@@ -1,7 +1,7 @@
 Scanning DS-0
 0 % done, run 2580
 Subset 0, loading DT file:./deadtime/ds0_0.DT
-detInfoProc:  this is GAT branch GAT-v01-06, commit b4866e9
+detInfoProc:  this is GAT branch master, commit 011c0b5
 0.0465333 % done, run 2582
 0.0930665 % done, run 2583
 10.0047 % done, run 2836
@@ -26,7 +26,7 @@ detInfoProc:  this is GAT branch GAT-v01-06, commit b4866e9
 Looking at all channels
 Looking at Best Livetime
 
-DS 0 Results, 2017/9/25
+DS 0 Results, 2017/10/20
 	Veto Runtime 45.9081
 	Veto Deadtime 0.0383456
 Module 1:
@@ -65,15 +65,15 @@ Channel livetime avg unc -  All 0.5882  Best 0.6609  HG 0.5882  LG 0.5882
 Total average fractional livetime (all channels) : 0.949143
 Total average fractional livetime uncertainty    : 0.0976903
 Deadtime summary (percent, sum deadtime, sum runtime):
-   Hardware HG:       2.5005e+00  4.0823e+06  1.6326e+08
-   Hardware LG:       1.4787e+00  2.4140e+06  1.6326e+08
+   Hardware HG:       5.0010e+00  4.0823e+06  8.1630e+07
+   Hardware LG:       2.9573e+00  2.4140e+06  8.1630e+07
    Hardware OR/Best:  2.8887e+00  2.3580e+06  8.1630e+07
-   Pulser HG:         8.3323e-03  1.3603e+04  1.6326e+08
-   Pulser LG:         8.2548e-03  1.3477e+04  1.6326e+08
+   Pulser HG:         1.6665e-02  1.3603e+04  8.1630e+07
+   Pulser LG:         1.6510e-02  1.3477e+04  8.1630e+07
    Pulser OR/Best HG: 1.6666e-02  1.3604e+04  8.1630e+07
-   LN Fill HG+LG:     9.5025e-01  1.5514e+06  1.6326e+08
+   LN Fill HG:        1.9005e+00  1.5514e+06  8.1630e+07
    LN Fill OR/Best:   9.5025e-01  7.7569e+05  8.1630e+07
-   Muon Veto HG+LG:   8.4574e-02  1.3808e+05  1.6326e+08
+   Muon Veto HG:      1.6915e-01  1.3808e+05  8.1630e+07
    Muon Veto OR/Best: 8.4574e-02  6.9038e+04  8.1630e+07
 
 All-channel summary (no deadtime corrections) : 
