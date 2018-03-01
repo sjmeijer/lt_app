@@ -511,6 +511,16 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       channelRuntime[ch] += thisRunTime; // creates new entry if one doesn't exist
       channelRuntimeStd2[ch] += (thisRuntimeUncertainty*thisRuntimeUncertainty);
 
+      // Apply veto and LN deadtime reductions to runtime
+      // LN reduction - depends on if channel is M1 or M2
+      double thisLNDeadTime = 0;
+      GATDetInfoProcessor gp;
+      int detID = gp.GetDetIDFromName( chMap->GetString(ch, "kDetectorName") );
+      if (CheckModule(detID)==1) thisLNDeadTime = m1LNDeadRun;
+      if (CheckModule(detID)==2) thisLNDeadTime = m2LNDeadRun;
+      channelRuntime[ch] -= thisLNDeadTime;
+      channelRuntime[ch] -= vetoDeadRun;
+
       if (noDT) continue;
 
       double thisLiveTime=0;
@@ -551,17 +561,10 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
       }
       channelLivetime[ch] += thisLiveTime;
 
-      // LN reduction - depends on if channel is M1 or M2
-      double thisLNDeadTime = 0;
-      GATDetInfoProcessor gp;
-      int detID = gp.GetDetIDFromName( chMap->GetString(ch, "kDetectorName") );
-      if (CheckModule(detID)==1) thisLNDeadTime = m1LNDeadRun;
-      if (CheckModule(detID)==2) thisLNDeadTime = m2LNDeadRun;
+      // Apply veto and LN deadtime reductions to livetime
       channelLivetime[ch] -= thisLNDeadTime;
       thisLiveTime -= thisLNDeadTime;
       dtfDeadTime[6] += thisLNDeadTime;
-
-      // Veto reduction - applies to all channels in BOTH modules.
       channelLivetime[ch] -= vetoDeadRun;
       thisLiveTime -= vetoDeadRun;
       dtfDeadTime[8] += vetoDeadRun;
@@ -818,7 +821,7 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
        << "\tVeto Runtime " << vetoRunTime << "\n"
        << "\tVeto Deadtime " << vetoDead << "\n";
 
-  if (noDT) cout << "Deadtime info not available -- reporting only runtime-based exposure ...\n";
+  if (noDT) cout << "Hardware deadtime info not available -- reporting only runtime-based exposure (w/ veto and LN reductions applied)...\n";
 
   if (mod1) {
     cout << "Module 1:\n"
