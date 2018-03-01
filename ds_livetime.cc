@@ -59,7 +59,7 @@ int main(int argc, char** argv)
   if (argc < 2) {
 		cout << "Usage: ./ds_livetime [dsNum] [options]\n"
          << " Options:\n"
-         << "   [dsNum]: 0-5, 5a, 5b, 6\n"
+         << "   [dsNum]: 0-5, 5a, 5b, 5c, 6\n"
          << "   -raw: Only get raw duration\n"
          << "   -gds: Get livetime from GATDataSet\n"
          << "   -db1 ['options in quotes']: Get run list from runDB and quit\n"
@@ -73,13 +73,14 @@ int main(int argc, char** argv)
          << "    Ex.2: ./ds_livetime 5 -db1 'dataset 3'\n";
 		return 1;
 	}
-  bool raw=0, gds=0, lt=1, rdb=0, low=0, noDT=0, ds5a=0, ds5b=0;
+  bool raw=0, gds=0, lt=1, rdb=0, low=0, noDT=0, ds5a=0, ds5b=0, ds5c=0;
   int dsNum;
   string dsStr = argv[1];
   if (check_num(dsStr)) dsNum = stoi(dsStr);
   else {
     if (dsStr=="5a") { dsNum=5; ds5a=1; }
     if (dsStr=="5b") { dsNum=5; ds5b=1; }
+    if (dsStr=="5c") { dsNum=5; ds5c=1; }
   }
   string runDBOpt = "";
   vector<string> opt(argv+1, argv+argc);
@@ -98,6 +99,7 @@ int main(int argc, char** argv)
     cout << "Scanning DS-" << dsNum << endl;
     if      (ds5a) { cout << "5A\n"; for (int rs = 0; rs <= 79; rs++) LoadDataSet(ds, dsNum, rs); }
     else if (ds5b) { cout << "5B\n"; for (int rs = 80; rs <= 112; rs++) LoadDataSet(ds, dsNum, rs); }
+    else if (ds5c) { cout << "5C\n"; for (int rs = 113; rs <= 121; rs++) LoadDataSet(ds, dsNum, rs); }
     else         for (int rs = 0; rs <= GetDataSetSequences(dsNum); rs++) LoadDataSet(ds, dsNum, rs);
 
     for (size_t i = 0; i < ds.GetNRuns(); i++) runList.push_back(ds.GetRunNumber(i));
@@ -440,7 +442,8 @@ void calculateLiveTime(vector<int> runList, int dsNum, bool raw, bool runDB, boo
     // Now try and load a channel selection object and pop any other bad detectors
     // NOTE: this code uses the 'official version' argument (1) in GetChannelSelectionPath, which points to the
     //       channel selection files stored in $MJDDATADIR/surfmjd/analysis/channelselection .
-    string chSelPath = GetChannelSelectionPath(dsNum,1);
+    // string chSelPath = GetChannelSelectionPath(dsNum,1);
+    string chSelPath = GetChannelSelectionPath(dsNum,0);
     if (FILE *file = fopen(chSelPath.c_str(), "r")) {
       fclose(file);
       GATChannelSelectionInfo ch_select (chSelPath, run);
@@ -1110,7 +1113,7 @@ map<int, vector<string>> getDeadtimeMap(int dsNum, bool& noDT, int dsNum_hi)
   {
     // Find runlist files for this dataset
     string command = Form("ls ./deadtime/ds%i_*.lis",ds);
-    if (ds==5) command = Form("ls ./deadtime/DS*.lis");
+    if (ds<=5) command = Form("ls ./deadtime/DS*.lis");
     array<char, 128> buffer;
     vector<string> files;
     string str;
