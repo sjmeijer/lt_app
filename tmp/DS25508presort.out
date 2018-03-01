@@ -1,0 +1,3071 @@
+
+ >>> Reading ds5/2017-5-4-P3LQK_Run25508
+
+ 32 veto segments
+ 96 Ge HV channels
+  8 Controller cards and 11 Pulser-tag chs
+ 16 GRETINA WF digitizers
+ 58 Detectors in 14 strings
+
+#    DetID      pos      name     HiGain GAT Enab Thresh     HVch  MaxV Target     Pulser times enab  ampl atten  CC
+   0  was 12   C1P1D1   P42698B   1,09,8  664   0 500500   0,06,0  1900      0   2097150 2097150   1 22734   0 0   0
+   1  was 13   C1P1D2   P42575A   1,09,6  662   1    504   0,06,1  2300   2300   2097150 2097150   1 22734   0 0   0
+   2  was 14   C1P1D3   P42661C   1,09,4  660   1    541   0,06,2  2400   2400   2097150 2097150   1 22734   0 0   0
+   3  was 15   C1P1D4   P42538A   1,09,2  658   1    506   0,06,3  2900   2900   2097150 2097150   1 22581   0 0   0
+   4  was  8   C1P2D1     B8474   1,11,4  692   0    772   0,07,0  3500      0   2097150 2097150   1 22734   0 0   1
+   5  was  9   C1P2D2   P42664A   1,08,8  648   1    375   0,07,1  1500   1500   2097150 2097150   1 22734   0 0   0
+   6  was 10   C1P2D3   P42665A   1,08,0  640   1    607   0,07,2  1500   1500   2097150 2097150   1 22734   0 0   0
+   7  was 11   C1P2D4   P42662C   1,08,2  642   0 500500   0,07,3  4000      0   2097150 2097150   1 22884   0 0   0
+   8  was 16   C1P3D1     B8480   1,06,8  616   1    769   0,09,0  4000   4000   2097150 2097150   1 22734   0 0   2
+   9  was 17   C1P3D2   P42698A   1,06,2  610   1    605   0,09,3  3000   3000   2097150 2097150   1 22884   0 0   2
+  10  was 18   C1P3D3   P42538B   1,06,0  608   1    505   0,09,4  3500   3500   2097150 2097150   1 22734   0 0   2
+  11  was 19   C1P3D4   P42573A   1,04,8  584   1    570   0,08,0  1500   1500   2097150 2097150   1 22734   0 0   2
+  12  was 24   C1P4D1     B8455   1,07,0  624   1    593   0,05,6  4500   4500   2097150 2097150   1 22734   0 0   3
+  13  was 25   C1P4D2     B8470   1,07,4  628   1    537   0,10,6  3500   3500   2097150 2097150   1 22415   0 0   3
+  14  was 26   C1P4D3     B8463   1,11,0  688   1    630   0,05,2  4760   4760   2097150 2097150   1 22984   0 0   1
+  15  was 27   C1P4D4     B8465   1,11,6  694   1    741   0,05,1  3500   3500   2097150 2097150   1 22734   0 0   1
+  16  was 28   C1P4D5     B8469   1,06,6  614   1    966   0,08,4  2500   2500   2097150 2097150   0 22734   0 0   2
+  17  was 20   C1P5D1     B8477   1,05,8  600   0 500500   0,05,4  4000      0   2097150 2097150   1 22734   0 0   1
+  18  was 21   C1P5D2   P42575B   1,05,6  598   1    491   0,05,5  2000   2000   2097150 2097150   1 22734   0 0   1
+  19  was 22   C1P5D3   P42661A   1,05,0  592   1    426   0,05,7  1700   1700   2097150 2097150   1 22734   0 0   1
+#    DetID      pos      name     HiGain GAT Enab Thresh     HVch  MaxV Target     Pulser times enab  ampl atten  CC
+  20  was 23   C1P5D4   P42573B   1,11,8  696   0 500500   0,05,0  2000      0   2097150 2097150   1 22734   0 0   1
+  21  was  4   C1P6D1   P42574C   1,07,8  632   1    571   0,10,4  2000   2000   2097150 2097150   1 22734   0 0   3
+  22  was  5   C1P6D2   P42661B   1,07,6  630   0 500500   0,10,5  1900      0   2097150 2097150   1 22734   0 0   3
+  23  was  6   C1P6D3   P42574A   1,07,2  626   1    476   0,10,7  2000   2000   2097150 2097150   1 22884   0 0   3
+  24  was  7   C1P6D4   P42662A   1,11,2  690   1    544   0,05,3  2300   2300   2097150 2097150   1 22581   0 0   1
+  25  was  0   C1P7D1     B8482   1,10,8  680   1    553   0,10,0  3500   3500   2097150 2097150   1 22734   0 0   3
+  26  was  1   C1P7D2   P42574B   1,10,6  678   1    558   0,10,1  1900   1900   2097150 2097150   1 22734   0 0   3
+  27  was  2   C1P7D3   P42662B   1,10,2  674   1    747   0,10,2  2900   2900   2097150 2097150   1 22581   0 0   3
+  28  was  3   C1P7D4   P42537A   1,10,0  672   1    567   0,10,3  4500   4500   2097150 2097150   1 22984   0 0   3
+  29  was 36   C2P1D1     B8459   2,06,4 1124   1    808   1,06,2  3500   3500   2097151 2097151   1 22734   0 0   4
+  30  was 35   C2P1D2   P42664B   2,06,6 1126   1    743   1,06,1  3600   3600   2097151 2097151   1 22734   0 0   4
+  31  was 34   C2P1D3   P42748B   2,05,6 1110   1    653   1,05,1  4400   4400   2097151 2097151   1 22734   0 0   4
+  32  was 33   C2P1D4   P42748A   2,11,4 1204   1    383   1,08,2  3100   3100   2097151 2097151   1 22734   0 0   5
+  33  was 40   C2P2D1     B8481   2,09,6 1174   1    644   1,07,1  4500   4500   2097151 2097151   1 22734   0 0   5
+  34  was 32   C2P2D2     B8576   2,06,8 1128   1    779   1,06,0  3500   3500   2097151 2097151   1 22734   0 0   4
+  35  was 31   C2P2D3     B8594   2,05,2 1106   1    697   1,05,3  3000   3000   2097151 2097151   1 22884   0 0   4
+  36  was 30   C2P2D4     B8595   2,05,4 1108   0 500500   1,05,2  3500      0   2097151 2097151   1 22415   0 0   4
+  37  was 29   C2P2D5     B8461   2,06,2 1122   0 500500   1,06,3  3500      0   2097151 2097151   1 22581   0 0   4
+  38  was 41   C2P3D1   P42749A   2,09,8 1176   1    385   1,07,0  3000   3000   2097151 2097151   1 22734   0 0   5
+  39  was 39   C2P3D2   P42749B   2,09,4 1172   1    521   1,07,2  3000   3000   2097151 2097151   1 22415   0 0   5
+#    DetID      pos      name     HiGain GAT Enab Thresh     HVch  MaxV Target     Pulser times enab  ampl atten  CC
+  40  was 37   C2P3D3   P42853A   2,11,2 1202   0 500500   1,08,3  3000      0   2097151 2097151   1 22581   0 0   5
+  41  was 38   C2P4D1     B8607   2,09,2 1170   1    649   1,07,3  4500   4500   2097151 2097151   1 22884   0 0   5
+  42  was 45   C2P4D2     B8456   2,11,8 1208   1    654   1,08,0  4600   4600   2097151 2097151   0 22734   0 0   5
+  43  was 44   C2P4D3     B8621   2,11,6 1206   0 500500   1,08,1  4500      0   2097151 2097151   1 22734   0 0   5
+  44  was 43   C2P4D4     B8466   2,06,0 1120   1    802   1,06,4  4500   4500   2097151 2097151   1 22984   0 0   4
+  45  was 42   C2P4D5     B8473   2,09,0 1168   0  15000   1,07,4  5000      0   2097151 2097151   1 22734   0 0   5
+  46  was 57   C2P5D1     B8487   2,19,2 1330   1    667   1,10,3  4000   4000   2097151 2097151   1 22884   0 0   7
+  47  was 56   C2P5D2   P42665B   2,17,8 1304   0 500500   1,10,0  1600      0   2097151 2097151   1 22734   0 0   7
+  48  was 54   C2P5D3   P42853B   2,19,4 1332   1    460   1,10,2  3500   3500   2097151 2097151   1 22415   0 0   7
+  49  was 53   C2P5D4   P42712A   2,17,6 1302   1    914   1,10,5  4700   4700   2097151 2097151   1 22734   0 0   7
+  50  was 52   C2P6D1   P23517A   2,17,0 1296   1    960   1,10,6  4000   4000   2097151 2097151   1 22984   0 0   7
+  51  was 51   C2P6D2   P42909B   2,17,2 1298   1    776   1,10,7  2700   2700   2097151 2097151   1 22581   0 0   7
+  52  was 50   C2P6D3   P42909C   2,19,0 1328   0 500500   1,10,4  3100      0   2097151 2097151   1 22734   0 0   7
+  53  was 49   C2P6D4   P42665C   2,13,2 1234   0 500500   1,09,7  2400      0   2097151 2097151   1 22581   0 0   6
+  54  was 55   C2P7D1     B8619   2,15,4 1268   0 500500   1,09,2  4500      0   2097151 2097151   1 22415   0 0   6
+  55  was 48   C2P7D2   P42712B   2,13,6 1238   0 500500   1,09,5  4000      0   2097151 2097151   1 22734   0 0   6
+  56  was 47   C2P7D3   P42909A   2,13,4 1236   1    706   1,09,6  2400   2400   2097151 2097151   1 22734   0 0   6
+  57  was 46   C2P7D4     B8717   2,13,0 1232   1    472   1,09,4  3500   3500   2097151 2097151   1 22984   0 0   6
+
+# PT_ID  Dig
+   0  1,08,4
+   1  1,06,4
+   2  1,10,4
+   3  1,05,4
+   4  2,05,8
+   5  2,05,0
+   6  2,11,0
+   7  2,13,8
+   8  2,19,6
+   9  2,17,4
+  10  2,19,8
+
+ Data ID 5 found for Gretina4M data
+ Run number: 25508 in file ds5/2017-5-4-P3LQK_Run25508
+ Start time: 05/04/17 13:58:34  (1493927914)
+ Run bits  : 256 = 0x00000100
+  0x00000100 - Prototype offline: Prototype is offline.
+
+  42 of 58 detectors are enabled.
+
+ Reading energy calibrations from gains.input
+ 140 energy thresholds defined from file thresholds.input
+------- START Run 25508 at 1493927914; quick-start -------
+****  Unrecognized event type 6  00180004 01000007  evlen = 4
+
+ Reading energy calibrations from gains.input
+
+ Initializing pulser tag from file run25508.pdt
+
+ No data cleaning limits file; tried 2017-5-4-P3LQK_Run25508.dcl, run25508.dcl, and default.dcl
+ 59 onboard trapezoids defined from file times.input
+ ****> Det 31 on-board rise time: 465 -> 401
+ ****> Det 56 on-board rise time: 465 -> 401
+ ****> Det 57 on-board rise time: 465 -> 401
+ ****> Det 46 on-board rise time: 465 -> 401
+ ****> Det 48 on-board rise time: 465 -> 401
+ ****> Det 50 on-board rise time: 465 -> 401
+ ****> Det 51 on-board rise time: 465 -> 401
+ ****> Det 49 on-board rise time: 465 -> 401
+   100000 evts in, 15798 out, 1913 built
+ Processed 2421 built evts, 20009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0   2343 pulser evts
+   200000 evts in, 31919 out, 3866 built
+ Processed 4841 built evts, 40003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0   4685 pulser evts
+------- END run 25508 at 1493931515;  duration = 3601 s;  273790 events -------
+
+ 273790 events in, 43750 events out, 5295 events built, 5558 * 3 veto events
+    Ge delta-time = 3600 s   Veto delta-time = 3601 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 213267 sub-threshold events
+
+ >>> Reading ds5/2017-5-4-P3LQK_Run25509
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25509 at 1493931516; quick-start -------
+Hmmm, times are out of order... (4737513 ms < 4738067 ms; d =   553 ms) crate, slot = 1  7 (board  3) min_time board = -1   38 evts into run 25509
+ERROR: Bad V792 veto event count 7316 (0x1c94), should be 7315 (0x1c93)
+ record 273822  veto_evt 5559  sub_veto_count = 1
+
+ERROR: Bad number of boards (1) in a veto event
+
+   300000 evts in, 47952 out, 5805 built
+ Processed 7254 built evts, 60004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0   7027 pulser evts
+   400000 evts in, 64163 out, 7761 built
+ Processed 9679 built evts, 80006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0   9373 pulser evts
+   500000 evts in, 80256 out, 9707 built
+------- END run 25509 at 1493935117;  duration = 7203 s;  546685 events -------
+
+ 546685 events in, 87676 events out, 10606 events built, 11137 * 3 veto events
+    Ge delta-time = 7201 s   Veto delta-time = 7203 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 425555 sub-threshold events
+
+ >>> Reading ds5/2017-5-4-P3LQK_Run25510
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25510 at 1493935118; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 12896 (0x3260), should be 12894 (0x325e)
+ record 546872  veto_evt 11140  sub_veto_count = 1
+
+   600000 evts in, 96272 out, 11646 built
+ Processed 12096 built evts, 100003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  11717 pulser evts
+   700000 evts in, 112495 out, 13608 built
+ Processed 14517 built evts, 120003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  14059 pulser evts
+ERROR: Bad V792 veto event count 17423 (0x440f), should be 17422 (0x440e)
+ record 768446  veto_evt 15666  sub_veto_count = 1
+
+   800000 evts in, 128634 out, 15568 built
+------- END run 25510 at 1493938719;  duration = 10805 s;  818659 events -------
+
+ 818659 events in, 131646 events out, 15931 events built, 16706 * 3 veto events
+    Ge delta-time = 10802 s   Veto delta-time = 10806 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 637022 sub-threshold events
+
+ >>> Reading ds5/2017-5-4-P3LQK_Run25511
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25511 at 1493938720; quick-start -------
+ Processed 16945 built evts, 140003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  16405 pulser evts
+   900000 evts in, 144816 out, 17529 built
+ Processed 19370 built evts, 160001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  18747 pulser evts
+  1000000 evts in, 160849 out, 19472 built
+------- END run 25511 at 1493942321;  duration = 14407 s;  1091741 events -------
+
+ 1091741 events in, 175646 events out, 21262 events built, 22269 * 3 veto events
+    Ge delta-time = 14405 s   Veto delta-time = 14406 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 849536 sub-threshold events
+
+ >>> Reading ds5/2017-5-4-P3LQK_Run25512
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25512 at 1493942321; quick-start -------
+Hmmm, times are out of order... (15543213927 us < 15543213927 us; d =    0 us) crate, slot = 2  6 (board  9) min_time board = -1   23 evts into run 25512
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 24028 (0x5ddc), should be 24027 (0x5ddb)
+ record 1091774  veto_evt 22271  sub_veto_count = 1
+
+  1100000 evts in, 176969 out, 21423 built
+ Processed 21790 built evts, 180023 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  21090 pulser evts
+  1200000 evts in, 193049 out, 23367 built
+ERROR: Bad V792 veto event count 26777 (0x6899), should be 26776 (0x6898)
+ record 1226917  veto_evt 25019  sub_veto_count = 1
+
+ Processed 24207 built evts, 200003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  23432 pulser evts
+  1300000 evts in, 209078 out, 25308 built
+------- END run 25512 at 1493945922;  duration = 18008 s;  1366303 events -------
+
+ 1366303 events in, 219586 events out, 26576 events built, 27821 * 3 veto events
+    Ge delta-time = 18007 s   Veto delta-time = 18008 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 1063593 sub-threshold events
+
+ >>> Reading ds5/2017-5-4-P3LQK_Run25513
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25513 at 1493945923; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 29581 (0x738d), should be 29580 (0x738c)
+ record 1366373  veto_evt 27823  sub_veto_count = 1
+
+ Processed 26627 built evts, 220000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  25778 pulser evts
+  1400000 evts in, 225039 out, 27235 built
+ Processed 29048 built evts, 240022 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  28122 pulser evts
+  1500000 evts in, 241077 out, 29178 built
+  1600000 evts in, 257097 out, 31124 built
+ Processed 31472 built evts, 260017 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  30462 pulser evts
+------- END run 25513 at 1493949524;  duration = 21610 s;  1639700 events -------
+
+ 1639700 events in, 263578 events out, 31906 events built, 33325 * 3 veto events
+    Ge delta-time = 21606 s   Veto delta-time = 21610 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 1276646 sub-threshold events
+
+ >>> Reading ds5/2017-5-4-P3LQK_Run25514
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25514 at 1493949524; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 35085 (0x890d), should be 35084 (0x890c)
+ record 1639731  veto_evt 33327  sub_veto_count = 1
+
+  1700000 evts in, 273305 out, 33082 built
+ Processed 33890 built evts, 280003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  32804 pulser evts
+  1800000 evts in, 289229 out, 35007 built
+ERROR: Bad V792 veto event count 39174 (0x9906), should be 39173 (0x9905)
+ record 1838936  veto_evt 37415  sub_veto_count = 1
+
+ Processed 36305 built evts, 300006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  35152 pulser evts
+  1900000 evts in, 305300 out, 36946 built
+------- END run 25514 at 1493953125;  duration = 25211 s;  1914251 events -------
+
+ 1914251 events in, 307556 events out, 37221 events built, 38943 * 3 veto events
+    Ge delta-time = 25210 s   Veto delta-time = 25212 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 1490489 sub-threshold events
+
+ >>> Reading ds5/2017-5-4-P3LQK_Run25515
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25515 at 1493953126; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 40704 (0x9f00), should be 40703 (0x9eff)
+ record 1914322  veto_evt 38945  sub_veto_count = 1
+
+  2000000 evts in, 312209 out, 37780 built
+  2100000 evts in, 312545 out, 37826 built
+  2200000 evts in, 312850 out, 37866 built
+  2300000 evts in, 313187 out, 37916 built
+  2400000 evts in, 313502 out, 37961 built
+------- END run 25515 at 1493953631;  duration = 25717 s;  2404518 events -------
+
+ 2404518 events in, 313502 events out, 37961 events built, 39700 * 3 veto events
+    Ge delta-time = 25714 s   Veto delta-time = 25717 s
+    Mean Ge-Veto time = -36 ms
+ 0 bad events, 1972560 sub-threshold events
+
+ >>> Reading ds5/2017-5-4-P3LQK_Run25516
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25516 at 1493953632; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 41461 (0xa1f5), should be 41460 (0xa1f4)
+ record 2406003  veto_evt 39702  sub_veto_count = 1
+
+Hmmm, times are out of order... (26843  s < 26853  s; d =     10  s) crate, slot = 2 13 (board 12) min_time board = -1   5672 evts into run 25516
+  2500000 evts in, 315131 out, 38161 built
+ Processed 38750 built evts, 320000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  37525 pulser evts
+  2600000 evts in, 330119 out, 39973 built
+ Processed 41173 built evts, 340004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  39868 pulser evts
+  2700000 evts in, 345297 out, 41815 built
+------- END run 25516 at 1493957233;  duration = 29319 s;  2779335 events -------
+
+ 2779335 events in, 357460 events out, 43289 events built, 45306 * 3 veto events
+    Ge delta-time = 29315 s   Veto delta-time = 29319 s
+    Mean Ge-Veto time = -36 ms
+ 0 bad events, 2286749 sub-threshold events
+
+ >>> Reading ds5/2017-5-4-P3LQK_Run25517
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25517 at 1493957233; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 47068 (0xb7dc), should be 47066 (0xb7da)
+ record 2779517  veto_evt 45309  sub_veto_count = 1
+
+ Processed 43598 built evts, 360000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  42209 pulser evts
+  2800000 evts in, 360613 out, 43671 built
+  2900000 evts in, 376089 out, 45549 built
+ Processed 46021 built evts, 380006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  44550 pulser evts
+  3000000 evts in, 391649 out, 47429 built
+ Processed 48438 built evts, 400002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  46897 pulser evts
+------- END run 25517 at 1493960834;  duration = 32920 s;  3063262 events -------
+
+ 3063262 events in, 401437 events out, 48611 events built, 50846 * 3 veto events
+    Ge delta-time = 32918 s   Veto delta-time = 32920 s
+    Mean Ge-Veto time = -36 ms
+ 0 bad events, 2510193 sub-threshold events
+
+ >>> Reading ds5/2017-5-4-P3LQK_Run25518
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25518 at 1493960835; quick-start -------
+Hmmm, times are out of order... (34056158583 us < 34056158584 us; d =    0 us) crate, slot = 2  6 (board  9) min_time board = -1   18 evts into run 25518
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 52607 (0xcd7f), should be 52606 (0xcd7e)
+ record 3063291  veto_evt 50848  sub_veto_count = 1
+
+  3100000 evts in, 406968 out, 49282 built
+ Processed 50860 built evts, 420010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  49240 pulser evts
+  3200000 evts in, 422373 out, 51143 built
+  3300000 evts in, 437782 out, 53008 built
+ Processed 53273 built evts, 440004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  51583 pulser evts
+------- END run 25518 at 1493964436;  duration = 36522 s;  3349917 events -------
+
+ 3349917 events in, 445361 events out, 53927 events built, 56410 * 3 veto events
+    Ge delta-time = 36519 s   Veto delta-time = 36522 s
+    Mean Ge-Veto time = -36 ms
+ 0 bad events, 2736305 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25519
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25519 at 1493964436; quick-start -------
+ ****> Det 35 on-board rise time: 465 -> 401
+  3400000 evts in, 453041 out, 54858 built
+ Processed 55697 built evts, 460001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  53929 pulser evts
+  3500000 evts in, 468309 out, 56706 built
+ Processed 58119 built evts, 480003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  56271 pulser evts
+  3600000 evts in, 483566 out, 58548 built
+------- END run 25519 at 1493968037;  duration = 40123 s;  3638623 events -------
+
+ 3638623 events in, 489338 events out, 59243 events built, 62034 * 3 veto events
+    Ge delta-time = 40120 s   Veto delta-time = 40123 s
+    Mean Ge-Veto time = -36 ms
+ 0 bad events, 2964330 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25520
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25520 at 1493968038; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 63795 (0xf933), should be 63794 (0xf932)
+ record 3638653  veto_evt 62036  sub_veto_count = 1
+
+ERROR: Bad V792 veto event count 64034 (0xfa22), should be 64033 (0xfa21)
+ record 3651597  veto_evt 62274  sub_veto_count = 1
+
+  3700000 evts in, 498606 out, 60365 built
+ Processed 60531 built evts, 500007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  58614 pulser evts
+ERROR: Bad V830 veto event count 589824 (0x90000), should be 655360 (0xa0000)
+ record 3731384  veto_evt 63780  time 4239936479918 (0x3db2fe862ae), last time 4239860323087 (0x3db2b5e530f)  (diff = 761 ms)
+
+  3800000 evts in, 513772 out, 62202 built
+ERROR: Bad V792 veto event count 67116 (0x1062c), should be 67115 (0x1062b)
+ record 3811226  veto_evt 65355  sub_veto_count = 1
+
+ERROR: Bad V792 veto event count 67197 (0x1067d), should be 67196 (0x1067c)
+ record 3815018  veto_evt 65435  sub_veto_count = 1
+
+ Processed 62952 built evts, 520008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  60956 pulser evts
+ERROR: Bad V792 veto event count 68691 (0x10c53), should be 68690 (0x10c52)
+ record 3890725  veto_evt 66928  sub_veto_count = 1
+
+  3900000 evts in, 529138 out, 64059 built
+------- END run 25520 at 1493971639;  duration = 43725 s;  3927551 events -------
+
+ 3927551 events in, 533334 events out, 64569 events built, 67634 * 3 veto events
+    Ge delta-time = 43723 s   Veto delta-time = 43725 s
+    Mean Ge-Veto time = -36 ms
+ 0 bad events, 3192584 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25521
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25521 at 1493971640; quick-start -------
+Hmmm, times are out of order... (44861420148 us < 44861420148 us; d =    0 us) crate, slot = 2  9 (board 10) min_time board = -1   25 evts into run 25521
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 69400 (0x10f18), should be 69398 (0x10f16)
+ record 3927585  veto_evt 67637  sub_veto_count = 1
+
+ Processed 65375 built evts, 540002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  63302 pulser evts
+  4000000 evts in, 544293 out, 65895 built
+ERROR: Bad V792 veto event count 71888 (0x118d0), should be 71887 (0x118cf)
+ record 4057896  veto_evt 70124  sub_veto_count = 1
+
+  4100000 evts in, 559338 out, 67716 built
+ Processed 67796 built evts, 560003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  65645 pulser evts
+  4200000 evts in, 574495 out, 69551 built
+------- END run 25521 at 1493975241;  duration = 47327 s;  4218370 events -------
+
+ 4218370 events in, 577274 events out, 69890 events built, 73190 * 3 veto events
+    Ge delta-time = 47325 s   Veto delta-time = 47326 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 3422888 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25522
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25522 at 1493975241; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 74957 (0x124cd), should be 74955 (0x124cb)
+ record 4218442  veto_evt 73193  sub_veto_count = 1
+
+ Processed 70220 built evts, 580008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  67986 pulser evts
+  4300000 evts in, 590019 out, 71428 built
+ Processed 72638 built evts, 600005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  70333 pulser evts
+  4400000 evts in, 605484 out, 73299 built
+ Processed 75059 built evts, 620002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  72676 pulser evts
+  4500000 evts in, 620790 out, 75157 built
+------- END run 25522 at 1493978842;  duration = 50928 s;  4502997 events -------
+
+ 4502997 events in, 621247 events out, 75211 events built, 78802 * 3 veto events
+    Ge delta-time = 50924 s   Veto delta-time = 50928 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 3646868 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25523
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25523 at 1493978843; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 80568 (0x13ab8), should be 80567 (0x13ab7)
+ record 4503030  veto_evt 78804  sub_veto_count = 1
+
+ERROR: Bad V792 veto event count 80906 (0x13c0a), should be 80905 (0x13c09)
+ record 4520703  veto_evt 79141  sub_veto_count = 1
+
+ERROR: Bad V792 veto event count 80999 (0x13c67), should be 80998 (0x13c66)
+ record 4525510  veto_evt 79233  sub_veto_count = 1
+
+  4600000 evts in, 636140 out, 77007 built
+ Processed 77474 built evts, 640009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  75020 pulser evts
+  4700000 evts in, 651337 out, 78843 built
+ Processed 79891 built evts, 660005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  77366 pulser evts
+------- END run 25523 at 1493982444;  duration = 54530 s;  4790185 events -------
+
+ 4790185 events in, 665219 events out, 80520 events built, 84369 * 3 veto events
+    Ge delta-time = 54528 s   Veto delta-time = 54530 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 3873507 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25524
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25524 at 1493982445; quick-start -------
+Hmmm, times are out of order... (55665955250 us < 55665955251 us; d =    0 us) crate, slot = 2 11 (board 11) min_time board = -1   20 evts into run 25524
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 86137 (0x15079), should be 86136 (0x15078)
+ record 4790273  veto_evt 84371  sub_veto_count = 1
+
+  4800000 evts in, 666673 out, 80696 built
+ Processed 82308 built evts, 680006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  79708 pulser evts
+  4900000 evts in, 681760 out, 82520 built
+ERROR: Bad V792 veto event count 89041 (0x15bd1), should be 89040 (0x15bd0)
+ record 4941468  veto_evt 87274  sub_veto_count = 1
+
+  5000000 evts in, 697008 out, 84360 built
+ Processed 84721 built evts, 700003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  82050 pulser evts
+------- END run 25524 at 1493986045;  duration = 58131 s;  5079344 events -------
+
+ 5079344 events in, 709165 events out, 85830 events built, 89939 * 3 veto events
+    Ge delta-time = 58130 s   Veto delta-time = 58131 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 4102109 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25525
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25525 at 1493986046; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 91708 (0x1663c), should be 91707 (0x1663b)
+ record 5079425  veto_evt 89941  sub_veto_count = 1
+
+  5100000 evts in, 712368 out, 86218 built
+ Processed 87139 built evts, 720004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  84397 pulser evts
+  5200000 evts in, 727684 out, 88069 built
+ Processed 89557 built evts, 740007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  86740 pulser evts
+  5300000 evts in, 743049 out, 89925 built
+  5400000 evts in, 747449 out, 90456 built
+  5500000 evts in, 748110 out, 90535 built
+------- END run 25525 at 1493989266;  duration = 61352 s;  5583298 events -------
+
+ 5583298 events in, 748466 events out, 90580 events built, 94872 * 3 veto events
+    Ge delta-time = 61349 s   Veto delta-time = 61352 s
+    Mean Ge-Veto time = -36 ms
+ 0 bad events, 4552060 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25526
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25526 at 1493989267; quick-start -------
+  5600000 evts in, 748466 out, 90580 built
+  5700000 evts in, 753689 out, 91209 built
+ Processed 91969 built evts, 760006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  89082 pulser evts
+  5800000 evts in, 769049 out, 93064 built
+ Processed 94385 built evts, 780004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  91430 pulser evts
+  5900000 evts in, 784398 out, 94915 built
+ERROR: Bad V792 veto event count 102016 (0x18e80), should be 102015 (0x18e7f)
+ record 5940013  veto_evt 100248  sub_veto_count = 1
+
+------- END run 25526 at 1493992868;  duration = 64954 s;  5953272 events -------
+
+ 5953272 events in, 792434 events out, 95886 events built, 100499 * 3 veto events
+    Ge delta-time = 64950 s   Veto delta-time = 64954 s
+    Mean Ge-Veto time = -36 ms
+ 0 bad events, 4861349 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25527
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25527 at 1493992869; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 102270 (0x18f7e), should be 102268 (0x18f7c)
+ record 5953346  veto_evt 100502  sub_veto_count = 1
+
+  6000000 evts in, 799457 out, 96742 built
+ Processed 96807 built evts, 800002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  93772 pulser evts
+ERROR: Bad V792 veto event count 104081 (0x19691), should be 104080 (0x19690)
+ record 6049392  veto_evt 102312  sub_veto_count = 1
+
+  6100000 evts in, 814614 out, 98578 built
+ Processed 99230 built evts, 820006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  96114 pulser evts
+  6200000 evts in, 829502 out, 100377 built
+------- END run 25527 at 1493996470;  duration = 68556 s;  6246471 events -------
+
+ 6246471 events in, 836419 events out, 101217 events built, 106043 * 3 veto events
+    Ge delta-time = 68553 s   Veto delta-time = 68556 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 5094056 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25528
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25528 at 1493996470; quick-start -------
+Hmmm, times are out of order... (69691718416 us < 69691718417 us; d =    0 us) crate, slot = 2 11 (board 11) min_time board = -1   20 evts into run 25528
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 107814 (0x1a526), should be 107813 (0x1a525)
+ record 6246555  veto_evt 106045  sub_veto_count = 1
+
+ Processed 101649 built evts, 840003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0  98461 pulser evts
+  6300000 evts in, 844297 out, 102166 built
+  6400000 evts in, 859043 out, 103951 built
+ Processed 104066 built evts, 860010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 100805 pulser evts
+  6500000 evts in, 874087 out, 105768 built
+ Processed 106482 built evts, 880010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 103149 pulser evts
+------- END run 25528 at 1494000071;  duration = 72157 s;  6542318 events -------
+
+ 6542318 events in, 880349 events out, 106526 events built, 111638 * 3 veto events
+    Ge delta-time = 72155 s   Veto delta-time = 72157 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 5329291 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25529
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25529 at 1494000072; quick-start -------
+Hmmm, times are out of order... (73292964 ms < 73293136 ms; d =   171 ms) crate, slot = 1  8 (board  4) min_time board = -1   42 evts into run 25529
+ERROR: Bad V792 veto event count 113409 (0x1bb01), should be 113408 (0x1bb00)
+ record 6542350  veto_evt 111639  sub_veto_count = 1
+
+ERROR: Bad number of boards (1) in a veto event
+
+  6600000 evts in, 888880 out, 107555 built
+ Processed 108902 built evts, 900000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 105495 pulser evts
+  6700000 evts in, 903883 out, 109370 built
+  6800000 evts in, 918728 out, 111170 built
+ Processed 111324 built evts, 920005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 107838 pulser evts
+------- END run 25529 at 1494003673;  duration = 75759 s;  6838003 events -------
+
+ 6838003 events in, 924297 events out, 111841 events built, 117207 * 3 veto events
+    Ge delta-time = 75754 s   Veto delta-time = 75759 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 5564471 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25530
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25530 at 1494003674; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 118978 (0x1d0c2), should be 118977 (0x1d0c1)
+ record 6838088  veto_evt 117209  sub_veto_count = 1
+
+ERROR: Bad V792 veto event count 119483 (0x1d2bb), should be 119482 (0x1d2ba)
+ record 6864850  veto_evt 117713  sub_veto_count = 1
+
+  6900000 evts in, 933616 out, 112965 built
+ Processed 113737 built evts, 940009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 110181 pulser evts
+  7000000 evts in, 948263 out, 114732 built
+ Processed 116153 built evts, 960008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 112528 pulser evts
+  7100000 evts in, 962960 out, 116511 built
+------- END run 25530 at 1494007275;  duration = 79361 s;  7136028 events -------
+
+ 7136028 events in, 968282 events out, 117156 events built, 122769 * 3 veto events
+    Ge delta-time = 79359 s   Veto delta-time = 79361 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 5801928 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25531
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25531 at 1494007275; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 124541 (0x1e67d), should be 124540 (0x1e67c)
+ record 7136093  veto_evt 122771  sub_veto_count = 1
+
+ERROR: Bad V792 veto event count 124711 (0x1e727), should be 124710 (0x1e726)
+ record 7145400  veto_evt 122940  sub_veto_count = 1
+
+  7200000 evts in, 977699 out, 118299 built
+ Processed 118578 built evts, 980008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 114870 pulser evts
+  7300000 evts in, 992563 out, 120102 built
+ Processed 120999 built evts, 1000007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 117211 pulser evts
+  7400000 evts in, 1007208 out, 121874 built
+------- END run 25531 at 1494010876;  duration = 82962 s;  7435110 events -------
+
+ 7435110 events in, 1012276 events out, 122486 events built, 128336 * 3 veto events
+    Ge delta-time = 82960 s   Veto delta-time = 82962 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 6040462 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25532
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25532 at 1494010877; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 130109 (0x1fc3d), should be 130108 (0x1fc3c)
+ record 7435199  veto_evt 128338  sub_veto_count = 1
+
+ Processed 123423 built evts, 1020002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 119553 pulser evts
+ERROR: Bad V830 veto event count 589824 (0x90000), should be 655360 (0xa0000)
+ record 7487351  veto_evt 129316  time 8473373186344 (0x7b4dc661928), last time 8473297024176 (0x7b4d7dbf4b0)  (diff = 761 ms)
+
+  7500000 evts in, 1021906 out, 123654 built
+  7600000 evts in, 1036402 out, 125409 built
+ Processed 125845 built evts, 1040005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 121900 pulser evts
+  7700000 evts in, 1051090 out, 127185 built
+------- END run 25532 at 1494014478;  duration = 86564 s;  7735085 events -------
+
+ 7735085 events in, 1056206 events out, 127802 events built, 133930 * 3 veto events
+    Ge delta-time = 86559 s   Veto delta-time = 86564 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 6279848 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25533
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25533 at 1494014479; quick-start -------
+Hmmm, times are out of order... (87699878 ms < 87700185 ms; d =   306 ms) crate, slot = 1 11 (board  7) min_time board = -1   34 evts into run 25533
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 135704 (0x21218), should be 135702 (0x21216)
+ record 7735221  veto_evt 133933  sub_veto_count = 1
+
+ Processed 128261 built evts, 1060022 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 124243 pulser evts
+  7800000 evts in, 1065732 out, 128952 built
+ Processed 130677 built evts, 1080007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 126590 pulser evts
+  7900000 evts in, 1080314 out, 130714 built
+  8000000 evts in, 1095068 out, 132496 built
+ Processed 133091 built evts, 1100001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 128932 pulser evts
+------- END run 25533 at 1494018080;  duration = 90166 s;  8034739 events -------
+
+ 8034739 events in, 1100188 events out, 133114 events built, 139535 * 3 veto events
+    Ge delta-time = 90163 s   Veto delta-time = 90165 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 6518804 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25534
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25534 at 1494018081; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad V792 veto event count 141310 (0x227fe), should be 141307 (0x227fb)
+ record 8034774  veto_evt 139539  sub_veto_count = 1
+
+Future veto error messages will be suppressed!
+  8100000 evts in, 1109818 out, 134281 built
+Hmm.. pulser tag check: chan 111   dt =  5415400   pdt =  8388585  remainder(0)  5415400
+ Processed 135511 built evts, 1120019 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 131275 pulser evts
+  8200000 evts in, 1124453 out, 136052 built
+  8300000 evts in, 1139037 out, 137810 built
+ Processed 137925 built evts, 1140000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 133619 pulser evts
+------- END run 25534 at 1494021682;  duration = 93768 s;  8335023 events -------
+
+ 8335023 events in, 1144155 events out, 138430 events built, 145093 * 3 veto events
+    Ge delta-time = 93765 s   Veto delta-time = 93767 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 6758606 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25535
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25535 at 1494021682; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+  8400000 evts in, 1153783 out, 139594 built
+ Processed 140343 built evts, 1160006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 135965 pulser evts
+  8500000 evts in, 1168256 out, 141339 built
+ Processed 142754 built evts, 1180004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 138307 pulser evts
+  8600000 evts in, 1182802 out, 143094 built
+------- END run 25535 at 1494025283;  duration = 97369 s;  8636365 events -------
+
+ 8636365 events in, 1188124 events out, 143737 events built, 150698 * 3 veto events
+    Ge delta-time = 97367 s   Veto delta-time = 97369 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 6999328 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25536
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25536 at 1494025284; quick-start -------
+Hmmm, times are out of order... (98504846 ms < 98505631 ms; d =   784 ms) crate, slot = 1  8 (board  4) min_time board = -1   35 evts into run 25536
+ERROR: Bad number of boards (1) in a veto event
+
+  8700000 evts in, 1197369 out, 144852 built
+ Processed 145172 built evts, 1200006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 140655 pulser evts
+  8800000 evts in, 1212073 out, 146625 built
+ Processed 147587 built evts, 1220010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 142998 pulser evts
+  8900000 evts in, 1226667 out, 148389 built
+------- END run 25536 at 1494028885;  duration = 100971 s;  8936086 events -------
+
+ 8936086 events in, 1232045 events out, 149042 events built, 156250 * 3 veto events
+    Ge delta-time = 100969 s   Veto delta-time = 100971 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 7238518 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25537
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25537 at 1494028885; quick-start -------
+ Processed 150000 built evts, 1240002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 145339 pulser evts
+  9000000 evts in, 1241385 out, 150171 built
+  9100000 evts in, 1256008 out, 151939 built
+ Processed 152422 built evts, 1260001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 147686 pulser evts
+  9200000 evts in, 1270694 out, 153711 built
+------- END run 25537 at 1494032486;  duration = 104572 s;  9235570 events -------
+
+ 9235570 events in, 1276021 events out, 154355 events built, 161793 * 3 veto events
+    Ge delta-time = 104569 s   Veto delta-time = 104572 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 7477562 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25538
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25538 at 1494032487; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 154839 built evts, 1280013 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 150029 pulser evts
+  9300000 evts in, 1285406 out, 155492 built
+  9400000 evts in, 1299877 out, 157240 built
+ Processed 157253 built evts, 1300003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 152371 pulser evts
+  9500000 evts in, 1314224 out, 158976 built
+ Processed 159674 built evts, 1320005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 154713 pulser evts
+------- END run 25538 at 1494036088;  duration = 108174 s;  9538899 events -------
+
+ 9538899 events in, 1320020 events out, 159679 events built, 167346 * 3 veto events
+    Ge delta-time = 108172 s   Veto delta-time = 108174 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 7720385 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25539
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25539 at 1494036089; quick-start -------
+Hmmm, times are out of order... (109309479 ms < 109310124 ms; d =   644 ms) crate, slot = 1  7 (board  3) min_time board = -1   37 evts into run 25539
+ERROR: Bad number of boards (1) in a veto event
+
+Hmm.. pulser tag check: chan 148   dt =  5630244   pdt =  8388591  remainder(0)  5630244
+  9600000 evts in, 1329025 out, 160765 built
+ Processed 162094 built evts, 1340013 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 157061 pulser evts
+  9700000 evts in, 1343663 out, 162537 built
+  9800000 evts in, 1358194 out, 164291 built
+ Processed 164507 built evts, 1360015 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 159403 pulser evts
+------- END run 25539 at 1494039690;  duration = 111776 s;  9839514 events -------
+
+ 9839514 events in, 1363948 events out, 164988 events built, 172891 * 3 veto events
+    Ge delta-time = 111773 s   Veto delta-time = 111775 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 7960492 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25540
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25540 at 1494039690; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+  9900000 evts in, 1372658 out, 166042 built
+ Processed 166930 built evts, 1380011 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 161745 pulser evts
+ 10000000 evts in, 1387250 out, 167810 built
+ Processed 169352 built evts, 1400001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 164090 pulser evts
+ 10100000 evts in, 1401946 out, 169589 built
+------- END run 25540 at 1494043291;  duration = 115377 s;  10140753 events -------
+
+ 10140753 events in, 1407932 events out, 170310 events built, 178465 * 3 veto events
+    Ge delta-time = 115374 s   Veto delta-time = 115377 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 8201192 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25541
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25541 at 1494043292; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 10200000 evts in, 1416286 out, 171322 built
+ Processed 171770 built evts, 1420005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 166433 pulser evts
+ 10300000 evts in, 1430818 out, 173077 built
+ Processed 174182 built evts, 1440007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 168775 pulser evts
+ 10400000 evts in, 1445372 out, 174835 built
+------- END run 25541 at 1494046893;  duration = 118979 s;  10446037 events -------
+
+ 10446037 events in, 1451927 events out, 175629 events built, 183996 * 3 veto events
+    Ge delta-time = 118976 s   Veto delta-time = 118978 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 8446025 sub-threshold events
+
+ >>> Reading ds5/2017-5-5-P3LQK_Run25542
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25542 at 1494046894; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ 10500000 evts in, 1459606 out, 176557 built
+ Processed 176601 built evts, 1460000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 171117 pulser evts
+ 10600000 evts in, 1474036 out, 178299 built
+ Processed 179019 built evts, 1480008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 173465 pulser evts
+ 10700000 evts in, 1488616 out, 180058 built
+------- END run 25542 at 1494050495;  duration = 122581 s;  10750975 events -------
+
+ 10750975 events in, 1495839 events out, 180933 events built, 189602 * 3 veto events
+    Ge delta-time = 122578 s   Veto delta-time = 122580 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 8690308 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25543
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25543 at 1494050495; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 181434 built evts, 1500007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 175807 pulser evts
+ 10800000 evts in, 1502903 out, 181786 built
+ 10900000 evts in, 1517272 out, 183518 built
+ Processed 183850 built evts, 1520001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 178155 pulser evts
+ 11000000 evts in, 1531863 out, 185280 built
+------- END run 25543 at 1494054096;  duration = 126182 s;  11054108 events -------
+
+ 11054108 events in, 1539789 events out, 186236 events built, 195140 * 3 veto events
+    Ge delta-time = 126178 s   Veto delta-time = 126181 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 8933046 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25544
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25544 at 1494054097; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 186261 built evts, 1540016 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 180499 pulser evts
+ 11100000 evts in, 1546403 out, 187038 built
+ Processed 188677 built evts, 1560000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 182842 pulser evts
+ 11200000 evts in, 1560878 out, 188783 built
+ 11300000 evts in, 1575200 out, 190511 built
+ Processed 191091 built evts, 1580006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 185190 pulser evts
+------- END run 25544 at 1494057698;  duration = 129784 s;  11359682 events -------
+
+ 11359682 events in, 1583753 events out, 191545 events built, 200728 * 3 veto events
+    Ge delta-time = 129781 s   Veto delta-time = 129783 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 9178027 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25545
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25545 at 1494057698; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ 11400000 evts in, 1589408 out, 192229 built
+ Processed 193508 built evts, 1600014 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 187531 pulser evts
+ 11500000 evts in, 1603833 out, 193973 built
+ 11600000 evts in, 1618273 out, 195725 built
+ Processed 195935 built evts, 1620010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 189878 pulser evts
+------- END run 25545 at 1494061299;  duration = 133385 s;  11665967 events -------
+
+ 11665967 events in, 1627680 events out, 196859 events built, 206299 * 3 veto events
+    Ge delta-time = 133382 s   Veto delta-time = 133385 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 9423747 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25546
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25546 at 1494061300; quick-start -------
+ 11700000 evts in, 1632489 out, 197437 built
+ Processed 198339 built evts, 1640000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 192222 pulser evts
+ 11800000 evts in, 1647019 out, 199189 built
+ Processed 200757 built evts, 1660000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 194569 pulser evts
+ 11900000 evts in, 1661443 out, 200930 built
+ 12000000 evts in, 1670246 out, 201995 built
+ 12100000 evts in, 1670628 out, 202044 built
+------- END run 25546 at 1494064841;  duration = 136927 s;  12172845 events -------
+
+ 12172845 events in, 1670859 events out, 202073 events built, 211791 * 3 veto events
+    Ge delta-time = 136921 s   Veto delta-time = 136926 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 9871169 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25547
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25547 at 1494064842; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 12200000 evts in, 1670859 out, 202073 built
+ 12300000 evts in, 1671263 out, 202131 built
+ 12400000 evts in, 1671607 out, 202180 built
+ 12500000 evts in, 1671922 out, 202221 built
+ 12600000 evts in, 1675055 out, 202603 built
+ Processed 203202 built evts, 1680003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 196940 pulser evts
+------- END run 25547 at 1494065918;  duration = 138004 s;  12665037 events -------
+
+ 12665037 events in, 1683816 events out, 203666 events built, 213432 * 3 veto events
+    Ge delta-time = 138001 s   Veto delta-time = 138003 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 10345530 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25548
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25548 at 1494065918; quick-start -------
+ 12700000 evts in, 1688530 out, 204236 built
+ Processed 205625 built evts, 1700007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 199288 pulser evts
+ 12800000 evts in, 1702346 out, 205909 built
+ 12900000 evts in, 1715757 out, 207528 built
+ Processed 208038 built evts, 1720021 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 201632 pulser evts
+------- END run 25548 at 1494069519;  duration = 141605 s;  12987851 events -------
+
+ 12987851 events in, 1727733 events out, 208974 events built, 218956 * 3 veto events
+    Ge delta-time = 141602 s   Veto delta-time = 141604 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 10607901 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25549
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25549 at 1494069520; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 13000000 evts in, 1729359 out, 209168 built
+ Processed 210455 built evts, 1740001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 203973 pulser evts
+ 13100000 evts in, 1743187 out, 210845 built
+ 13200000 evts in, 1756846 out, 212495 built
+ Processed 212879 built evts, 1760007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 206321 pulser evts
+ 13300000 evts in, 1770632 out, 214167 built
+------- END run 25549 at 1494073121;  duration = 145207 s;  13307942 events -------
+
+ 13307942 events in, 1771694 events out, 214294 events built, 224561 * 3 veto events
+    Ge delta-time = 145203 s   Veto delta-time = 145206 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 10867372 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25550
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25550 at 1494073121; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+Hmmm, times are out of order... (146344569105 us < 146344569106 us; d =    0 us) crate, slot = 1 11 (board  7) min_time board = -1   164 evts into run 25550
+ Processed 215302 built evts, 1780022 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 208664 pulser evts
+ 13400000 evts in, 1784446 out, 215838 built
+ 13500000 evts in, 1798299 out, 217506 built
+ Processed 217713 built evts, 1800001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 211011 pulser evts
+ 13600000 evts in, 1812075 out, 219174 built
+------- END run 25550 at 1494076722;  duration = 148808 s;  13625665 events -------
+
+ 13625665 events in, 1815658 events out, 219606 events built, 230118 * 3 veto events
+    Ge delta-time = 148806 s   Veto delta-time = 148808 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 11124622 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25551
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25551 at 1494076723; quick-start -------
+Hmmm, times are out of order... (149943625 ms < 149944412 ms; d =   786 ms) crate, slot = 1  9 (board  5) min_time board = -1   37 evts into run 25551
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 220129 built evts, 1820000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 213353 pulser evts
+ 13700000 evts in, 1825903 out, 220843 built
+ 13800000 evts in, 1839625 out, 222502 built
+ Processed 222545 built evts, 1840007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 215696 pulser evts
+ 13900000 evts in, 1853245 out, 224150 built
+------- END run 25551 at 1494080324;  duration = 152410 s;  13946293 events -------
+
+ 13946293 events in, 1859588 events out, 224916 events built, 235675 * 3 veto events
+    Ge delta-time = 152407 s   Veto delta-time = 152409 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 11384696 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25552
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25552 at 1494080325; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 224967 built evts, 1860007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 218043 pulser evts
+ 14000000 evts in, 1866958 out, 225804 built
+ Processed 227385 built evts, 1880002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 220385 pulser evts
+ 14100000 evts in, 1880718 out, 227472 built
+ 14200000 evts in, 1894515 out, 229140 built
+ Processed 229803 built evts, 1900012 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 222729 pulser evts
+------- END run 25552 at 1494083926;  duration = 156012 s;  14265662 events -------
+
+ 14265662 events in, 1903575 events out, 230237 events built, 241219 * 3 veto events
+    Ge delta-time = 156008 s   Veto delta-time = 156011 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 11643615 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25553
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25553 at 1494083926; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 14300000 evts in, 1908237 out, 230798 built
+ Processed 232219 built evts, 1920002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 225075 pulser evts
+ 14400000 evts in, 1922050 out, 232466 built
+ 14500000 evts in, 1935305 out, 234066 built
+ Processed 234633 built evts, 1940009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 227419 pulser evts
+------- END run 25553 at 1494087527;  duration = 159613 s;  14590234 events -------
+
+ 14590234 events in, 1947540 events out, 235546 events built, 246768 * 3 veto events
+    Ge delta-time = 159611 s   Veto delta-time = 159613 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 11907724 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25554
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25554 at 1494087528; quick-start -------
+Hmmm, times are out of order... (160748215 ms < 160748905 ms; d =   690 ms) crate, slot = 1  7 (board  3) min_time board = -1   33 evts into run 25554
+ 14600000 evts in, 1948817 out, 235699 built
+ Processed 237049 built evts, 1960002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 229761 pulser evts
+ 14700000 evts in, 1962595 out, 237366 built
+ 14800000 evts in, 1976255 out, 239017 built
+ Processed 239471 built evts, 1980000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 232107 pulser evts
+ 14900000 evts in, 1989776 out, 240653 built
+------- END run 25554 at 1494091129;  duration = 163215 s;  14912398 events -------
+
+ 14912398 events in, 1991469 events out, 240859 events built, 252339 * 3 veto events
+    Ge delta-time = 163212 s   Veto delta-time = 163214 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 12169300 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25555
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25555 at 1494091129; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 241889 built evts, 2000005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 234450 pulser evts
+ 15000000 evts in, 2003453 out, 242306 built
+ 15100000 evts in, 2017019 out, 243945 built
+ Processed 244305 built evts, 2020015 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 236793 pulser evts
+ 15200000 evts in, 2030633 out, 245591 built
+------- END run 25555 at 1494094730;  duration = 166816 s;  15235304 events -------
+
+ 15235304 events in, 2035446 events out, 246174 events built, 257890 * 3 veto events
+    Ge delta-time = 166812 s   Veto delta-time = 166816 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 12431743 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25556
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25556 at 1494094731; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 246723 built evts, 2040001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 239139 pulser evts
+ 15300000 evts in, 2044088 out, 247214 built
+ 15400000 evts in, 2057436 out, 248825 built
+ Processed 249136 built evts, 2060000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 241484 pulser evts
+ 15500000 evts in, 2070805 out, 250446 built
+------- END run 25556 at 1494098332;  duration = 170418 s;  15564229 events -------
+
+ 15564229 events in, 2079407 events out, 251489 events built, 263464 * 3 veto events
+    Ge delta-time = 170415 s   Veto delta-time = 170418 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 12700121 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25557
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25557 at 1494098333; quick-start -------
+ Processed 251558 built evts, 2080008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 243826 pulser evts
+ 15600000 evts in, 2084219 out, 252070 built
+ 15700000 evts in, 2097650 out, 253691 built
+ Processed 253974 built evts, 2100001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 246173 pulser evts
+ 15800000 evts in, 2110885 out, 255289 built
+ Processed 256397 built evts, 2120004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 248516 pulser evts
+------- END run 25557 at 1494101934;  duration = 174020 s;  15893927 events -------
+
+ 15893927 events in, 2123334 events out, 256802 events built, 269032 * 3 veto events
+    Ge delta-time = 174016 s   Veto delta-time = 174019 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 12969259 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25558
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25558 at 1494101934; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 15900000 evts in, 2124153 out, 256902 built
+ 16000000 evts in, 2137355 out, 258494 built
+ Processed 258811 built evts, 2140001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 250858 pulser evts
+ 16100000 evts in, 2150661 out, 260102 built
+ Processed 261230 built evts, 2160014 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 253206 pulser evts
+ 16200000 evts in, 2163973 out, 261711 built
+------- END run 25558 at 1494105535;  duration = 177621 s;  16225583 events -------
+
+ 16225583 events in, 2167301 events out, 262116 events built, 274646 * 3 veto events
+    Ge delta-time = 177617 s   Veto delta-time = 177621 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 13240276 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25559
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25559 at 1494105536; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 16300000 evts in, 2177227 out, 263314 built
+ Processed 263652 built evts, 2180002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 255548 pulser evts
+ 16400000 evts in, 2190335 out, 264897 built
+ Processed 266064 built evts, 2200000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 257892 pulser evts
+ 16500000 evts in, 2203492 out, 266487 built
+------- END run 25559 at 1494109137;  duration = 181223 s;  16559130 events -------
+
+ 16559130 events in, 2211275 events out, 267428 events built, 280243 * 3 veto events
+    Ge delta-time = 181220 s   Veto delta-time = 181222 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 13513179 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25560
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25560 at 1494109138; quick-start -------
+ 16600000 evts in, 2216761 out, 268094 built
+ Processed 268486 built evts, 2220000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 260236 pulser evts
+ 16700000 evts in, 2230171 out, 269709 built
+ Processed 270899 built evts, 2240023 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 262581 pulser evts
+ 16800000 evts in, 2243984 out, 271379 built
+------- END run 25560 at 1494112739;  duration = 184825 s;  16881637 events -------
+
+ 16881637 events in, 2255196 events out, 272732 events built, 285811 * 3 veto events
+    Ge delta-time = 184821 s   Veto delta-time = 184823 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 13775141 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25561
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25561 at 1494112739; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 16900000 evts in, 2257654 out, 273028 built
+ Processed 273312 built evts, 2260008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 264927 pulser evts
+ 17000000 evts in, 2271276 out, 274674 built
+ Processed 275728 built evts, 2280015 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 267270 pulser evts
+ 17100000 evts in, 2284178 out, 276230 built
+ 17200000 evts in, 2285304 out, 276366 built
+ 17300000 evts in, 2285761 out, 276420 built
+------- END run 25561 at 1494115563;  duration = 187649 s;  17382155 events -------
+
+ 17382155 events in, 2289705 events out, 276899 events built, 290210 * 3 veto events
+    Ge delta-time = 187646 s   Veto delta-time = 187648 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 14228093 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25562
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25562 at 1494115563; quick-start -------
+ 17400000 evts in, 2292068 out, 277185 built
+ Processed 278142 built evts, 2300002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 269612 pulser evts
+ 17500000 evts in, 2306036 out, 278868 built
+ 17600000 evts in, 2319408 out, 280487 built
+ Processed 280555 built evts, 2320004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 271954 pulser evts
+ 17700000 evts in, 2332811 out, 282108 built
+------- END run 25562 at 1494119164;  duration = 191250 s;  17706047 events -------
+
+ 17706047 events in, 2333630 events out, 282207 events built, 295840 * 3 veto events
+    Ge delta-time = 191247 s   Veto delta-time = 191249 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 14491252 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25563
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25563 at 1494119165; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 282977 built evts, 2340014 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 274302 pulser evts
+ 17800000 evts in, 2345967 out, 283694 built
+ 17900000 evts in, 2358963 out, 285262 built
+ Processed 285388 built evts, 2360015 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 276645 pulser evts
+ 18000000 evts in, 2371813 out, 286813 built
+------- END run 25563 at 1494122766;  duration = 194852 s;  18045428 events -------
+
+ 18045428 events in, 2377588 events out, 287509 events built, 301455 * 3 veto events
+    Ge delta-time = 194847 s   Veto delta-time = 194851 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 14769999 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25564
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25564 at 1494122767; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 287800 built evts, 2380003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 278992 pulser evts
+ 18100000 evts in, 2384444 out, 288335 built
+Hmm.. pulser tag check: chan 111   dt =  4723827   pdt =  8388585  remainder(0)  4723827
+ 18200000 evts in, 2397352 out, 289897 built
+ Processed 290217 built evts, 2400011 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 281335 pulser evts
+ 18300000 evts in, 2410147 out, 291443 built
+ Processed 292636 built evts, 2420007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 283677 pulser evts
+------- END run 25564 at 1494126368;  duration = 198454 s;  18388778 events -------
+
+ 18388778 events in, 2421574 events out, 292829 events built, 307052 * 3 veto events
+    Ge delta-time = 198451 s   Veto delta-time = 198453 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 15052695 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25565
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25565 at 1494126368; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 18400000 evts in, 2423008 out, 293002 built
+ 18500000 evts in, 2436049 out, 294571 built
+ Processed 295051 built evts, 2440006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 286024 pulser evts
+ 18600000 evts in, 2449271 out, 296171 built
+ Processed 297470 built evts, 2460008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 288366 pulser evts
+ 18700000 evts in, 2462530 out, 297774 built
+------- END run 25565 at 1494129969;  duration = 202055 s;  18722024 events -------
+
+ 18722024 events in, 2465504 events out, 298131 events built, 312602 * 3 veto events
+    Ge delta-time = 202052 s   Veto delta-time = 202054 s
+    Mean Ge-Veto time = -35 ms
+ 0 bad events, 15325451 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25566
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25566 at 1494129970; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ 18800000 evts in, 2476091 out, 299409 built
+ Processed 299881 built evts, 2480007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 290709 pulser evts
+ 18900000 evts in, 2489590 out, 301041 built
+ Processed 302296 built evts, 2500008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 293057 pulser evts
+ 19000000 evts in, 2502967 out, 302656 built
+------- END run 25566 at 1494133571;  duration = 205657 s;  19048750 events -------
+
+ 19048750 events in, 2509489 events out, 303439 events built, 318154 * 3 veto events
+    Ge delta-time = 205653 s   Veto delta-time = 205656 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 15591725 sub-threshold events
+
+ >>> Reading ds5/2017-5-6-P3LQK_Run25567
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25567 at 1494133571; quick-start -------
+ 19100000 evts in, 2516381 out, 304276 built
+ Processed 304714 built evts, 2520009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 295399 pulser evts
+ 19200000 evts in, 2529740 out, 305891 built
+ Processed 307129 built evts, 2540005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 297741 pulser evts
+ 19300000 evts in, 2543205 out, 307519 built
+------- END run 25567 at 1494137172;  duration = 209258 s;  19377040 events -------
+
+ 19377040 events in, 2553442 events out, 308756 events built, 323699 * 3 veto events
+    Ge delta-time = 209255 s   Veto delta-time = 209257 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 15859523 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25568
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25568 at 1494137173; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 19400000 evts in, 2556518 out, 309127 built
+ Processed 309548 built evts, 2560004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 300088 pulser evts
+ 19500000 evts in, 2569611 out, 310707 built
+ Processed 311965 built evts, 2580006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 302431 pulser evts
+ 19600000 evts in, 2582672 out, 312288 built
+ 19700000 evts in, 2595884 out, 313885 built
+------- END run 25568 at 1494140774;  duration = 212860 s;  19711858 events -------
+
+ 19711858 events in, 2597407 events out, 314069 events built, 329297 * 3 veto events
+    Ge delta-time = 212857 s   Veto delta-time = 212859 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 16133697 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25569
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25569 at 1494140774; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 314384 built evts, 2600012 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 304773 pulser evts
+ 19800000 evts in, 2609092 out, 315481 built
+ Processed 316798 built evts, 2620000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 307120 pulser evts
+ 19900000 evts in, 2622187 out, 317059 built
+ 20000000 evts in, 2635393 out, 318656 built
+ Processed 319216 built evts, 2640006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 309463 pulser evts
+------- END run 25569 at 1494144375;  duration = 216461 s;  20043968 events -------
+
+ 20043968 events in, 2641339 events out, 319377 events built, 334866 * 3 veto events
+    Ge delta-time = 216456 s   Veto delta-time = 216460 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 16405307 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25570
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25570 at 1494144376; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 20100000 evts in, 2648863 out, 320286 built
+ Processed 321630 built evts, 2660008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 311811 pulser evts
+ 20200000 evts in, 2662364 out, 321916 built
+ 20300000 evts in, 2675617 out, 323515 built
+ Processed 324046 built evts, 2680005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 314154 pulser evts
+------- END run 25570 at 1494147977;  duration = 220063 s;  20372521 events -------
+
+ 20372521 events in, 2685298 events out, 324688 events built, 340413 * 3 veto events
+    Ge delta-time = 220060 s   Veto delta-time = 220062 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 16673383 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25571
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25571 at 1494147978; quick-start -------
+Hmmm, times are out of order... (221198153 ms < 221198479 ms; d =   325 ms) crate, slot = 2 13 (board 12) min_time board = -1   21 evts into run 25571
+ERROR: Bad number of boards (1) in a veto event
+
+ 20400000 evts in, 2688935 out, 325126 built
+ Processed 326463 built evts, 2700020 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 316497 pulser evts
+ 20500000 evts in, 2702301 out, 326742 built
+ 20600000 evts in, 2715712 out, 328363 built
+ Processed 328882 built evts, 2720010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 318843 pulser evts
+ 20700000 evts in, 2728858 out, 329949 built
+------- END run 25571 at 1494151579;  duration = 223665 s;  20702890 events -------
+
+ 20702890 events in, 2729273 events out, 330000 events built, 345996 * 3 veto events
+    Ge delta-time = 223662 s   Veto delta-time = 223664 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 16943157 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25572
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25572 at 1494151580; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 331302 built evts, 2740005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 321185 pulser evts
+ 20800000 evts in, 2741979 out, 331540 built
+ 20900000 evts in, 2754990 out, 333135 built
+ Processed 333755 built evts, 2760000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 323515 pulser evts
+ 21000000 evts in, 2768732 out, 334835 built
+------- END run 25572 at 1494155181;  duration = 227267 s;  21034543 events -------
+
+ 21034543 events in, 2773480 events out, 335436 events built, 351534 * 3 veto events
+    Ge delta-time = 227263 s   Veto delta-time = 227266 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 17214108 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25573
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25573 at 1494155181; quick-start -------
+Hmmm, times are out of order... (228401837 ms < 228401930 ms; d =    93 ms) crate, slot = 1  5 (board  1) min_time board = -1   27 evts into run 25573
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 336258 built evts, 2780005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 325829 pulser evts
+ 21100000 evts in, 2782700 out, 336597 built
+Hmm.. pulser tag check: chan  13   dt =  2187241   pdt =  8388574  remainder(0)  2187241
+Hmm.. pulser tag check: chan  19   dt =  7838516   pdt =  8388598  remainder(0)  7838516
+Hmm.. pulser tag check: chan 119   dt =  7838516   pdt =  8388598  remainder(0)  7838516
+ 21200000 evts in, 2797666 out, 338574 built
+ Processed 338883 built evts, 2800004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 328090 pulser evts
+Hmm.. pulser tag check: chan 144   dt =  3145879   pdt =  8388581  remainder(0)  3145879
+ 21300000 evts in, 2812269 out, 340572 built
+Hmm.. pulser tag check: chan  14   dt =  5057365   pdt =  8388598  remainder(0)  5057365
+Hmm.. pulser tag check: chan 114   dt =  5057365   pdt =  8388598  remainder(0)  5057365
+------- END run 25573 at 1494158782;  duration = 230868 s;  21345113 events -------
+
+ 21345113 events in, 2819358 events out, 341576 events built, 357131 * 3 veto events
+    Ge delta-time = 230865 s   Veto delta-time = 230867 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 17462117 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25574
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25574 at 1494158783; quick-start -------
+Hmmm, times are out of order... (232003014978 us < 232003014979 us; d =    0 us) crate, slot = 2  9 (board 10) min_time board = -1   23 evts into run 25574
+ Processed 341662 built evts, 2820000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 330300 pulser evts
+Hmm.. pulser tag check: chan   3   dt =  6433170   pdt =  8388581  remainder(0)  6433170
+Hmm.. pulser tag check: chan 103   dt =  6433170   pdt =  8388581  remainder(0)  6433170
+Hmm.. pulser tag check: chan  10   dt =  6188492   pdt =  8388585  remainder(0)  6188492
+Hmm.. pulser tag check: chan 110   dt =  6188492   pdt =  8388585  remainder(0)  6188492
+Hmm.. pulser tag check: chan  30   dt =   539547   pdt =  8388581  remainder(0)   539547
+Hmm.. pulser tag check: chan 130   dt =   539547   pdt =  8388581  remainder(0)   539547
+Hmm.. pulser tag check: chan 126   dt =  6992514   pdt =  8388574  remainder(0)  6992514
+ 21400000 evts in, 2828283 out, 342862 built
+ Processed 344605 built evts, 2840019 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 332445 pulser evts
+Hmm.. pulser tag check: chan   5   dt =  7893519   pdt =  8388581  remainder(0)  7893519
+Hmm.. pulser tag check: chan 105   dt =  7893519   pdt =  8388581  remainder(0)  7893519
+Hmm.. pulser tag check: chan  13   dt =   301637   pdt =  8388574  remainder(0)   301637
+ 21500000 evts in, 2844624 out, 345296 built
+Hmm.. pulser tag check: chan 103   dt =  7493552   pdt =  8388581  remainder(0)  7493552
+Hmm.. pulser tag check: chan   2   dt =  1489825   pdt =  8388581  remainder(0)  1489825
+Hmm.. pulser tag check: chan 128   dt =  6034470   pdt =  8388574  remainder(0)  6034470
+Hmm.. pulser tag check: chan 133   dt =  5125638   pdt =  8388613  remainder(0)  5125638
+Hmm.. pulser tag check: chan 144   dt =  5650557   pdt =  8388581  remainder(0)  5650557
+Hmm.. pulser tag check: chan  13   dt =  7125568   pdt =  8388574  remainder(0)  7125568
+ Processed 347712 built evts, 2860007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 334528 pulser evts
+Hmm.. pulser tag check: chan 118   dt =  7255017   pdt =  8388598  remainder(0)  7255017
+Hmm.. pulser tag check: chan  33   dt =  4489392   pdt =  8388613  remainder(0)  4489392
+Hmm.. pulser tag check: chan 133   dt =  4489392   pdt =  8388613  remainder(0)  4489392
+ 21600000 evts in, 2861315 out, 347926 built
+Hmm.. pulser tag check: chan  11   dt =  2427321   pdt =  8388585  remainder(0)  2427321
+Hmm.. pulser tag check: chan 111   dt =  2427321   pdt =  8388585  remainder(0)  2427321
+Hmm.. pulser tag check: chan 128   dt =  5056648   pdt =  8388574  remainder(0)  5056648
+------- END run 25574 at 1494162384;  duration = 234470 s;  21641277 events -------
+
+ 21641277 events in, 2868314 events out, 349029 events built, 362719 * 3 veto events
+    Ge delta-time = 234466 s   Veto delta-time = 234468 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 17692673 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25575
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25575 at 1494162384; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+Hmm.. pulser tag check: chan   6   dt =  6656783   pdt =  8388581  remainder(0)  6656783
+Hmm.. pulser tag check: chan 106   dt =  6656783   pdt =  8388581  remainder(0)  6656783
+ 21700000 evts in, 2878268 out, 350639 built
+ Processed 350917 built evts, 2880009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 336573 pulser evts
+Hmm.. pulser tag check: chan 128   dt =  7862405   pdt =  8388574  remainder(0)  7862405
+Hmm.. pulser tag check: chan 148   dt =  2210270   pdt =  8388591  remainder(0)  2210270
+ 21800000 evts in, 2895439 out, 353451 built
+Hmm.. pulser tag check: chan   6   dt =  1342300   pdt =  8388581  remainder(0)  1342300
+Hmm.. pulser tag check: chan 106   dt =  1342300   pdt =  8388581  remainder(0)  1342300
+Hmm.. pulser tag check: chan  41   dt =  6499709   pdt =  8388613  remainder(0)  6499709
+Hmm.. pulser tag check: chan 141   dt =  6499709   pdt =  8388613  remainder(0)  6499709
+ Processed 354208 built evts, 2900001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 338587 pulser evts
+Hmm.. pulser tag check: chan   6   dt =  3686620   pdt =  8388581  remainder(0)  3686620
+Hmm.. pulser tag check: chan 106   dt =  3686620   pdt =  8388581  remainder(0)  3686620
+Hmm.. pulser tag check: chan 109   dt =  5974051   pdt =  8388585  remainder(0)  5974051
+Hmm.. pulser tag check: chan  18   dt =  3111655   pdt =  8388598  remainder(0)  3111655
+Hmm.. pulser tag check: chan 118   dt =  3111655   pdt =  8388598  remainder(0)  3111655
+ 21900000 evts in, 2912785 out, 356375 built
+Hmm.. pulser tag check: chan  49   dt =  2057294   pdt =  8388591  remainder(0)  2057294
+Hmm.. pulser tag check: chan 149   dt =  2057294   pdt =  8388591  remainder(0)  2057294
+------- END run 25575 at 1494165985;  duration = 238071 s;  21940515 events -------
+
+ 21940515 events in, 2919682 events out, 357515 events built, 368276 * 3 veto events
+    Ge delta-time = 238068 s   Veto delta-time = 238070 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 17924024 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25576
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25576 at 1494165986; quick-start -------
+Hmmm, times are out of order... (239206351 ms < 239206429 ms; d =    77 ms) crate, slot = 1  5 (board  1) min_time board = -1   33 evts into run 25576
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 357570 built evts, 2920000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 340568 pulser evts
+Hmm.. pulser tag check: chan 105   dt =  4238164   pdt =  8388581  remainder(0)  4238164
+Hmm.. pulser tag check: chan  39   dt =  5209078   pdt =  8388613  remainder(0)  5209078
+Hmm.. pulser tag check: chan 139   dt =  5209078   pdt =  8388613  remainder(0)  5209078
+Hmm.. pulser tag check: chan  35   dt =   350843   pdt =  8388581  remainder(0)   350843
+Hmm.. pulser tag check: chan  28   dt =  2060998   pdt =  8388574  remainder(0)  2060998
+Hmm.. pulser tag check: chan 128   dt =  2060998   pdt =  8388574  remainder(0)  2060998
+Hmm.. pulser tag check: chan  42   dt =  3598455   pdt =  8388613  remainder(0)  3598455
+ 22000000 evts in, 2929772 out, 359153 built
+Hmm.. pulser tag check: chan  49   dt =  6499579   pdt =  8388591  remainder(0)  6499579
+Hmm.. pulser tag check: chan 149   dt =  6499579   pdt =  8388591  remainder(0)  6499579
+Hmm.. pulser tag check: chan 131   dt =  2963310   pdt =  8388581  remainder(0)  2963310
+ Processed 360753 built evts, 2940014 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 342619 pulser evts
+ 22100000 evts in, 2946525 out, 361759 built
+Hmm.. pulser tag check: chan 105   dt =  3346543   pdt =  8388581  remainder(0)  3346543
+ Processed 363764 built evts, 2960009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 344735 pulser evts
+ 22200000 evts in, 2962816 out, 364161 built
+Hmm.. pulser tag check: chan 130   dt =  7227375   pdt =  8388581  remainder(0)  7227375
+Hmm.. pulser tag check: chan  42   dt =  6011786   pdt =  8388613  remainder(0)  6011786
+------- END run 25576 at 1494169587;  duration = 241673 s;  22236436 events -------
+
+ 22236436 events in, 2968659 events out, 364980 events built, 373886 * 3 veto events
+    Ge delta-time = 241670 s   Veto delta-time = 241672 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 18154245 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25577
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25577 at 1494169587; quick-start -------
+Hmmm, times are out of order... (242807550071 us < 242807550071 us; d =    0 us) crate, slot = 2  9 (board 10) min_time board = -1   19 evts into run 25577
+ERROR: Bad number of boards (1) in a veto event
+
+Hmm.. pulser tag check: chan 119   dt =  6578878   pdt =  8388598  remainder(0)  6578878
+ 22300000 evts in, 2978720 out, 366357 built
+ Processed 366523 built evts, 2980001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 346952 pulser evts
+ 22400000 evts in, 2994530 out, 368451 built
+Hmm.. pulser tag check: chan 125   dt =  5078284   pdt =  8388574  remainder(0)  5078284
+ Processed 369154 built evts, 3000000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 349212 pulser evts
+Hmm.. pulser tag check: chan 150   dt =   929426   pdt =  8388591  remainder(0)   929426
+ 22500000 evts in, 3009949 out, 370425 built
+Hmm.. pulser tag check: chan 132   dt =  3025616   pdt =  8388613  remainder(0)  3025616
+------- END run 25577 at 1494173188;  duration = 245274 s;  22527263 events -------
+
+ 22527263 events in, 3014164 events out, 370955 events built, 379449 * 3 veto events
+    Ge delta-time = 245271 s   Veto delta-time = 245273 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 18383023 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25578
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25578 at 1494173189; quick-start -------
+Hmm.. pulser tag check: chan 139   dt =  3075250   pdt =  8388613  remainder(0)  3075250
+ Processed 371685 built evts, 3020011 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 351514 pulser evts
+ 22600000 evts in, 3025208 out, 372335 built
+ Processed 374169 built evts, 3040006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 353831 pulser evts
+ 22700000 evts in, 3040369 out, 374218 built
+ 22800000 evts in, 3048472 out, 375210 built
+ 22900000 evts in, 3048801 out, 375250 built
+ 23000000 evts in, 3049142 out, 375296 built
+------- END run 25578 at 1494176040;  duration = 248126 s;  23030240 events -------
+
+ 23030240 events in, 3049255 events out, 375310 events built, 383853 * 3 veto events
+    Ge delta-time = 248123 s   Veto delta-time = 248124 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 18837819 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25579
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25579 at 1494176040; quick-start -------
+Hmmm, times are out of order... (249249  s < 249260  s; d =     10  s) crate, slot = 2 13 (board 12) min_time board = -1   703 evts into run 25579
+ERROR: Bad number of boards (1) in a veto event
+
+ 23100000 evts in, 3049526 out, 375346 built
+ 23200000 evts in, 3049857 out, 375388 built
+ 23300000 evts in, 3050189 out, 375434 built
+ 23400000 evts in, 3050573 out, 375485 built
+ 23500000 evts in, 3058173 out, 376413 built
+ Processed 376637 built evts, 3060005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 356183 pulser evts
+------- END run 25579 at 1494177050;  duration = 249136 s;  23522171 events -------
+
+ 23522171 events in, 3061514 events out, 376823 events built, 385410 * 3 veto events
+    Ge delta-time = 249129 s   Veto delta-time = 249135 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 19312837 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25580
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25580 at 1494177051; quick-start -------
+Hmmm, times are out of order... (250270912 ms < 250270973 ms; d =    60 ms) crate, slot = 1  5 (board  1) min_time board = -1   33 evts into run 25580
+ERROR: Bad number of boards (1) in a veto event
+
+ 23600000 evts in, 3073312 out, 378253 built
+ Processed 379066 built evts, 3080012 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 358523 pulser evts
+ 23700000 evts in, 3088451 out, 380094 built
+ Processed 381498 built evts, 3100017 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 360863 pulser evts
+ 23800000 evts in, 3103569 out, 381927 built
+------- END run 25580 at 1494180652;  duration = 252738 s;  23813303 events -------
+
+ 23813303 events in, 3105579 events out, 382176 events built, 391007 * 3 veto events
+    Ge delta-time = 252735 s   Veto delta-time = 252737 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 19543206 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25581
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25581 at 1494180652; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ 23900000 evts in, 3118806 out, 383774 built
+ Processed 383915 built evts, 3120000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 363203 pulser evts
+ 24000000 evts in, 3134117 out, 385628 built
+ Processed 386340 built evts, 3140007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 365549 pulser evts
+ 24100000 evts in, 3149315 out, 387464 built
+------- END run 25581 at 1494184253;  duration = 256339 s;  24101522 events -------
+
+ 24101522 events in, 3149566 events out, 387493 events built, 396481 * 3 veto events
+    Ge delta-time = 256335 s   Veto delta-time = 256338 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 19771176 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25582
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25582 at 1494184254; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 388752 built evts, 3160003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 367892 pulser evts
+ 24200000 evts in, 3164376 out, 389284 built
+ 24300000 evts in, 3179361 out, 391091 built
+ Processed 391167 built evts, 3180005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 370235 pulser evts
+------- END run 25582 at 1494187855;  duration = 259941 s;  24393723 events -------
+
+ 24393723 events in, 3193491 events out, 392795 events built, 401999 * 3 veto events
+    Ge delta-time = 259934 s   Veto delta-time = 259939 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 20003023 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25583
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25583 at 1494187855; quick-start -------
+Hmmm, times are out of order... (261075427 ms < 261075472 ms; d =    44 ms) crate, slot = 1  5 (board  1) min_time board = -1   28 evts into run 25583
+ERROR: Bad number of boards (1) in a veto event
+
+ 24400000 evts in, 3194471 out, 392915 built
+ Processed 393585 built evts, 3200002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 372581 pulser evts
+ 24500000 evts in, 3209325 out, 394713 built
+ Processed 396007 built evts, 3220006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 374924 pulser evts
+ 24600000 evts in, 3224221 out, 396518 built
+------- END run 25583 at 1494191456;  duration = 263542 s;  24689005 events -------
+
+ 24689005 events in, 3237478 events out, 398120 events built, 407571 * 3 veto events
+    Ge delta-time = 263539 s   Veto delta-time = 263541 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 20237697 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25584
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25584 at 1494191457; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 24700000 evts in, 3239119 out, 398318 built
+ Processed 398423 built evts, 3240013 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 377267 pulser evts
+ 24800000 evts in, 3254067 out, 400131 built
+ Processed 400849 built evts, 3260005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 379613 pulser evts
+ 24900000 evts in, 3269162 out, 401953 built
+ Processed 403261 built evts, 3280007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 381956 pulser evts
+------- END run 25584 at 1494195058;  duration = 267144 s;  24982071 events -------
+
+ 24982071 events in, 3281455 events out, 403436 events built, 413127 * 3 veto events
+    Ge delta-time = 267140 s   Veto delta-time = 267143 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 20470274 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25585
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25585 at 1494195058; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 25000000 evts in, 3284122 out, 403759 built
+ 25100000 evts in, 3299062 out, 405561 built
+ Processed 405675 built evts, 3300010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 384299 pulser evts
+ 25200000 evts in, 3313895 out, 407352 built
+ Processed 408091 built evts, 3320005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 386647 pulser evts
+------- END run 25585 at 1494198659;  duration = 270745 s;  25276467 events -------
+
+ 25276467 events in, 3325351 events out, 408734 events built, 418701 * 3 veto events
+    Ge delta-time = 270738 s   Veto delta-time = 270744 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 20704174 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25586
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25586 at 1494198660; quick-start -------
+Hmmm, times are out of order... (271879942 ms < 271879970 ms; d =    28 ms) crate, slot = 1  5 (board  1) min_time board = -1   31 evts into run 25586
+ERROR: Bad number of boards (1) in a veto event
+
+ 25300000 evts in, 3328890 out, 409163 built
+ Processed 410499 built evts, 3340018 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 388991 pulser evts
+ 25400000 evts in, 3343882 out, 410968 built
+ 25500000 evts in, 3358942 out, 412793 built
+ Processed 412920 built evts, 3360009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 391332 pulser evts
+------- END run 25586 at 1494202261;  duration = 274347 s;  25569843 events -------
+
+ 25569843 events in, 3369339 events out, 414052 events built, 424276 * 3 veto events
+    Ge delta-time = 274344 s   Veto delta-time = 274345 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 20936935 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25587
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25587 at 1494202261; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 25600000 evts in, 3373852 out, 414599 built
+ Processed 415345 built evts, 3380005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 393677 pulser evts
+ 25700000 evts in, 3388811 out, 416409 built
+ Processed 417759 built evts, 3400007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 396020 pulser evts
+ 25800000 evts in, 3403769 out, 418215 built
+------- END run 25587 at 1494205862;  duration = 277948 s;  25863774 events -------
+
+ 25863774 events in, 3413322 events out, 419364 events built, 429860 * 3 veto events
+    Ge delta-time = 277944 s   Veto delta-time = 277947 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 21170283 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25588
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25588 at 1494205863; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 25900000 evts in, 3418754 out, 420017 built
+ Processed 420167 built evts, 3420010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 398360 pulser evts
+Hmm.. pulser tag check: chan   3   dt =  5140362   pdt =  8388581  remainder(0)  5140362
+Hmm.. pulser tag check: chan 103   dt =  5140362   pdt =  8388581  remainder(0)  5140362
+ 26000000 evts in, 3433694 out, 421822 built
+ Processed 422586 built evts, 3440001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 400706 pulser evts
+ 26100000 evts in, 3448500 out, 423610 built
+------- END run 25588 at 1494209464;  duration = 281550 s;  26158543 events -------
+
+ 26158543 events in, 3457244 events out, 424664 events built, 435481 * 3 veto events
+    Ge delta-time = 281543 s   Veto delta-time = 281549 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 21404393 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25589
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25589 at 1494209465; quick-start -------
+Hmmm, times are out of order... (282684456 ms < 282684468 ms; d =    12 ms) crate, slot = 1  5 (board  1) min_time board = -1   29 evts into run 25589
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 424999 built evts, 3460011 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 403050 pulser evts
+ 26200000 evts in, 3463445 out, 425415 built
+ 26300000 evts in, 3478496 out, 427235 built
+ Processed 427415 built evts, 3480005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 405392 pulser evts
+ 26400000 evts in, 3493585 out, 429055 built
+ Processed 429830 built evts, 3500012 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 407740 pulser evts
+------- END run 25589 at 1494213066;  duration = 285152 s;  26450931 events -------
+
+ 26450931 events in, 3501216 events out, 429975 events built, 441025 * 3 veto events
+    Ge delta-time = 285148 s   Veto delta-time = 285150 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 21636271 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25590
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25590 at 1494213066; quick-start -------
+ 26500000 evts in, 3508594 out, 430866 built
+ Processed 432245 built evts, 3520010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 410082 pulser evts
+ 26600000 evts in, 3523648 out, 432687 built
+ 26700000 evts in, 3538647 out, 434498 built
+ Processed 434662 built evts, 3540008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 412424 pulser evts
+------- END run 25590 at 1494216667;  duration = 288753 s;  26743165 events -------
+
+ 26743165 events in, 3545205 events out, 435294 events built, 446621 * 3 veto events
+    Ge delta-time = 288749 s   Veto delta-time = 288751 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 21867880 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25591
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25591 at 1494216668; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 26800000 evts in, 3553759 out, 436325 built
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 437079 built evts, 3560001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 414769 pulser evts
+ 26900000 evts in, 3568804 out, 438144 built
+ Processed 439501 built evts, 3580009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 417112 pulser evts
+ 27000000 evts in, 3583966 out, 439983 built
+------- END run 25591 at 1494220269;  duration = 292355 s;  27034079 events -------
+
+ 27034079 events in, 3589145 events out, 440607 events built, 452259 * 3 veto events
+    Ge delta-time = 292347 s   Veto delta-time = 292353 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 22098070 sub-threshold events
+
+ >>> Reading ds5/2017-5-7-P3LQK_Run25592
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25592 at 1494220269; quick-start -------
+Hmmm, times are out of order... (293488967 ms < 293489819 ms; d =   852 ms) crate, slot = 1  4 (board  0) min_time board = -1   31 evts into run 25592
+ERROR: Bad number of boards (1) in a veto event
+
+ 27100000 evts in, 3599040 out, 441806 built
+ Processed 441920 built evts, 3600008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 419453 pulser evts
+ 27200000 evts in, 3614082 out, 443622 built
+ Processed 444332 built evts, 3620000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 421796 pulser evts
+ 27300000 evts in, 3629071 out, 445432 built
+------- END run 25592 at 1494223870;  duration = 295956 s;  27326947 events -------
+
+ 27326947 events in, 3633115 events out, 445921 events built, 457859 * 3 veto events
+    Ge delta-time = 295953 s   Veto delta-time = 295955 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 22330260 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25593
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25593 at 1494223871; quick-start -------
+ Processed 446752 built evts, 3640005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 424143 pulser evts
+ 27400000 evts in, 3644127 out, 447250 built
+ 27500000 evts in, 3659048 out, 449054 built
+ Processed 449170 built evts, 3660022 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 426487 pulser evts
+ 27600000 evts in, 3673956 out, 450852 built
+------- END run 25593 at 1494227472;  duration = 299558 s;  27620840 events -------
+
+ 27620840 events in, 3677081 events out, 451229 events built, 463430 * 3 veto events
+    Ge delta-time = 299553 s   Veto delta-time = 299556 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 22563630 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25594
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25594 at 1494227472; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 451581 built evts, 3680000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 428833 pulser evts
+ 27700000 evts in, 3688904 out, 452654 built
+ Processed 453995 built evts, 3700003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 431176 pulser evts
+ 27800000 evts in, 3703700 out, 454441 built
+ 27900000 evts in, 3718654 out, 456247 built
+ Processed 456409 built evts, 3720009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 433519 pulser evts
+------- END run 25594 at 1494231073;  duration = 303159 s;  27916110 events -------
+
+ 27916110 events in, 3721005 events out, 456531 events built, 469047 * 3 veto events
+    Ge delta-time = 303152 s   Veto delta-time = 303158 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 22798251 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25595
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25595 at 1494231074; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 28000000 evts in, 3733435 out, 458030 built
+ Processed 458824 built evts, 3740005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 435866 pulser evts
+ 28100000 evts in, 3748118 out, 459801 built
+ Processed 461236 built evts, 3760009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 438209 pulser evts
+ 28200000 evts in, 3762774 out, 461572 built
+------- END run 25595 at 1494234675;  duration = 306761 s;  28214593 events -------
+
+ 28214593 events in, 3764978 events out, 461841 events built, 474627 * 3 veto events
+    Ge delta-time = 306757 s   Veto delta-time = 306759 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 23036112 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25596
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25596 at 1494234675; quick-start -------
+ 28300000 evts in, 3777464 out, 463352 built
+ Processed 463654 built evts, 3780005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 440551 pulser evts
+ 28400000 evts in, 3792097 out, 465115 built
+ Processed 466069 built evts, 3800008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 442899 pulser evts
+ 28500000 evts in, 3806678 out, 466877 built
+------- END run 25596 at 1494238276;  duration = 310362 s;  28515363 events -------
+
+ 28515363 events in, 3808931 events out, 467149 events built, 480194 * 3 veto events
+    Ge delta-time = 310358 s   Veto delta-time = 310360 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 23276382 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25597
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25597 at 1494238277; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 468483 built evts, 3820017 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 445242 pulser evts
+ 28600000 evts in, 3821213 out, 468628 built
+ 28700000 evts in, 3835645 out, 470375 built
+ Processed 470901 built evts, 3840002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 447583 pulser evts
+ 28800000 evts in, 3849989 out, 472107 built
+------- END run 25597 at 1494241878;  duration = 313964 s;  28820311 events -------
+
+ 28820311 events in, 3852908 events out, 472459 events built, 485776 * 3 veto events
+    Ge delta-time = 313961 s   Veto delta-time = 313963 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 23520743 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25598
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25598 at 1494241879; quick-start -------
+Hmmm, times are out of order... (315098805634 us < 315098805634 us; d =    0 us) crate, slot = 2  6 (board  9) min_time board = -1   25 evts into run 25598
+ Processed 473317 built evts, 3860006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 449930 pulser evts
+ 28900000 evts in, 3864399 out, 473849 built
+ 29000000 evts in, 3878660 out, 475571 built
+ Processed 475733 built evts, 3880021 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 452274 pulser evts
+ 29100000 evts in, 3884190 out, 476238 built
+ 29200000 evts in, 3885829 out, 476437 built
+ 29300000 evts in, 3886748 out, 476547 built
+------- END run 25598 at 1494244710;  duration = 316796 s;  29320690 events -------
+
+ 29320690 events in, 3887464 events out, 476634 events built, 490112 * 3 veto events
+    Ge delta-time = 316792 s   Veto delta-time = 316794 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 23973648 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25599
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25599 at 1494244710; quick-start -------
+ 29400000 evts in, 3898635 out, 477987 built
+ Processed 478151 built evts, 3900001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 454614 pulser evts
+ 29500000 evts in, 3913032 out, 479728 built
+ Processed 480567 built evts, 3920009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 456960 pulser evts
+ 29600000 evts in, 3927005 out, 481413 built
+------- END run 25599 at 1494248311;  duration = 320397 s;  29631122 events -------
+
+ 29631122 events in, 3931405 events out, 481945 events built, 495684 * 3 veto events
+    Ge delta-time = 320390 s   Veto delta-time = 320395 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 24223546 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25600
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25600 at 1494248312; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 482986 built evts, 3940000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 459302 pulser evts
+ 29700000 evts in, 3941217 out, 483135 built
+ 29800000 evts in, 3955365 out, 484840 built
+ Processed 485401 built evts, 3960006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 461645 pulser evts
+ 29900000 evts in, 3969548 out, 486562 built
+------- END run 25600 at 1494251913;  duration = 323999 s;  29941207 events -------
+
+ 29941207 events in, 3975394 events out, 487269 events built, 501235 * 3 veto events
+    Ge delta-time = 323995 s   Veto delta-time = 323997 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 24473105 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25601
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25601 at 1494251914; quick-start -------
+Hmmm, times are out of order... (325133410884 us < 325133410884 us; d =    0 us) crate, slot = 2  9 (board 10) min_time board = -1   19 evts into run 25601
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 487824 built evts, 3980000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 463989 pulser evts
+ 30000000 evts in, 3983640 out, 488261 built
+ 30100000 evts in, 3997785 out, 489974 built
+ Processed 490243 built evts, 4000005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 466332 pulser evts
+ 30200000 evts in, 4012019 out, 491692 built
+------- END run 25601 at 1494255515;  duration = 327601 s;  30251748 events -------
+
+ 30251748 events in, 4019389 events out, 492579 events built, 506828 * 3 veto events
+    Ge delta-time = 327596 s   Veto delta-time = 327599 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 24723003 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25602
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25602 at 1494255515; quick-start -------
+Hmmm, times are out of order... (328737804986 us < 328737805104 us; d =  117 us) crate, slot = 1  4 (board  0) min_time board = -1   177 evts into run 25602
+ Processed 492655 built evts, 4020009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 468675 pulser evts
+ 30300000 evts in, 4026145 out, 493395 built
+ Processed 495069 built evts, 4040009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 471017 pulser evts
+ 30400000 evts in, 4040378 out, 495116 built
+ 30500000 evts in, 4054558 out, 496832 built
+ Processed 497494 built evts, 4060008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 473364 pulser evts
+------- END run 25602 at 1494259116;  duration = 331202 s;  30560994 events -------
+
+ 30560994 events in, 4063302 events out, 497889 events built, 512414 * 3 veto events
+    Ge delta-time = 331195 s   Veto delta-time = 331200 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 24971705 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25603
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25603 at 1494259117; quick-start -------
+Hmmm, times are out of order... (332336503549 us < 332336508359 us; d = 4810 us) crate, slot = 1 10 (board  6) min_time board = -1   33 evts into run 25603
+ERROR: Bad number of boards (1) in a veto event
+
+ 30600000 evts in, 4068934 out, 498568 built
+ Processed 499908 built evts, 4080019 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 475708 pulser evts
+ 30700000 evts in, 4083274 out, 500305 built
+ 30800000 evts in, 4097502 out, 502025 built
+ Processed 502326 built evts, 4100003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 478049 pulser evts
+------- END run 25603 at 1494262718;  duration = 334804 s;  30868611 events -------
+
+ 30868611 events in, 4107292 events out, 503210 events built, 517956 * 3 veto events
+    Ge delta-time = 334800 s   Veto delta-time = 334802 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 25218829 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25604
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25604 at 1494262718; quick-start -------
+Hmmm, times are out of order... (335937946079 us < 335937946080 us; d =    0 us) crate, slot = 2  9 (board 10) min_time board = -1   19 evts into run 25604
+ERROR: Bad number of boards (1) in a veto event
+
+ 30900000 evts in, 4111844 out, 503762 built
+ Processed 504751 built evts, 4120005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 480395 pulser evts
+ 31000000 evts in, 4126245 out, 505504 built
+ Processed 507163 built evts, 4140012 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 482740 pulser evts
+ 31100000 evts in, 4140494 out, 507222 built
+------- END run 25604 at 1494266319;  duration = 338405 s;  31175919 events -------
+
+ 31175919 events in, 4151245 events out, 508520 events built, 523525 * 3 veto events
+    Ge delta-time = 338401 s   Veto delta-time = 338404 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 25465603 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25605
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25605 at 1494266320; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 31200000 evts in, 4154625 out, 508929 built
+ Processed 509581 built evts, 4160000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 485085 pulser evts
+ 31300000 evts in, 4168650 out, 510622 built
+ Processed 512001 built evts, 4180007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 487428 pulser evts
+ 31400000 evts in, 4182795 out, 512337 built
+------- END run 25605 at 1494269921;  duration = 342007 s;  31488148 events -------
+
+ 31488148 events in, 4195185 events out, 513834 events built, 529088 * 3 veto events
+    Ge delta-time = 341999 s   Veto delta-time = 342005 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 25717328 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25606
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25606 at 1494269921; quick-start -------
+Hmmm, times are out of order... (343140987 ms < 343141006 ms; d =    19 ms) crate, slot = 1  7 (board  3) min_time board = -1   32 evts into run 25606
+ 31500000 evts in, 4196909 out, 514043 built
+ Processed 514417 built evts, 4200005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 489770 pulser evts
+ 31600000 evts in, 4210933 out, 515743 built
+ Processed 516832 built evts, 4220011 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 492112 pulser evts
+Hmm.. pulser tag check: chan   1   dt =  5408069   pdt =  8388581  remainder(0)  5408069
+Hmm.. pulser tag check: chan 101   dt =  5408069   pdt =  8388581  remainder(0)  5408069
+ 31700000 evts in, 4224959 out, 517432 built
+ 31800000 evts in, 4239094 out, 519145 built
+------- END run 25606 at 1494273522;  duration = 345608 s;  31800929 events -------
+
+ 31800929 events in, 4239196 events out, 519157 events built, 534637 * 3 veto events
+    Ge delta-time = 345604 s   Veto delta-time = 345606 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 25969574 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25607
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25607 at 1494273523; quick-start -------
+Hmmm, times are out of order... (346742481277 us < 346742481277 us; d =    0 us) crate, slot = 2  9 (board 10) min_time board = -1   19 evts into run 25607
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 519255 built evts, 4240000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 494456 pulser evts
+ 31900000 evts in, 4253061 out, 520833 built
+ Processed 521674 built evts, 4260004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 496800 pulser evts
+ 32000000 evts in, 4267149 out, 522538 built
+ Processed 524090 built evts, 4280020 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 499144 pulser evts
+ 32100000 evts in, 4280869 out, 524195 built
+------- END run 25607 at 1494277124;  duration = 349210 s;  32116477 events -------
+
+ 32116477 events in, 4283161 events out, 524471 events built, 540156 * 3 veto events
+    Ge delta-time = 349205 s   Veto delta-time = 349208 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 26224725 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25608
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25608 at 1494277124; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 32200000 evts in, 4294725 out, 525865 built
+ Processed 526501 built evts, 4300001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 501490 pulser evts
+ 32300000 evts in, 4308535 out, 527529 built
+ Processed 528912 built evts, 4320004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 503834 pulser evts
+ 32400000 evts in, 4322429 out, 529206 built
+------- END run 25608 at 1494280725;  duration = 352811 s;  32433321 events -------
+
+ 32433321 events in, 4327077 events out, 529768 events built, 545681 * 3 veto events
+    Ge delta-time = 352804 s   Veto delta-time = 352810 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 26481203 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25609
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25609 at 1494280726; quick-start -------
+Hmmm, times are out of order... (353945471 ms < 353945505 ms; d =    34 ms) crate, slot = 1  7 (board  3) min_time board = -1   30 evts into run 25609
+ERROR: Bad number of boards (1) in a veto event
+
+ 32500000 evts in, 4336494 out, 530902 built
+ Processed 531330 built evts, 4340012 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 506176 pulser evts
+ 32600000 evts in, 4350386 out, 532585 built
+ Processed 533746 built evts, 4360009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 508524 pulser evts
+Hmm.. pulser tag check: chan  49   dt =  3735337   pdt =  8388591  remainder(0)  3735337
+Hmm.. pulser tag check: chan 149   dt =  3735337   pdt =  8388591  remainder(0)  3735337
+ 32700000 evts in, 4364228 out, 534254 built
+------- END run 25609 at 1494284327;  duration = 356413 s;  32748484 events -------
+
+ 32748484 events in, 4371042 events out, 535079 events built, 551299 * 3 veto events
+    Ge delta-time = 356409 s   Veto delta-time = 356411 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 26735671 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25610
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25610 at 1494284328; quick-start -------
+Hmmm, times are out of order... (357547016421 us < 357547016421 us; d =    0 us) crate, slot = 2  9 (board 10) min_time board = -1   19 evts into run 25610
+ 32800000 evts in, 4378309 out, 535956 built
+ Processed 536158 built evts, 4380012 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 510868 pulser evts
+ 32900000 evts in, 4392146 out, 537626 built
+ Processed 538577 built evts, 4400000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 513213 pulser evts
+ 33000000 evts in, 4405996 out, 539298 built
+------- END run 25610 at 1494287929;  duration = 360015 s;  33064503 events -------
+
+ 33064503 events in, 4415005 events out, 540388 events built, 556876 * 3 veto events
+    Ge delta-time = 360010 s   Veto delta-time = 360012 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 26991119 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25611
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25611 at 1494287929; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 33100000 evts in, 4419877 out, 540974 built
+ Processed 540989 built evts, 4420009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 515557 pulser evts
+ 33200000 evts in, 4433709 out, 542643 built
+ Processed 543404 built evts, 4440003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 517899 pulser evts
+ 33300000 evts in, 4442149 out, 543663 built
+ 33400000 evts in, 4442498 out, 543708 built
+ 33500000 evts in, 4442818 out, 543749 built
+------- END run 25611 at 1494290234;  duration = 362320 s;  33571122 events -------
+
+ 33571122 events in, 4443099 events out, 543787 events built, 560418 * 3 veto events
+    Ge delta-time = 362317 s   Veto delta-time = 362319 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 27459125 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25612
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25612 at 1494290235; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+Hmmm, times are out of order... (363452698 ms < 363458114 ms; d =  5416 ms) crate, slot = 2 17 (board 14) min_time board = -1   25613 evts into run 25612
+ 33600000 evts in, 4443099 out, 543787 built
+ 33700000 evts in, 4443537 out, 543844 built
+ 33800000 evts in, 4443853 out, 543885 built
+ 33900000 evts in, 4444194 out, 543930 built
+ 34000000 evts in, 4452910 out, 544983 built
+ Processed 545843 built evts, 4460014 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 520264 pulser evts
+------- END run 25612 at 1494291773;  duration = 363859 s;  34065667 events -------
+
+ 34065667 events in, 4461791 events out, 546062 events built, 562843 * 3 veto events
+    Ge delta-time = 363856 s   Veto delta-time = 363858 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 27927779 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25613
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25613 at 1494291774; quick-start -------
+Hmmm, times are out of order... (364993272 ms < 364994089 ms; d =   817 ms) crate, slot = 1  4 (board  0) min_time board = -1   32 evts into run 25613
+ 34100000 evts in, 4466334 out, 546609 built
+ 34200000 evts in, 4479849 out, 548248 built
+ Processed 548269 built evts, 4480013 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 522610 pulser evts
+ 34300000 evts in, 4493459 out, 549889 built
+ Processed 550680 built evts, 4500010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 524954 pulser evts
+------- END run 25613 at 1494295375;  duration = 367461 s;  34390184 events -------
+
+ 34390184 events in, 4505704 events out, 551371 events built, 568412 * 3 veto events
+    Ge delta-time = 367457 s   Veto delta-time = 367459 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 28191740 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25614
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25614 at 1494295376; quick-start -------
+Hmmm, times are out of order... (368594821426 us < 368594821426 us; d =    0 us) crate, slot = 2  9 (board 10) min_time board = -1   19 evts into run 25614
+ERROR: Bad number of boards (1) in a veto event
+
+ 34400000 evts in, 4507043 out, 551534 built
+Hmm.. pulser tag check: chan  56   dt =   741822   pdt =  8388583  remainder(0)   741822
+Hmm.. pulser tag check: chan 156   dt =   741822   pdt =  8388583  remainder(0)   741822
+ Processed 553096 built evts, 4520002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 527296 pulser evts
+ 34500000 evts in, 4520586 out, 553167 built
+ 34600000 evts in, 4534274 out, 554822 built
+ Processed 555511 built evts, 4540002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 529642 pulser evts
+ 34700000 evts in, 4548091 out, 556487 built
+------- END run 25614 at 1494298977;  duration = 371063 s;  34711638 events -------
+
+ 34711638 events in, 4549665 events out, 556675 events built, 574018 * 3 veto events
+    Ge delta-time = 371057 s   Veto delta-time = 371060 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 28452555 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25615
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25615 at 1494298977; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 557923 built evts, 4560001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 531985 pulser evts
+ 34800000 evts in, 4561825 out, 558143 built
+ 34900000 evts in, 4575546 out, 559803 built
+ Processed 560343 built evts, 4580001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 534327 pulser evts
+ 35000000 evts in, 4589204 out, 561451 built
+------- END run 25615 at 1494302578;  duration = 374664 s;  35031982 events -------
+
+ 35031982 events in, 4593667 events out, 561990 events built, 579593 * 3 veto events
+    Ge delta-time = 374660 s   Veto delta-time = 374662 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 28712323 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25616
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25616 at 1494302579; quick-start -------
+Hmmm, times are out of order... (375797899 ms < 375798583 ms; d =   683 ms) crate, slot = 1  5 (board  1) min_time board = -1   32 evts into run 25616
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 562755 built evts, 4600008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 536674 pulser evts
+ 35100000 evts in, 4602978 out, 563115 built
+ 35200000 evts in, 4616628 out, 564762 built
+ Processed 565169 built evts, 4620003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 539018 pulser evts
+ 35300000 evts in, 4630303 out, 566414 built
+------- END run 25616 at 1494306180;  duration = 378266 s;  35354355 events -------
+
+ 35354355 events in, 4637575 events out, 567292 events built, 585142 * 3 veto events
+    Ge delta-time = 378262 s   Veto delta-time = 378264 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 28974212 sub-threshold events
+
+ >>> Reading ds5/2017-5-8-P3LQK_Run25617
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25617 at 1494306180; quick-start -------
+ Processed 567582 built evts, 4640011 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 541361 pulser evts
+ 35400000 evts in, 4643858 out, 568047 built
+ 35500000 evts in, 4657636 out, 569713 built
+ Processed 570000 built evts, 4660003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 543707 pulser evts
+ 35600000 evts in, 4671669 out, 571414 built
+ Processed 572425 built evts, 4680002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 546049 pulser evts
+------- END run 25617 at 1494309781;  duration = 381867 s;  35670756 events -------
+
+ 35670756 events in, 4681556 events out, 572614 events built, 590722 * 3 veto events
+    Ge delta-time = 381862 s   Veto delta-time = 381865 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 29230045 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25618
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25618 at 1494309782; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 35700000 evts in, 4685613 out, 573106 built
+ 35800000 evts in, 4699730 out, 574812 built
+ Processed 574845 built evts, 4700022 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 548392 pulser evts
+ 35900000 evts in, 4713766 out, 576505 built
+ Processed 577260 built evts, 4720012 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 550738 pulser evts
+------- END run 25618 at 1494313383;  duration = 385469 s;  35982912 events -------
+
+ 35982912 events in, 4725540 events out, 577926 events built, 596288 * 3 veto events
+    Ge delta-time = 385465 s   Veto delta-time = 385467 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 29481658 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25619
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25619 at 1494313383; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ 36000000 evts in, 4727977 out, 578220 built
+ Processed 579670 built evts, 4740003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 553081 pulser evts
+ 36100000 evts in, 4741862 out, 579895 built
+ 36200000 evts in, 4755345 out, 581526 built
+ Processed 582089 built evts, 4760021 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 555424 pulser evts
+------- END run 25619 at 1494316984;  duration = 389070 s;  36299832 events -------
+
+ 36299832 events in, 4769467 events out, 583230 events built, 601882 * 3 veto events
+    Ge delta-time = 389066 s   Veto delta-time = 389068 s
+    Mean Ge-Veto time = -34 ms
+ 0 bad events, 29737941 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25620
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25620 at 1494316985; quick-start -------
+ 36300000 evts in, 4769467 out, 583230 built
+ Processed 584500 built evts, 4780000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 557767 pulser evts
+ 36400000 evts in, 4783741 out, 584953 built
+ 36500000 evts in, 4798079 out, 586686 built
+ Processed 586918 built evts, 4800010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 560113 pulser evts
+ 36600000 evts in, 4812416 out, 588417 built
+------- END run 25620 at 1494320586;  duration = 392672 s;  36607295 events -------
+
+ 36607295 events in, 4813440 events out, 588541 events built, 607431 * 3 veto events
+    Ge delta-time = 392667 s   Veto delta-time = 392669 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 29984945 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25621
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25621 at 1494320586; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 589335 built evts, 4820000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 562454 pulser evts
+ 36700000 evts in, 4826557 out, 590128 built
+ Processed 591752 built evts, 4840002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 564796 pulser evts
+ 36800000 evts in, 4840650 out, 591834 built
+ 36900000 evts in, 4854978 out, 593563 built
+------- END run 25621 at 1494324187;  duration = 396273 s;  36917395 events -------
+
+ 36917395 events in, 4857447 events out, 593862 events built, 612963 * 3 veto events
+    Ge delta-time = 396269 s   Veto delta-time = 396271 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 30234583 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25622
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25622 at 1494324188; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 594173 built evts, 4860015 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 567142 pulser evts
+ 37000000 evts in, 4869234 out, 595291 built
+ Processed 596589 built evts, 4880009 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 569485 pulser evts
+ 37100000 evts in, 4883549 out, 597019 built
+ 37200000 evts in, 4897594 out, 598718 built
+ Processed 599013 built evts, 4900008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 571834 pulser evts
+------- END run 25622 at 1494327789;  duration = 399875 s;  37226842 events -------
+
+ 37226842 events in, 4901338 events out, 599173 events built, 618530 * 3 veto events
+    Ge delta-time = 399871 s   Veto delta-time = 399873 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 30483510 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25623
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25623 at 1494327790; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 37300000 evts in, 4911707 out, 600422 built
+Hmm.. pulser tag check: chan  25   dt =  2719229   pdt =  8388574  remainder(0)  2719229
+Hmm.. pulser tag check: chan 125   dt =  2719229   pdt =  8388574  remainder(0)  2719229
+ Processed 601418 built evts, 4920011 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 574173 pulser evts
+ 37400000 evts in, 4925639 out, 602097 built
+ 37500000 evts in, 4939666 out, 603793 built
+ Processed 603833 built evts, 4940015 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 576516 pulser evts
+------- END run 25623 at 1494331391;  duration = 403477 s;  37540378 events -------
+
+ 37540378 events in, 4945295 events out, 604471 events built, 624108 * 3 veto events
+    Ge delta-time = 403471 s   Veto delta-time = 403475 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 30736517 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25624
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25624 at 1494331391; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 37600000 evts in, 4953853 out, 605505 built
+ Processed 606249 built evts, 4960006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 578862 pulser evts
+ 37700000 evts in, 4968192 out, 607234 built
+ Processed 608660 built evts, 4980004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 581207 pulser evts
+ 37800000 evts in, 4982240 out, 608930 built
+------- END run 25624 at 1494334992;  duration = 407078 s;  37848565 events -------
+
+ 37848565 events in, 4989260 events out, 609778 events built, 629671 * 3 veto events
+    Ge delta-time = 407074 s   Veto delta-time = 407076 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 30984191 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25625
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25625 at 1494334993; quick-start -------
+Hmm.. pulser tag check: chan  14   dt =  4016276   pdt =  8388598  remainder(0)  4016276
+Hmm.. pulser tag check: chan 114   dt =  4016276   pdt =  8388598  remainder(0)  4016276
+ 37900000 evts in, 4996631 out, 610667 built
+ Processed 611076 built evts, 5000015 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 583553 pulser evts
+ 38000000 evts in, 5010917 out, 612395 built
+ Processed 613494 built evts, 5020003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 585895 pulser evts
+ 38100000 evts in, 5025110 out, 614111 built
+------- END run 25625 at 1494338594;  duration = 410680 s;  38156673 events -------
+
+ 38156673 events in, 5033198 events out, 615088 events built, 635281 * 3 veto events
+    Ge delta-time = 410675 s   Veto delta-time = 410677 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 31231602 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25626
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25626 at 1494338594; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ 38200000 evts in, 5039289 out, 615826 built
+ Processed 615913 built evts, 5040007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 588237 pulser evts
+ 38300000 evts in, 5053424 out, 617533 built
+ Processed 618329 built evts, 5060017 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 590580 pulser evts
+ 38400000 evts in, 5067446 out, 619230 built
+------- END run 25626 at 1494342195;  duration = 414281 s;  38470264 events -------
+
+ 38470264 events in, 5077172 events out, 620404 events built, 640842 * 3 veto events
+    Ge delta-time = 414276 s   Veto delta-time = 414279 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 31484697 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25627
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25627 at 1494342196; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 620746 built evts, 5080001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 592925 pulser evts
+ 38500000 evts in, 5081330 out, 620905 built
+ 38600000 evts in, 5095495 out, 622614 built
+ Processed 623157 built evts, 5100011 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 595271 pulser evts
+ 38700000 evts in, 5109781 out, 624340 built
+ Processed 625572 built evts, 5120014 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 597617 pulser evts
+------- END run 25627 at 1494345797;  duration = 417883 s;  38781138 events -------
+
+ 38781138 events in, 5121138 events out, 625708 events built, 646446 * 3 veto events
+    Ge delta-time = 417878 s   Veto delta-time = 417881 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 31734938 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25628
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25628 at 1494345798; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 38800000 evts in, 5123732 out, 626023 built
+ 38900000 evts in, 5137561 out, 627694 built
+ Processed 627989 built evts, 5140003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 599960 pulser evts
+ 39000000 evts in, 5151646 out, 629399 built
+ Processed 630411 built evts, 5160001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 602303 pulser evts
+------- END run 25628 at 1494349399;  duration = 421485 s;  39095733 events -------
+
+ 39095733 events in, 5165070 events out, 631026 events built, 651990 * 3 veto events
+    Ge delta-time = 421480 s   Veto delta-time = 421482 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 31989041 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25629
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25629 at 1494349399; quick-start -------
+Hmmm, times are out of order... (422618663 ms < 422618861 ms; d =   198 ms) crate, slot = 1  6 (board  2) min_time board = -1   34 evts into run 25629
+Hmmm, times are out of order... (422618652 ms < 422618663 ms; d =    11 ms) crate, slot = 1  8 (board  4) min_time board = 2   36 evts into run 25629
+Hmmm, times are out of order... (422618536 ms < 422618652 ms; d =   115 ms) crate, slot = 1 10 (board  6) min_time board = 4   38 evts into run 25629
+ERROR: Bad number of boards (1) in a veto event
+
+ 39100000 evts in, 5165623 out, 631092 built
+ 39200000 evts in, 5179634 out, 632786 built
+ Processed 632831 built evts, 5180000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 604648 pulser evts
+ 39300000 evts in, 5193523 out, 634464 built
+ Processed 635247 built evts, 5200008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 606992 pulser evts
+ 39400000 evts in, 5207459 out, 636147 built
+------- END run 25629 at 1494353000;  duration = 425086 s;  39411284 events -------
+
+ 39411284 events in, 5209024 events out, 636334 events built, 657515 * 3 veto events
+    Ge delta-time = 425080 s   Veto delta-time = 425084 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 32244223 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25630
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25630 at 1494353001; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 637658 built evts, 5220019 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 609336 pulser evts
+ 39500000 evts in, 5221373 out, 637826 built
+ 39600000 evts in, 5235296 out, 639511 built
+ Processed 640080 built evts, 5240006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 611681 pulser evts
+ 39700000 evts in, 5249237 out, 641199 built
+------- END run 25630 at 1494356602;  duration = 428688 s;  39727066 events -------
+
+ 39727066 events in, 5253000 events out, 641654 events built, 663011 * 3 veto events
+    Ge delta-time = 428684 s   Veto delta-time = 428686 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 32499654 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25631
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25631 at 1494356603; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 642497 built evts, 5260004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 614024 pulser evts
+ 39800000 evts in, 5263290 out, 642893 built
+ 39900000 evts in, 5277166 out, 644568 built
+ Processed 644910 built evts, 5280010 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 616368 pulser evts
+------- END run 25631 at 1494358867;  duration = 430953 s;  39925038 events -------
+
+ 39925038 events in, 5280643 events out, 644988 events built, 666460 * 3 veto events
+    Ge delta-time = 430948 s   Veto delta-time = 430951 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 32659734 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25634
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25634 at 1494365372; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 40000000 evts in, 5291660 out, 646322 built
+ Processed 647326 built evts, 5300001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 618713 pulser evts
+Hmm.. pulser tag check: chan 126   dt =   289088   pdt =  8388574  remainder(0)   289088
+ 40100000 evts in, 5306393 out, 648103 built
+ Processed 649748 built evts, 5320005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 621059 pulser evts
+ 40200000 evts in, 5321382 out, 649913 built
+------- END run 25634 at 1494368973;  duration = 441059 s;  40220953 events -------
+
+ 40220953 events in, 5324549 events out, 650294 events built, 672008 * 3 veto events
+    Ge delta-time = 441052 s   Veto delta-time = 441057 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 32895223 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25635
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25635 at 1494368974; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 40300000 evts in, 5336433 out, 651731 built
+ Processed 652160 built evts, 5340003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 623403 pulser evts
+ 40400000 evts in, 5351427 out, 653538 built
+ Processed 654579 built evts, 5360015 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 625746 pulser evts
+ 40500000 evts in, 5366267 out, 655335 built
+------- END run 25635 at 1494372575;  duration = 444661 s;  40515645 events -------
+
+ 40515645 events in, 5368536 events out, 655610 events built, 677575 * 3 veto events
+    Ge delta-time = 444657 s   Veto delta-time = 444658 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 33129345 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25636
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25636 at 1494372576; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 656992 built evts, 5380003 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 628092 pulser evts
+ 40600000 evts in, 5381063 out, 657120 built
+ 40700000 evts in, 5386555 out, 657787 built
+ 40800000 evts in, 5389715 out, 658168 built
+ Processed 659413 built evts, 5400000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 630435 pulser evts
+ 40900000 evts in, 5404660 out, 659974 built
+------- END run 25636 at 1494376177;  duration = 448263 s;  40952247 events -------
+
+ 40952247 events in, 5412496 events out, 660924 events built, 683114 * 3 veto events
+    Ge delta-time = 448258 s   Veto delta-time = 448260 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 33505504 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25637
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25637 at 1494376178; quick-start -------
+ERROR: Bad number of boards (1) in a veto event
+
+ 41000000 evts in, 5419675 out, 661793 built
+ Processed 661832 built evts, 5420018 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 632778 pulser evts
+ 41100000 evts in, 5434694 out, 663614 built
+ Processed 664258 built evts, 5440007 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 635123 pulser evts
+ 41200000 evts in, 5449533 out, 665411 built
+------- END run 25637 at 1494379779;  duration = 451865 s;  41246792 events -------
+
+ 41246792 events in, 5456497 events out, 666254 events built, 688683 * 3 veto events
+    Ge delta-time = 451860 s   Veto delta-time = 451862 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 33739506 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25638
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25638 at 1494379779; quick-start -------
+Hmmm, times are out of order... (452997927 ms < 452998700 ms; d =   773 ms) crate, slot = 1  4 (board  0) min_time board = -1   32 evts into run 25638
+Hmmm, times are out of order... (452997899 ms < 452997927 ms; d =    27 ms) crate, slot = 1  8 (board  4) min_time board = 0   36 evts into run 25638
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 666678 built evts, 5460004 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 637465 pulser evts
+ 41300000 evts in, 5464396 out, 667207 built
+ 41400000 evts in, 5479168 out, 668990 built
+ Processed 669090 built evts, 5480022 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 639810 pulser evts
+ 41500000 evts in, 5494161 out, 670796 built
+ Processed 671502 built evts, 5500002 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 642155 pulser evts
+------- END run 25638 at 1494383380;  duration = 455466 s;  41542207 events -------
+
+ 41542207 events in, 5500418 events out, 671554 events built, 694203 * 3 veto events
+    Ge delta-time = 455461 s   Veto delta-time = 455464 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 33974519 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25639
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25639 at 1494383381; quick-start -------
+Hmmm, times are out of order... (456599628 ms < 456599774 ms; d =   145 ms) crate, slot = 2 17 (board 14) min_time board = -1   22 evts into run 25639
+ERROR: Bad number of boards (1) in a veto event
+
+ 41600000 evts in, 5509032 out, 672601 built
+ Processed 673923 built evts, 5520005 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 644499 pulser evts
+ 41700000 evts in, 5523855 out, 674390 built
+ 41800000 evts in, 5538715 out, 676182 built
+ Processed 676337 built evts, 5540001 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 646842 pulser evts
+------- END run 25639 at 1494386982;  duration = 459068 s;  41838586 events -------
+
+ 41838586 events in, 5544386 events out, 676866 events built, 699732 * 3 veto events
+    Ge delta-time = 459062 s   Veto delta-time = 459065 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 34210474 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25640
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25640 at 1494386982; quick-start -------
+ 41900000 evts in, 5553558 out, 677972 built
+ Processed 678753 built evts, 5560012 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 649188 pulser evts
+ 42000000 evts in, 5568444 out, 679769 built
+ Processed 681166 built evts, 5580000 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 651532 pulser evts
+ 42100000 evts in, 5583389 out, 681575 built
+------- END run 25640 at 1494390583;  duration = 462669 s;  42132959 events -------
+
+ 42132959 events in, 5588356 events out, 682173 events built, 705311 * 3 veto events
+    Ge delta-time = 462665 s   Veto delta-time = 462667 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 34444285 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25641
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25641 at 1494390584; quick-start -------
+Hmmm, times are out of order... (463802685 ms < 463803194 ms; d =   508 ms) crate, slot = 1  5 (board  1) min_time board = -1   33 evts into run 25641
+ 42200000 evts in, 5598394 out, 683383 built
+ Processed 683578 built evts, 5600014 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 653876 pulser evts
+ 42300000 evts in, 5613353 out, 685194 built
+ Processed 685996 built evts, 5620008 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 656222 pulser evts
+ 42400000 evts in, 5628398 out, 687012 built
+------- END run 25641 at 1494394185;  duration = 466271 s;  42425659 events -------
+
+ 42425659 events in, 5632294 events out, 687486 events built, 710911 * 3 veto events
+    Ge delta-time = 466266 s   Veto delta-time = 466268 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 34676342 sub-threshold events
+
+ >>> Reading ds5/2017-5-9-P3LQK_Run25642
+
+
+ Reading energy calibrations from gains.input
+------- START Run 25642 at 1494394185; quick-start -------
+Hmmm, times are out of order... (467404135 ms < 467404309 ms; d =   173 ms) crate, slot = 2 17 (board 14) min_time board = -1   22 evts into run 25642
+ERROR: Bad number of boards (1) in a veto event
+
+ Processed 688417 built evts, 5640006 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 658565 pulser evts
+ 42500000 evts in, 5643542 out, 688846 built
+Hmm.. pulser tag check: chan  21   dt =  3500433   pdt =  8388574  remainder(0)  3500433
+Hmm.. pulser tag check: chan 121   dt =  3500433   pdt =  8388574  remainder(0)  3500433
+ 42600000 evts in, 5658422 out, 690640 built
+ Processed 690833 built evts, 5660015 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 660913 pulser evts
+ 42700000 evts in, 5673361 out, 692452 built
+------- END run 25642 at 1494397786;  duration = 469872 s;  42719386 events -------
+
+ 42719386 events in, 5676257 events out, 692803 events built, 716491 * 3 veto events
+    Ge delta-time = 469867 s   Veto delta-time = 469870 s
+    Mean Ge-Veto time = -33 ms
+ 0 bad events, 34909497 sub-threshold events
+Flushing finished...
+ Flushing eventprocess...
+
+ Processed 692834 built evts, 5676503 ch-evts, 0 bad ch-evts (0%)   0 0 0 0 0 662844 pulser evts
+
+                               On-bd                    True               T_1               On-bd                     True              T_1
+    Detector    rise  HGChan   offset  (keV)         threshold  (keV)     time     LGChan    offset  (keV)         threshold  (keV)     time
+ P42575A C1P1D2  401      1     0.06 ( 0.02)    1.26 ->   1.20 (0.46)    961.6       101     -0.06 (-0.08)     0.50 ->   0.56 (0.73)    960.8
+ P42661C C1P1D3  401      2     0.27 ( 0.11)    1.35 ->   1.08 (0.45)    952.8       102     -0.17 (-0.23)     0.41 ->   0.58 (0.80)  -2000.0
+ P42538A C1P1D4  401      3     0.15 ( 0.06)    1.26 ->   1.11 (0.46)    961.6       103      0.06 ( 0.08)     0.64 ->   0.58 (0.82)    960.6
+ P42664A C1P2D2  401      5    -0.16 (-0.06)    0.94 ->   1.10 (0.44)    961.6       105     -0.04 (-0.05)     0.55 ->   0.59 (0.80)    960.8
+ P42665A C1P2D3  401      6     0.28 ( 0.11)    1.51 ->   1.23 (0.50)    961.5       106     -0.05 (-0.07)     0.53 ->   0.58 (0.79)    960.7
+   B8480 C1P3D1  401      8     0.24 ( 0.24)    1.92 ->   1.68 (1.68)    961.0       108      0.00 ( 0.00)     0.74 ->   0.74 (2.34)    960.2
+ P42698A C1P3D2  401      9     0.31 ( 0.13)    1.51 ->   1.20 (0.49)    961.5       109      0.00 ( 0.00)     0.56 ->   0.56 (0.78)    960.8
+ P42538B C1P3D3  401     10     0.07 ( 0.03)    1.26 ->   1.19 (0.48)    961.6       110      0.00 ( 0.00)     0.59 ->   0.59 (0.81)    960.6
+ P42573A C1P3D4  401     11     0.25 ( 0.10)    1.42 ->   1.17 (0.48)    961.6       111      0.00 ( 0.00)     0.73 ->   0.73 (1.01)    960.3
+   B8455 C1P4D1  401     12    -0.12 (-0.05)    1.48 ->   1.60 (0.62)    961.1       112     -0.10 (-0.13)     0.56 ->   0.66 (0.88)    960.6
+   B8470 C1P4D2  401     13    -0.18 (-0.07)    1.34 ->   1.52 (0.59)    955.5       113     -0.07 (-0.09)     0.57 ->   0.64 (0.82)  -2000.0
+   B8463 C1P4D3  401     14     0.29 ( 0.11)    1.57 ->   1.28 (0.48)    961.5       114      0.08 ( 0.10)     0.68 ->   0.60 (0.76)    960.7
+   B8465 C1P4D4  401     15     0.16 ( 0.06)    1.85 ->   1.69 (0.64)    961.1       115      0.08 ( 0.10)     0.78 ->   0.70 (0.90)    960.5
+   B8469 C1P4D5  401     16     0.11 ( 0.04)    2.41 ->   2.30 (0.88)  -2000.0       116     -0.03 (-0.04)     0.82 ->   0.85 (1.10)  -2000.0
+ P42575B C1P5D2  401     18    -0.07 (-0.03)    1.22 ->   1.29 (0.51)    961.4       118     -0.03 (-0.04)     0.58 ->   0.61 (0.82)    960.5
+ P42661A C1P5D3  401     19    -0.18 (-0.07)    1.06 ->   1.24 (0.51)    961.4       119     -0.21 (-0.29)     0.79 ->   1.00 (1.36)    959.3
+ P42574C C1P6D1  401     21     0.07 ( 0.03)    1.42 ->   1.35 (0.56)    961.3       121     -0.04 (-0.06)     0.56 ->   0.60 (0.83)    960.8
+ P42574A C1P6D3  401     23    -0.03 (-0.01)    1.19 ->   1.22 (0.50)    961.5       123      0.05 ( 0.07)     0.67 ->   0.62 (0.86)    960.7
+ P42662A C1P6D4  401     24     0.16 ( 0.07)    1.36 ->   1.20 (0.49)    961.5       124      0.04 ( 0.06)     0.67 ->   0.63 (0.87)    960.6
+   B8482 C1P7D1  401     25    -0.09 (-0.04)    1.38 ->   1.47 (0.60)    961.2       125     -0.03 (-0.04)     1.13 ->   1.16 (1.62)    959.4
+ P42574B C1P7D2  401     26     0.25 ( 0.10)    1.39 ->   1.14 (0.47)    961.6       126      0.02 ( 0.03)     0.83 ->   0.81 (1.11)    960.1
+ P42662B C1P7D3  401     27     0.59 ( 0.24)    1.86 ->   1.27 (0.52)    961.4       127      0.29 ( 0.39)     0.90 ->   0.61 (0.83)    960.6
+ P42537A C1P7D4  401     28     0.22 ( 0.09)    1.41 ->   1.19 (0.49)    961.5       128      0.07 ( 0.10)     0.68 ->   0.61 (0.85)    960.6
+   B8459 C2P1D1  401     29     0.41 ( 0.17)    2.01 ->   1.60 (0.66)    961.0       129      0.09 ( 0.12)     0.78 ->   0.69 (0.96)    960.4
+ P42664B C2P1D2  401     30     0.13 ( 0.05)    1.85 ->   1.72 (0.70)    960.9       130     -0.12 (-0.17)     0.54 ->   0.66 (0.91)    960.5
+ P42748B C2P1D3  401     31     0.43 ( 0.17)    1.63 ->   1.20 (0.48)    961.6       131      0.12 ( 0.16)     0.87 ->   0.75 (1.02)    960.4
+ P42748A C2P1D4  401     32    -0.20 (-0.08)    0.96 ->   1.16 (0.47)    961.6       132      0.03 ( 0.04)     0.66 ->   0.63 (0.85)    960.6
+   B8481 C2P2D1  401     33     0.26 ( 0.10)    1.61 ->   1.35 (0.54)    959.1       133      0.06 ( 0.08)     0.69 ->   0.63 (0.85)    957.8
+   B8576 C2P2D2  401     34     0.25 ( 0.10)    1.94 ->   1.69 (0.68)    961.0       134      0.17 ( 0.23)     2.00 ->   1.83 (2.52)    958.0
+   B8594 C2P2D3  401     35    -0.20 (-0.08)    1.74 ->   1.94 (0.79)    953.6       135     -0.10 (-0.14)     0.79 ->   0.89 (1.23)  -2000.0
+ P42749A C2P3D1  401     38    -0.11 (-0.05)    0.96 ->   1.07 (0.44)    961.7       138     -0.14 (-0.19)     0.67 ->   0.81 (1.12)    960.2
+ P42749B C2P3D2  401     39     0.17 ( 0.07)    1.30 ->   1.13 (0.46)    961.6       139      0.16 ( 0.22)     0.76 ->   0.60 (0.82)    960.7
+   B8607 C2P4D1  401     41     0.16 ( 0.07)    1.62 ->   1.46 (0.62)    961.3       141      0.19 ( 0.27)     0.82 ->   0.63 (0.90)    960.7
+   B8456 C2P4D2  401     42     0.01 ( 0.00)    1.63 ->   1.62 (0.67)    953.7       142     -0.09 (-0.13)     0.60 ->   0.69 (0.96)  -2000.0
+   B8466 C2P4D4  401     44     0.34 ( 0.14)    2.00 ->   1.66 (0.67)    961.0       144      0.09 ( 0.12)     0.79 ->   0.70 (0.96)    960.3
+   B8487 C2P5D1  401     46    -0.13 (-0.05)    1.66 ->   1.79 (0.73)    960.9       146     -0.09 (-0.12)     0.73 ->   0.82 (1.12)    960.2
+ P42853B C2P5D3  401     48    -0.26 (-0.11)    1.15 ->   1.41 (0.58)    961.2       148      0.00 ( 0.00)     0.63 ->   0.63 (0.85)    960.6
+ P42712A C2P5D4  401     49     0.16 ( 0.07)    2.28 ->   2.12 (0.86)    960.6       149      0.04 ( 0.06)     0.81 ->   0.77 (1.06)    960.3
+ P23517A C2P6D1  401     50     0.41 ( 0.17)    2.39 ->   1.98 (0.83)    960.5       150     -0.03 (-0.04)     0.73 ->   0.76 (1.06)    960.0
+ P42909B C2P6D2  401     51     0.16 ( 0.06)    1.94 ->   1.78 (0.71)    960.9       151      0.09 ( 0.12)     0.75 ->   0.66 (0.90)    960.5
+ P42909A C2P7D3  401     56     0.28 ( 0.11)    1.76 ->   1.48 (0.59)    961.2       156      0.02 ( 0.03)     0.65 ->   0.63 (0.85)    960.6
+   B8717 C2P7D4  401     57    -0.30 (-0.12)    1.18 ->   1.48 (0.59)    961.2       157      0.06 ( 0.08)     0.76 ->   0.70 (0.95)    960.3
+
+   NOTE that correct E=0 position and FWHM require 9us of flat signal baseline.
+    Detector     HGChan   E=0  (keV)   FWHM   (keV)  area     LGChan   E=0  (keV)   FWHM   (keV)  area    diff
+ P42575A C1P1D2      1  -0.03 (-0.01)  0.54 (0.206) 55549       101  -0.02 (-0.03)  0.25 (0.323) 55520      29
+ P42661C C1P1D3      2  -0.02 (-0.01)  0.49 (0.201) 55513       102  -0.01 (-0.02)  0.24 (0.326)   242   55271
+ P42538A C1P1D4      3  -0.02 (-0.01)  0.50 (0.209) 55546       103  -0.02 (-0.03)  0.25 (0.352) 55518      28
+ P42664A C1P2D2      5  -0.02 (-0.01)  0.50 (0.200) 55540       105  -0.02 (-0.03)  0.26 (0.352) 55565     -25
+ P42665A C1P2D3      6  -0.02 (-0.01)  0.55 (0.220) 55568       106  -0.02 (-0.03)  0.26 (0.357) 55530      38
+   B8480 C1P3D1      8  -0.02 (-0.02)  0.75 (0.754) 55410       108  -0.02 (-0.07)  0.30 (0.933) 55280     130
+ P42698A C1P3D2      9  -0.02 (-0.01)  0.52 (0.216) 55679       109  -0.02 (-0.03)  0.24 (0.333) 55645      34
+ P42538B C1P3D3     10  -0.03 (-0.01)  0.52 (0.211) 55708       110  -0.02 (-0.03)  0.25 (0.349) 55662      46
+ P42573A C1P3D4     11  -0.02 (-0.01)  0.52 (0.212) 55676       111  -0.02 (-0.03)  0.27 (0.371) 55639      37
+   B8455 C1P4D1     12  -0.03 (-0.01)  0.79 (0.305) 55483       112  -0.02 (-0.03)  0.30 (0.401) 55423      60
+   B8470 C1P4D2     13  -0.02 (-0.01)  0.70 (0.271) 55509       113  -0.03 (-0.03)  0.30 (0.386)   264   55245
+   B8463 C1P4D3     14  -0.02 (-0.01)  0.57 (0.216) 55538       114  -0.02 (-0.03)  0.26 (0.327) 55513      25
+   B8465 C1P4D4     15  -0.02 (-0.01)  0.76 (0.289) 55536       115  -0.02 (-0.03)  0.31 (0.390) 55510      26
+   B8469 C1P4D5     16  -0.02 (-0.01)  1.00 (0.383) 55483       116  -0.01 (-0.01)  0.28 (0.364)  3006   52477
+ P42575B C1P5D2     18  -0.02 (-0.01)  0.59 (0.235) 55554       118  -0.02 (-0.03)  0.27 (0.354) 55527      27
+ P42661A C1P5D3     19  -0.02 (-0.01)  0.57 (0.235) 55464       119  -0.02 (-0.03)  0.34 (0.463) 55485     -21
+ P42574C C1P6D1     21  -0.02 (-0.01)  0.60 (0.249) 55495       121  -0.02 (-0.03)  0.26 (0.361) 55470      25
+ P42574A C1P6D3     23  -0.02 (-0.01)  0.58 (0.236) 55520       123  -0.02 (-0.03)  0.27 (0.369) 55501      19
+ P42662A C1P6D4     24  -0.02 (-0.01)  0.54 (0.222) 55428       124  -0.02 (-0.03)  0.26 (0.362) 55414      14
+   B8482 C1P7D1     25  -0.02 (-0.01)  0.66 (0.271) 55451       125  -0.02 (-0.03)  0.28 (0.397) 55426      25
+ P42574B C1P7D2     26  -0.02 (-0.01)  0.52 (0.213) 55554       126  -0.02 (-0.03)  0.25 (0.341) 55528      26
+ P42662B C1P7D3     27  -0.02 (-0.01)  0.57 (0.230) 55484       127  -0.02 (-0.03)  0.26 (0.353) 55466      18
+ P42537A C1P7D4     28  -0.02 (-0.01)  0.53 (0.220) 55595       128  -0.02 (-0.03)  0.26 (0.356) 55559      36
+   B8459 C2P1D1     29  -0.02 (-0.01)  0.70 (0.288) 55330       129  -0.02 (-0.03)  0.28 (0.391) 55312      18
+ P42664B C2P1D2     30  -0.02 (-0.01)  0.66 (0.266) 55409       130  -0.02 (-0.03)  0.29 (0.399) 55268     141
+ P42748B C2P1D3     31  -0.02 (-0.01)  0.53 (0.212) 55499       131  -0.02 (-0.03)  0.29 (0.391) 55474      25
+ P42748A C2P1D4     32  -0.02 (-0.01)  0.52 (0.211) 55447       132  -0.02 (-0.03)  0.27 (0.369) 55487     -40
+   B8481 C2P2D1     33  -0.02 (-0.01)  0.62 (0.249) 55334       133  -0.02 (-0.03)  0.27 (0.368) 55327       7
+   B8576 C2P2D2     34  -0.02 (-0.01)  0.76 (0.307) 55384       134  -0.02 (-0.03)  0.31 (0.428) 55394     -10
+   B8594 C2P2D3     35  -0.02 (-0.01)  0.87 (0.356) 55441       135  -0.02 (-0.03)  0.37 (0.506)   194   55247
+ P42749A C2P3D1     38  -0.02 (-0.01)  0.49 (0.204) 55560       138  -0.02 (-0.03)  0.25 (0.350) 55543      17
+ P42749B C2P3D2     39  -0.02 (-0.01)  0.50 (0.207) 55605       139  -0.02 (-0.03)  0.25 (0.344) 55584      21
+   B8607 C2P4D1     41  -0.02 (-0.01)  0.62 (0.265) 55418       141  -0.02 (-0.03)  0.27 (0.387) 55399      19
+   B8456 C2P4D2     42  -0.02 (-0.01)  0.72 (0.297) 55447       142  -0.03 (-0.04)  0.30 (0.422)   300   55147
+   B8466 C2P4D4     44  -0.02 (-0.01)  0.74 (0.302) 55471       144  -0.02 (-0.03)  0.29 (0.399) 55473      -2
+   B8487 C2P5D1     46  -0.02 (-0.01)  0.82 (0.336) 55456       146  -0.02 (-0.03)  0.35 (0.473) 55442      14
+ P42853B C2P5D3     48  -0.02 (-0.01)  0.63 (0.260) 55628       148  -0.02 (-0.03)  0.27 (0.359) 55720     -92
+ P42712A C2P5D4     49  -0.02 (-0.01)  0.80 (0.325) 55577       149  -0.02 (-0.03)  0.30 (0.420) 55553      24
+ P23517A C2P6D1     50  -0.03 (-0.01)  0.75 (0.311) 55382       150  -0.02 (-0.03)  0.33 (0.455) 55358      24
+ P42909B C2P6D2     51  -0.02 (-0.01)  0.70 (0.278) 55523       151  -0.02 (-0.03)  0.29 (0.399) 55491      32
+ P42909A C2P7D3     56  -0.03 (-0.01)  0.63 (0.254) 55492       156  -0.02 (-0.03)  0.28 (0.377) 55471      21
+   B8717 C2P7D4     57  -0.02 (-0.01)  0.68 (0.274) 55142       157  -0.02 (-0.03)  0.32 (0.437) 55445    -303
+
+
+                           Pulser Counts                         LiveTime
+        Detector        HG    LG  Both  Expected     diff      Either   (Both)
+  1  P42575A C1P1D2  55232 55229 55226   55238      6    9     0.9999  (0.9998)
+  2  P42661C C1P1D3  55237 52647 52646   55238      1 2591     1.0000  (0.9531)
+  3  P42538A C1P1D4  55236 55238 55236   55238      2    0     1.0000  (1.0000)
+  5  P42664A C1P2D2  55180 55236 55178   55238     58    2     1.0000  (0.9989)
+  6  P42665A C1P2D3  55238 55235 55235   55238      0    3     1.0000  (0.9999)
+  8    B8480 C1P3D1  55236 55238 55236   55239      3    1     1.0000  (0.9999)
+  9  P42698A C1P3D2  55236 55237 55235   55239      3    2     1.0000  (0.9999)
+ 10  P42538B C1P3D3  55237 55238 55236   55239      2    1     1.0000  (0.9999)
+ 11  P42573A C1P3D4  55238 55238 55238   55239      1    1     1.0000  (1.0000)
+ 12    B8455 C1P4D1  55236 55197 55195   55238      2   41     1.0000  (0.9992)
+ 13    B8470 C1P4D2  55213 55227 55203   55238     25   11     1.0000  (0.9994)
+ 14    B8463 C1P4D3  55234 55238 55234   55238      4    0     1.0000  (0.9999)
+ 15    B8465 C1P4D4  55237 55237 55236   55238      1    1     1.0000  (1.0000)
+ 16    B8469 C1P4D5  55235  2777  2777   55238      3 52461     0.9999  (0.0503)
+ 18  P42575B C1P5D2  55236 55237 55235   55238      2    1     1.0000  (0.9999)
+ 19  P42661A C1P5D3  55175 55227 55165   55238     63   11     1.0000  (0.9987)
+ 21  P42574C C1P6D1  55232 55233 55228   55238      6    5     1.0000  (0.9998)
+ 23  P42574A C1P6D3  55233 55237 55232   55238      5    1     1.0000  (0.9999)
+ 24  P42662A C1P6D4  55238 55238 55238   55238      0    0     1.0000  (1.0000)
+ 25    B8482 C1P7D1  55236 55238 55236   55238      2    0     1.0000  (1.0000)
+ 26  P42574B C1P7D2  55225 55233 55225   55238     13    5     0.9999  (0.9998)
+ 27  P42662B C1P7D3  55229 55236 55229   55238      9    2     1.0000  (0.9998)
+ 28  P42537A C1P7D4  55237 55238 55237   55238      1    0     1.0000  (1.0000)
+ 29    B8459 C2P1D1  55164 55168 55158   55239     75   71     0.9988  (0.9985)
+ 30  P42664B C2P1D2  55227 55110 55107   55239     12  129     0.9998  (0.9976)
+ 31  P42748B C2P1D3  55237 55238 55237   55239      2    1     1.0000  (1.0000)
+ 32  P42748A C2P1D4  55159 55233 55159   55237     78    4     0.9999  (0.9986)
+ 33    B8481 C2P2D1  55166 55183 55164   55237     71   54     0.9991  (0.9987)
+ 34    B8576 C2P2D2  55210 55238 55209   55239     29    1     1.0000  (0.9995)
+ 35    B8594 C2P2D3  55222 55236 55221   55239     17    3     1.0000  (0.9997)
+ 38  P42749A C2P3D1  55209 55233 55206   55237     28    4     1.0000  (0.9994)
+ 39  P42749B C2P3D2  55230 55236 55229   55237      7    1     1.0000  (0.9999)
+ 41    B8607 C2P4D1  55154 55156 55146   55237     83   81     0.9987  (0.9984)
+ 42    B8456 C2P4D2  55117 54554 54500   55237    120  683     0.9988  (0.9867)
+ 44    B8466 C2P4D4  55197 55221 55197   55239     42   18     0.9997  (0.9992)
+ 46    B8487 C2P5D1  55215 55224 55207   55235     20   11     0.9999  (0.9995)
+ 48  P42853B C2P5D3  55089 55225 55084   55235    146   10     0.9999  (0.9973)
+ 49  P42712A C2P5D4  55227 55229 55226   55235      8    6     0.9999  (0.9998)
+ 50  P23517A C2P6D1  55226 55230 55221   55235      9    5     1.0000  (0.9997)
+ 51  P42909B C2P6D2  55224 55224 55218   55235     11   11     0.9999  (0.9997)
+ 56  P42909A C2P7D3  55227 55232 55225   55235      8    3     1.0000  (0.9998)
+ 57    B8717 C2P7D4  54903 55234 54902   55235    332    1     1.0000  (0.9940)
+
+ >>>>>>  WARNING: The pulser tag is having problems with the energy gates.  <<<<<<
+   The energies may have changed, or the resolution may be a lot worse for
+       some detectors than what is given in the .pdt file.
+   Consider re-running pulser_tag_init, or discarding some detectors for this run.
+   Problem detectors are:   2 13 35 42
+
+ 2615:   8 P =   105.2 A =     295; FWHM =  6108.3 keV
+ 2615:  41 P =   661.0 A =     318; FWHM =  6475.6 keV
+
+ 2615: 108 P =    33.2 A =     272; FWHM =  5966.4 keV
+ 2615: 124 P =    18.6 A =    2014; FWHM =  1074.2 keV
+ 2615: 130 P =    18.3 A =     343; FWHM =  1125.6 keV
+
+ Writing energy calibrations to gains.output
+
+ 42719386 events in, 5676503 events out, 692834 events built, 716491 * 3 veto events
+ 0 bad events, 34909497 sub-threshold events
+
+ All Done.
+
